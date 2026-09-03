@@ -17,7 +17,7 @@ export class RiskEngine {
     const harvestMonth = harvestDate.getMonth()
 
     // 1. Calculate Weather Risk
-    const weatherRisk = this.calculateWeatherRisk(crop, plantMonth, harvestMonth, climate)
+    const weatherRisk = this.calculateWeatherRisk(crop, plantingDate, plantMonth, harvestMonth, climate)
 
     // 2. Calculate Water Risk
     const waterRisk = this.calculateWaterRisk(crop, plantMonth, harvestMonth, climate, hasIrrigation)
@@ -29,14 +29,14 @@ export class RiskEngine {
     const economicRisk = this.calculateEconomicRisk(crop, landArea, waterRisk.score, weatherRisk.score)
 
     // 5. Calculate Final Score (0 - 100)
-    // Formula from PRD: Weather (30%), Water (25%), Crop (25%), Economic (20%)
+    // Formula: Weather (30%), Water (25%), Crop Suitability (25%), Economic (20%)
     const weatherScore = weatherRisk.score
     const waterScore = waterRisk.score
     const cropScore = cropSuitabilityRisk.score
     const economicScore = economicRisk.score
 
     const rawTotal = (weatherScore * 0.30) + (waterScore * 0.25) + (cropScore * 0.25) + (economicScore * 0.20)
-    const totalScore = Math.min(100, Math.max(0, Math.round(rawTotal * 10) / 10))
+    const totalScore = Math.min(100, Math.max(5, Math.round(rawTotal * 10) / 10))
 
     // 6. Recommendation Classification
     let recommendation: RecommendationStatus = 'High Risk'
@@ -53,33 +53,40 @@ export class RiskEngine {
     // 7. Generate Explainable Reasons
     const bulletReasons: string[] = []
     
+    const plantTemp = climate.historical_monthly_temp[plantMonth] ?? climate.current_temp
     if (weatherRisk.risk_level === 'LOW') {
-      bulletReasons.push(`Temperatur rata-rata (${climate.historical_monthly_temp[plantMonth].toFixed(1)}°C) berada dalam rentang optimal tanaman (${crop.optimal_temp_min}–${crop.optimal_temp_max}°C).`)
+      bulletReasons.push(`Suhu rata-rata wilayah (${plantTemp.toFixed(1)}°C) berada dalam rentang ideal budidaya ${crop.name} (${crop.optimal_temp_min}–${crop.optimal_temp_max}°C).`)
     } else if (weatherRisk.risk_level === 'HIGH') {
-      bulletReasons.push(`Potensi fluktuasi suhu dan anomali cuaca dapat menekan fase vegetatif awal.`)
+      bulletReasons.push(`Deviasi suhu (${plantTemp.toFixed(1)}°C) dan dinamika cuaca ekstrem berpotensi menghambat pertumbuhan vegetatif.`)
+    } else {
+      bulletReasons.push(`Kondisi termal (${plantTemp.toFixed(1)}°C) cukup memadai dengan pemantauan suhu harian.`)
     }
 
     if (waterRisk.risk_level === 'LOW') {
-      bulletReasons.push(`Estimasi ketersediaan air dan curah hujan sangat mencukupi kebutuhan air ${crop.name} (${crop.water_requirement_mm} mm).`)
+      bulletReasons.push(`Ketersediaan pasokan air (${hasIrrigation ? 'Irigasi Teknis + ' : ''}curah hujan) sangat mencukupi kebutuhan air ${crop.name} (${crop.water_requirement_mm} mm).`)
     } else if (waterRisk.risk_level === 'HIGH') {
-      bulletReasons.push(`Risiko defisit/kelebihan air tinggi pada bulan ke-${plantMonth + 1}, membutuhkan manajemen irigasi dan drainase ketat.`)
+      bulletReasons.push(`Risiko defisit/kelebihan air tinggi pada fase generatif, memerlukan intervensi drainase atau pompa air aktif.`)
+    } else {
+      bulletReasons.push(`Neraca air berada pada level moderat, disarankan pengaturan jadwal siram teratur.`)
     }
 
     if (cropSuitabilityRisk.risk_level === 'LOW') {
-      bulletReasons.push(`Fase panen jatuh pada bulan ${this.getMonthName(harvestMonth)} yang memiliki iklim kondusif untuk pengeringan/panen.`)
+      bulletReasons.push(`Waktu panen (${this.getMonthName(harvestMonth)}) memiliki agroklimat kering/kondusif untuk pematangan dan panen maksimal.`)
+    } else if (cropSuitabilityRisk.risk_level === 'HIGH') {
+      bulletReasons.push(`Karakteristik varietas ${crop.name} kurang selaras dengan kondisi musim di bulan ${this.getMonthName(plantMonth)}–${this.getMonthName(harvestMonth)}.`)
     }
 
     if (economicRisk.risk_level === 'LOW') {
-      bulletReasons.push(`Stabilitas harga komoditas ${crop.name} (Rp ${crop.market_price_baseline.toLocaleString('id-ID')}/kg) memberikan kepastian margin ekonomi.`)
+      bulletReasons.push(`Estimasi margin pendapatan pada lahan ${(landArea / 10000).toFixed(2)} Ha stabil dengan harga pasar Rp ${crop.market_price_baseline.toLocaleString('id-ID')}/kg.`)
     } else if (economicRisk.risk_level === 'HIGH') {
-      bulletReasons.push(`Komoditas ini memiliki volatilitas harga musiman tinggi di pasar regional.`)
+      bulletReasons.push(`Paparan risiko agroklimat berpotensi menekan ROI investasi budidaya.`)
     }
 
-    const summaryReason = totalScore >= 75
-      ? `Kombinasi agroklimat dan waktu tanam sangat menguntungkan untuk ${crop.name}. Risiko cekaman cuaca dan defisit air berada pada level minimal.`
-      : totalScore >= 55
-      ? `Penanaman ${crop.name} layak dilakukan dengan mitigasi risiko irigasi dan pemantauan dinamika cuaca harian.`
-      : `Penanaman ${crop.name} pada tanggal ini memiliki risiko kegagalan panen signifikan akibat ketidakcocokan pola curah hujan/suhu.`
+    const summaryReason = totalScore >= 78
+      ? `Agroklimat di ${climate.location_name} sangat kondusif untuk ${crop.name}. Tingkat risiko cekaman cuaca dan defisit air minimal.`
+      : totalScore >= 60
+      ? `Penanaman ${crop.name} layak direalisasikan dengan manajemen irigasi tepat dan mitigasi cuaca harian.`
+      : `Penanaman ${crop.name} pada periode ini memiliki risiko tinggi. Disarankan penyesuaian jadwal tanam atau penyiapan fasilitas irigasi teknis.`
 
     return {
       weather_risk: weatherRisk,
@@ -95,29 +102,52 @@ export class RiskEngine {
 
   private static calculateWeatherRisk(
     crop: Crop,
+    plantingDate: Date,
     plantMonth: number,
     harvestMonth: number,
     climate: ClimateSummary
   ): RiskFactorDetail {
-    const avgTemp = (climate.historical_monthly_temp[plantMonth] + climate.historical_monthly_temp[harvestMonth]) / 2
-    let riskPoints = 15 // base baseline
+    const plantTemp = climate.historical_monthly_temp[plantMonth] ?? climate.current_temp
+    const harvestTemp = climate.historical_monthly_temp[harvestMonth] ?? climate.current_temp
+    const avgTemp = (plantTemp + harvestTemp) / 2
+    let riskPoints = 12
 
-    // Temp bounds check
+    // 1. Temperature Range Bounds
     if (avgTemp >= crop.optimal_temp_min && avgTemp <= crop.optimal_temp_max) {
-      riskPoints += 5
-    } else if (avgTemp < crop.optimal_temp_min - 3 || avgTemp > crop.optimal_temp_max + 3) {
-      riskPoints += 55
+      riskPoints += 4 // Optimal
+    } else if (avgTemp < crop.optimal_temp_min) {
+      const diff = crop.optimal_temp_min - avgTemp
+      riskPoints += Math.min(50, Math.round(diff * 8)) // Cold shock
     } else {
-      riskPoints += 28
+      const diff = avgTemp - crop.optimal_temp_max
+      riskPoints += Math.min(50, Math.round(diff * 7)) // Heat shock
     }
 
-    // Current forecast volatility check
-    if (climate.daily_forecast.length > 0) {
-      const maxPrecip = Math.max(...climate.daily_forecast.map(f => f.precipitation_sum))
-      if (maxPrecip > 60) riskPoints += 15 // Extreme rain storm
+    // 2. Real-time Near-term 16-day forecast check
+    if (climate.daily_forecast && climate.daily_forecast.length > 0) {
+      const now = new Date()
+      const diffDays = Math.round((plantingDate.getTime() - now.getTime()) / (24 * 60 * 60 * 1000))
+      
+      // If planting is within the 16-day forecast window, incorporate real forecast anomalies
+      if (diffDays >= 0 && diffDays < climate.daily_forecast.length) {
+        const forecastWindow = climate.daily_forecast.slice(Math.max(0, diffDays), Math.min(climate.daily_forecast.length, diffDays + 5))
+        
+        // Check for extreme rain storm in planting week
+        const maxPrecip = Math.max(...forecastWindow.map(f => f.precipitation_sum))
+        if (maxPrecip > 50) riskPoints += 18 // Severe torrential storm
+        else if (maxPrecip > 30) riskPoints += 10 // Heavy rain
+
+        // Check for high wind
+        const maxWind = Math.max(...forecastWindow.map(f => f.wind_speed_max || 0))
+        if (maxWind > 25) riskPoints += 10
+
+        // Check for heat wave
+        const maxDayTemp = Math.max(...forecastWindow.map(f => f.temp_max))
+        if (maxDayTemp > 35) riskPoints += 12
+      }
     }
 
-    riskPoints = Math.min(100, Math.max(5, riskPoints))
+    riskPoints = Math.min(95, Math.max(5, riskPoints))
     const score = 100 - riskPoints
     const riskLevel = this.classifyRisk(riskPoints)
 
@@ -126,10 +156,11 @@ export class RiskEngine {
       risk_level: riskLevel,
       risk_percentage: riskPoints,
       title: 'Weather Risk',
-      description: `Analisis deviasi temperatur (${avgTemp.toFixed(1)}°C) dan potensi cuaca ekstrem selama periode tanam.`,
+      description: `Evaluasi deviasi suhu rata-rata (${avgTemp.toFixed(1)}°C) dan prakiraan cuaca ekstrem Open-Meteo pada periode tanam.`,
       insights: [
-        `Rentang temperatur optimal: ${crop.optimal_temp_min}°C – ${crop.optimal_temp_max}°C`,
-        `Temperatur lingkungan rata-rata: ${avgTemp.toFixed(1)}°C`,
+        `Rentang temperatur optimal ${crop.name}: ${crop.optimal_temp_min}°C – ${crop.optimal_temp_max}°C`,
+        `Temperatur lingkungan rata-rata: ${avgTemp.toFixed(1)}°C (Saat ini: ${climate.current_temp}°C)`,
+        `Deskripsi cuaca lokal terkini: ${climate.current_weather_desc}`,
         `Status risiko cuaca: ${riskLevel}`
       ]
     }
@@ -147,31 +178,31 @@ export class RiskEngine {
     let m = plantMonth
     const durationMonths = Math.max(2, Math.ceil(crop.growth_days_max / 30))
     for (let i = 0; i < durationMonths; i++) {
-      seasonalRainfall += climate.historical_monthly_rainfall[(m + i) % 12]
+      seasonalRainfall += (climate.historical_monthly_rainfall[(m + i) % 12] ?? 180)
     }
 
     let riskPoints = 10
     const waterNeed = crop.water_requirement_mm
 
-    if (seasonalRainfall < waterNeed * 0.5) {
+    if (seasonalRainfall < waterNeed * 0.4) {
       // Severe drought risk
-      riskPoints += hasIrrigation ? 30 : 65
-    } else if (seasonalRainfall < waterNeed * 0.8) {
-      // Mild drought risk
-      riskPoints += hasIrrigation ? 15 : 40
+      riskPoints += hasIrrigation ? 25 : 65
+    } else if (seasonalRainfall < waterNeed * 0.75) {
+      // Mild water deficit
+      riskPoints += hasIrrigation ? 12 : 38
     } else if (seasonalRainfall > waterNeed * 2.2) {
-      // Flood / waterlogging risk (especially bad for shallots/chili/legumes)
+      // Flood / waterlogging risk (especially sensitive: shallot, chili, legumes)
       if (crop.slug === 'bawang-merah' || crop.slug === 'cabai-merah') {
-        riskPoints += 55
+        riskPoints += 50
       } else {
-        riskPoints += 25
+        riskPoints += 24
       }
     } else {
       // Optimal water balance
-      riskPoints += 8
+      riskPoints += 6
     }
 
-    riskPoints = Math.min(100, Math.max(5, riskPoints))
+    riskPoints = Math.min(95, Math.max(5, riskPoints))
     const score = 100 - riskPoints
     const riskLevel = this.classifyRisk(riskPoints)
 
@@ -180,12 +211,12 @@ export class RiskEngine {
       risk_level: riskLevel,
       risk_percentage: riskPoints,
       title: 'Water Risk',
-      description: `Keseimbangan antara kebutuhan air tanaman (${waterNeed} mm) dengan estimasi curah hujan akumulatif (${seasonalRainfall.toFixed(0)} mm).`,
+      description: `Keseimbangan antara kebutuhan air tanaman (${waterNeed} mm) dengan akumulasi curah hujan (${seasonalRainfall.toFixed(0)} mm).`,
       insights: [
-        `Kebutuhan air tanaman: ${waterNeed} mm/musim (${crop.water_requirement})`,
+        `Kebutuhan air tanaman: ${waterNeed} mm (${crop.water_requirement})`,
         `Proyeksi curah hujan periode tanam: ${seasonalRainfall.toFixed(0)} mm`,
-        `Akses irigasi: ${hasIrrigation ? 'Tersedia' : 'Tadah Hujan'}`,
-        `Status risiko air: ${riskLevel}`
+        `Akses irigasi: ${hasIrrigation ? 'Irigasi Teknis Tersedia' : 'Lahan Tadah Hujan'}`,
+        `Status risiko ketersediaan air: ${riskLevel}`
       ]
     }
   }
@@ -196,32 +227,33 @@ export class RiskEngine {
     harvestMonth: number,
     climate: ClimateSummary
   ): RiskFactorDetail {
-    let riskPoints = 12
+    let riskPoints = 10
 
-    // Check specific agroclimatic rules
-    // E.g., Potato needs cold highland (optimal max < 24°C)
-    const plantTemp = climate.historical_monthly_temp[plantMonth]
+    const plantTemp = climate.historical_monthly_temp[plantMonth] ?? climate.current_temp
+    const harvestRainfall = climate.historical_monthly_rainfall[harvestMonth] ?? 150
+
+    // Specific agroclimatic rules per crop
     if (crop.slug === 'kentang' && plantTemp > 24) {
-      riskPoints += 60 // Highland mismatch
+      // Highland crop in warm lowland
+      riskPoints += Math.min(60, Math.round((plantTemp - 24) * 12))
     }
 
-    // Shallots during heavy rain month
-    const harvestRainfall = climate.historical_monthly_rainfall[harvestMonth]
-    if (crop.slug === 'bawang-merah' && harvestRainfall > 220) {
-      riskPoints += 45 // Post-harvest rot risk
+    if ((crop.slug === 'bawang-merah' || crop.slug === 'cabai-merah') && harvestRainfall > 220) {
+      // Post-harvest fungal decay in excessive rain
+      riskPoints += 40
     }
 
-    // Rice loves wet months
     if (crop.slug === 'padi' && harvestRainfall >= 140) {
-      riskPoints = Math.max(5, riskPoints - 10)
-    }
-
-    // Corn post-rice dry rotation
-    if (crop.slug === 'jagung' && harvestRainfall < 180 && harvestRainfall > 60) {
+      // Wetland rice thrives with wet season
       riskPoints = Math.max(5, riskPoints - 8)
     }
 
-    riskPoints = Math.min(100, Math.max(5, riskPoints))
+    if (crop.slug === 'jagung' && harvestRainfall < 190 && harvestRainfall > 50) {
+      // Corn thrives in moderate moisture
+      riskPoints = Math.max(5, riskPoints - 6)
+    }
+
+    riskPoints = Math.min(95, Math.max(5, riskPoints))
     const score = 100 - riskPoints
     const riskLevel = this.classifyRisk(riskPoints)
 
@@ -230,11 +262,11 @@ export class RiskEngine {
       risk_level: riskLevel,
       risk_percentage: riskPoints,
       title: 'Crop Suitability Risk',
-      description: `Kesesuaian agroklimat varietas ${crop.name} terhadap siklus agroklimat wilayah.`,
+      description: `Kesesuaian agroklimat komoditas ${crop.name} terhadap siklus musim wilayah.`,
       insights: [
-        `Durasi pertumbuhan: ${crop.growth_days_min} – ${crop.growth_days_max} hari`,
-        `Bulan perkiraan panen: ${this.getMonthName(harvestMonth)}`,
-        `Kesesuaian agronomis: ${riskLevel === 'LOW' ? 'Sangat Sesuai' : riskLevel === 'MEDIUM' ? 'Cukup Sesuai' : 'Kurang Sesuai'}`
+        `Siklus budidaya: ${crop.growth_days_min} – ${crop.growth_days_max} hari`,
+        `Estimasi waktu panen: Bulan ${this.getMonthName(harvestMonth)}`,
+        `Tingkat kesesuaian agronomis: ${riskLevel === 'LOW' ? 'Sangat Sesuai' : riskLevel === 'MEDIUM' ? 'Cukup Sesuai' : 'Perlu Mitigasi Khusus'}`
       ]
     }
   }
@@ -245,24 +277,22 @@ export class RiskEngine {
     waterScore: number,
     weatherScore: number
   ): RiskFactorDetail {
-    let riskPoints = 20
+    let riskPoints = 18
 
-    // Commodity volatility baseline
+    // Baseline commodity price volatility
     if (crop.slug === 'cabai-merah' || crop.slug === 'bawang-merah') {
-      riskPoints += 25 // High price volatility
+      riskPoints += 22 // High horticultural price volatility
     } else if (crop.slug === 'padi' || crop.slug === 'jagung') {
-      riskPoints += 8 // Stable national staple floor price
+      riskPoints += 6 // Government floor price stability
     } else {
-      riskPoints += 15
+      riskPoints += 12
     }
 
-    // Compound with agroclimatic risk (if weather/water is risky, economic loss exposure spikes)
-    const agroRisk = (200 - (waterScore + weatherScore)) / 2
-    if (agroRisk > 50) {
-      riskPoints += 25
-    }
+    // Compound climate-risk exposure: if weather/water is unfavorable, financial loss exposure increases
+    const agroDeficit = Math.max(0, 160 - (waterScore + weatherScore))
+    riskPoints += Math.round(agroDeficit * 0.25)
 
-    riskPoints = Math.min(100, Math.max(5, riskPoints))
+    riskPoints = Math.min(95, Math.max(5, riskPoints))
     const score = 100 - riskPoints
     const riskLevel = this.classifyRisk(riskPoints)
 
@@ -271,10 +301,10 @@ export class RiskEngine {
       risk_level: riskLevel,
       risk_percentage: riskPoints,
       title: 'Economic Risk',
-      description: `Evaluasi volatilitas harga pasar dan potensi imbal hasil investasi lahan ${landArea.toLocaleString('id-ID')} m².`,
+      description: `Evaluasi volatilitas harga pasar dan potensi imbal hasil investasi pada lahan ${landArea.toLocaleString('id-ID')} m².`,
       insights: [
-        `Estimasi harga acuan: Rp ${crop.market_price_baseline.toLocaleString('id-ID')} / kg`,
-        `Volatilitas komoditas: ${crop.slug === 'cabai-merah' || crop.slug === 'bawang-merah' ? 'Tinggi (Hortikultura)' : 'Rendah - Moderat (Pangan Pokok)'}`,
+        `Harga acuan pasar: Rp ${crop.market_price_baseline.toLocaleString('id-ID')} / kg`,
+        `Karakteristik komoditas: ${crop.slug === 'cabai-merah' || crop.slug === 'bawang-merah' ? 'Hortikultura (Volatilitas Tinggi)' : 'Pangan Pokok (Harga Acuan Stabil)'}`,
         `Tingkat risiko finansial: ${riskLevel}`
       ]
     }
@@ -291,3 +321,4 @@ export class RiskEngine {
     return months[m % 12]
   }
 }
+

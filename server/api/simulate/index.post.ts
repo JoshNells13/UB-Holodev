@@ -42,7 +42,8 @@ export default defineEventHandler(async (event) => {
     String(planting_date),
     climate,
     Number(land_area),
-    Boolean(irrigation_access)
+    Boolean(irrigation_access),
+    riskBreakdown.total_score
   )
 
   const scenarioResult: ScenarioResult = {
