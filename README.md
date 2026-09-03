@@ -1,22 +1,34 @@
-# 🌱 TANIAMAN — Agricultural Decision Support System (DSS)
+# TANIAMAN — Agricultural Decision Support System (DSS)
 
+> **Repository ini dikembangkan untuk perlombaan HOLOGY 9.0 Fakultas Ilmu Komputer Universitas Brawijaya pada cabang lomba HoloDev (Software Development).**
+>
 > **Platform Sistem Pendukung Keputusan Pertanian Presisi berbasis Agroklimatologi BMKG, Pedoman Budidaya Kementan RI, dan Neraca Air FAO-56.**
 
 ---
 
-## 📌 Daftar Isi
-1. [Tentang TANIAMAN](#-tentang-taniaman)
-2. [Tech Stack](#-tech-stack)
-3. [Arsitektur Sistem & Alur Data](#-arsitektur-sistem--alur-data)
-4. [Struktur Direktori Aplikasi](#-struktur-direktori-aplikasi)
-5. [Sumber Data Resmi & Metodologi Ilmiah](#-sumber-data-resmi--metodologi-ilmiah)
-6. [Panduan Penggunaan Aplikasi](#-panduan-penggunaan-aplikasi)
-7. [Panduan Instalasi & Menjalankan Lokal](#-panduan-instalasi--menjalankan-lokal)
-8. [Skema Basis Data (Supabase PostgreSQL)](#-skema-basis-data-supabase-postgresql)
+## Informasi Lomba
+
+- **Kompetisi:** HOLOGY 9.0 (House of Technology 9.0)
+- **Penyelenggara:** Fakultas Ilmu Komputer, Universitas Brawijaya (FILKOM UB)
+- **Bidang / Cabang Lomba:** HoloDev (Software Development)
+- **Karya / Produk:** TANIAMAN — Agricultural Decision Support System (DSS)
 
 ---
 
-## 📖 Tentang TANIAMAN
+## Daftar Isi
+1. [Tentang TANIAMAN](#tentang-taniaman)
+2. [Tech Stack](#tech-stack)
+3. [Arsitektur Sistem & Alur Data](#arsitektur-sistem--alur-data)
+4. [Struktur Direktori Aplikasi](#struktur-direktori-aplikasi)
+5. [Sumber Data Resmi & Metodologi Ilmiah](#sumber-data-resmi--metodologi-ilmiah)
+6. [Panduan Penggunaan Aplikasi](#panduan-penggunaan-aplikasi)
+7. [Panduan Instalasi & Menjalankan Lokal](#panduan-instalasi--menjalankan-lokal)
+8. [Skema Basis Data (Supabase PostgreSQL)](#skema-basis-data-supabase-postgresql)
+9. [Hak Cipta & Pengesahan](#hak-cipta--pengesahan)
+
+---
+
+## Tentang TANIAMAN
 
 **TANIAMAN** adalah platform *Decision Support System* (DSS) agrikultur modern yang dirancang untuk membantu petani, agronomis, dan pengelola lahan pertanian dalam mengambil keputusan strategis:
 - **Kapan waktu terbaik untuk menanam?** (Meminimalkan risiko cuaca ekstrem dan kekeringan).
@@ -26,7 +38,7 @@
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Frontend & UI
 - **Framework:** [Nuxt 3](https://nuxt.com/) (Vue 3, Composition API, `<script setup>`)
@@ -47,7 +59,7 @@
 
 ---
 
-## 🏛️ Arsitektur Sistem & Alur Data
+## Arsitektur Sistem & Alur Data
 
 ```
 +---------------------------------------------------------------------------------+
@@ -87,7 +99,7 @@
 
 ---
 
-## 📂 Struktur Direktori Aplikasi
+## Struktur Direktori Aplikasi
 
 ```text
 ub_hology2/
@@ -104,9 +116,9 @@ ub_hology2/
 │       ├── DetailedAgronomyCard.vue # Kartu 4-tab: Fase HST, Neraca Air, Finansial, Pupuk
 │       ├── FarmMapPicker.vue     # Peta interaktif Leaflet untuk pin lokasi koordinat lahan
 │       ├── LocationSearch.vue    # Pencarian cepat kota/kabupaten se-Indonesia
-│       ├── PlantingWindowCalendar.vue # Visualizer pemindai jendela tanam terbaik (±28 hari)
+│       ├── PlantingWindowCalendar.vue # Visualizer pemindai jendela tanam terbaik (+/- 28 hari)
 │       ├── RiskBreakdownCard.vue # Dekomposisi 4 pilar risiko agroklimat
-│       ├── RiskScoreGauge.vue    # Gauge visual skor kelayakan DSS (0–100)
+│       ├── RiskScoreGauge.vue    # Gauge visual skor kelayakan DSS (0-100)
 │       ├── ScenarioCard.vue      # Kartu ringkasan skenario keputusan
 │       ├── WeatherForecastChart.vue # Grafik suhu dan presipitasi 16 hari Open-Meteo
 │       └── WhatIfSlider.vue      # Slider sandbox uji tanggal tanam real-time
@@ -148,7 +160,7 @@ ub_hology2/
 
 ---
 
-## 🔬 Sumber Data Resmi & Metodologi Ilmiah
+## Sumber Data Resmi & Metodologi Ilmiah
 
 TANIAMAN tidak menggunakan data acak, melainkan mengacu pada standar resmi institusi klimatologi dan pertanian terpercaya:
 
@@ -170,7 +182,7 @@ $$\text{Total Skor DSS} = (S_{\text{Cuaca}} \times 30\%) + (S_{\text{Air}} \time
 
 ---
 
-## 🚀 Panduan Penggunaan Aplikasi
+## Panduan Penggunaan Aplikasi
 
 ### 1. Menjalankan Simulasi Keputusan Pertanian (`/simulate`)
 1. Masuk ke menu **Simulasi**.
@@ -183,7 +195,7 @@ $$\text{Total Skor DSS} = (S_{\text{Cuaca}} \times 30\%) + (S_{\text{Air}} \time
    - **Tab 1 (Skor & Risiko):** Memahami alasan ilmiah di balik setiap indikator risiko.
    - **Tab 2 (Agronomi & Finansial):** Memeriksa jadwal pemupukan, neraca air, dan rincian biaya operasional.
    - **Tab 3 (Cuaca & Jendela Tanam):** Memeriksa grafik hujan 16 hari dan jendela tanggal paling aman.
-   - **Tab 4 (What-If Sandbox):** Menggeser tanggal tanam maju/mundur $\pm 14$ hari secara interaktif.
+   - **Tab 4 (What-If Sandbox):** Menggeser tanggal tanam maju/mundur +/- 14 hari secara interaktif.
 
 ### 2. Menandai dan Mengatur Kalender Tanam (`/calendar`)
 1. Setelah melakukan simulasi, klik tombol **"Tandai di Kalender Tanam"**.
@@ -213,7 +225,7 @@ $$\text{Total Skor DSS} = (S_{\text{Cuaca}} \times 30\%) + (S_{\text{Air}} \time
 
 ---
 
-## 💻 Panduan Instalasi & Menjalankan Lokal
+## Panduan Instalasi & Menjalankan Lokal
 
 ### Prasyarat
 - [Node.js](https://nodejs.org/) versi 18.x atau lebih baru
@@ -253,7 +265,7 @@ $$\text{Total Skor DSS} = (S_{\text{Cuaca}} \times 30\%) + (S_{\text{Air}} \time
 
 ---
 
-## 🗄️ Skema Basis Data (Supabase PostgreSQL)
+## Skema Basis Data (Supabase PostgreSQL)
 
 ```sql
 -- 1. Tabel Profil Pengguna
@@ -301,5 +313,6 @@ CREATE TABLE scenarios (
 
 ---
 
-## 📄 Lisensi & Hak Cipta
-Dikembangkan untuk platform pertanian presisi **TANIAMAN** — Mendukung kedaulatan pangan berkelanjutan di Indonesia.
+## Hak Cipta & Pengesahan
+
+Dikembangkan untuk perlombaan **HOLOGY 9.0 Fakultas Ilmu Komputer Universitas Brawijaya** dalam cabang lomba **HoloDev (Software Development)** — Platform Sistem Pendukung Keputusan Pertanian Presisi **TANIAMAN** untuk mendukung ketahanan dan kedaulatan pangan berkelanjutan di Indonesia.
