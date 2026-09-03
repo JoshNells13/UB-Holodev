@@ -102,10 +102,9 @@ const initMap = async () => {
       zoomControl: true
     })
 
-    // CartoDB Positron / OSM Monochrome Tiles
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-      attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
-      subdomains: 'abcd',
+    // OpenStreetMap Standard Tiles (100% open, no API key required, no watermarks)
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>',
       maxZoom: 19
     }).addTo(mapInstance)
 
