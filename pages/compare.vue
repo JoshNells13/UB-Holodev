@@ -99,6 +99,43 @@
         </div>
       </div>
 
+      <!-- 3D DIGITAL TWIN COMPARISON DIORAMA (Section 27) -->
+      <div class="rounded-3xl border-2 border-zinc-950 bg-white p-6 shadow-clean-lg space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-zinc-200 pb-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="rounded bg-zinc-950 px-2 py-0.5 font-mono text-[10px] font-bold text-white uppercase">
+                3D Digital Twin Matrix
+              </span>
+              <h3 class="text-sm font-extrabold uppercase tracking-wider text-zinc-950">
+                Visualisasi Komparasi Lahan 3D
+              </h3>
+            </div>
+            <p class="text-[11px] text-zinc-500 mt-0.5">Pilih skenario di bawah untuk melihat transformasi visual lahan, kondisi tanaman, dan cuaca secara real-time</p>
+          </div>
+
+          <!-- Scenario Switcher Pills -->
+          <div class="flex items-center gap-1.5 overflow-x-auto p-1 bg-zinc-100 rounded-2xl border border-zinc-200">
+            <button
+              v-for="(sc, idx) in comparisonList"
+              :key="sc.id"
+              type="button"
+              @click="activePreviewScenarioId = sc.id"
+              class="flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-mono font-bold transition whitespace-nowrap"
+              :class="(activePreviewScenarioId === sc.id || (!activePreviewScenarioId && sc.id === (bestScenario?.id || comparisonList[0]?.id)))
+                ? 'bg-zinc-950 text-white shadow-sm'
+                : 'text-zinc-700 hover:text-zinc-950 hover:bg-zinc-200'"
+            >
+              <span>Skenario {{ String.fromCharCode(65 + idx) }}:</span>
+              <span>{{ sc.crop.name }} ({{ sc.risk_breakdown.total_score }} pts)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 3D Canvas -->
+        <DigitalTwinField :scenario="activePreviewScenario" />
+      </div>
+
       <!-- Quick Add Comparison Variations -->
       <div class="rounded-2xl border border-zinc-200 bg-zinc-50 p-4 flex flex-wrap items-center justify-between gap-3">
         <span class="text-xs font-bold text-zinc-900 font-mono flex items-center gap-1.5">
@@ -275,7 +312,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import {
   Scale,
   Plus,
@@ -287,6 +324,7 @@ import {
   Loader2
 } from '@lucide/vue'
 import ScenarioCard from '~/components/simulator/ScenarioCard.vue'
+import DigitalTwinField from '~/components/digital-twin/DigitalTwinField.vue'
 import type { ScenarioResult } from '~/types/simulation'
 import type { RiskLevel } from '~/types/risk'
 
@@ -303,9 +341,20 @@ const {
   isLoading
 } = useSimulation()
 
+const activePreviewScenarioId = ref<string>('')
+
 const bestScenario = computed<ScenarioResult | null>(() => {
   if (comparisonList.value.length === 0) return null
   return [...comparisonList.value].sort((a, b) => b.risk_breakdown.total_score - a.risk_breakdown.total_score)[0]
+})
+
+const activePreviewScenario = computed<ScenarioResult | null>(() => {
+  if (comparisonList.value.length === 0) return null
+  if (activePreviewScenarioId.value) {
+    const found = comparisonList.value.find(s => s.id === activePreviewScenarioId.value)
+    if (found) return found
+  }
+  return bestScenario.value || comparisonList.value[0] || null
 })
 
 const formatDate = (dateStr: string) => {

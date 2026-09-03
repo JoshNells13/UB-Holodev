@@ -296,7 +296,22 @@
             </div>
           </div>
 
-          <!-- 2. STRUCTURED TABBED VIEWS (Clean & Easy to Read) -->
+          <!-- 2. 3D DIGITAL TWIN AGRICULTURAL FIELD (HERO VISUALIZER) -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between px-1">
+              <div class="flex items-center gap-2">
+                <span class="rounded bg-zinc-950 px-2 py-0.5 font-mono text-[10px] font-bold text-white uppercase">
+                  3D Digital Twin
+                </span>
+                <span class="text-xs font-bold text-zinc-900 font-mono">Simulasi Visual Lahan Miniatur</span>
+              </div>
+              <span class="text-[10px] font-mono text-zinc-500">Drag/Orbit untuk memutar • Scroll untuk zoom • Hover tanaman</span>
+            </div>
+
+            <DigitalTwinField :scenario="currentScenario" />
+          </div>
+
+          <!-- 3. STRUCTURED TABBED VIEWS (Clean & Easy to Read) -->
           <div class="space-y-4">
             <!-- Tab Navigation Bar -->
             <div class="flex rounded-2xl bg-zinc-200/80 p-1.5 font-mono text-xs overflow-x-auto">
@@ -413,6 +428,7 @@ import RiskBreakdownCard from '~/components/simulator/RiskBreakdownCard.vue'
 import DetailedAgronomyCard from '~/components/simulator/DetailedAgronomyCard.vue'
 import PlantingWindowCalendar from '~/components/simulator/PlantingWindowCalendar.vue'
 import WeatherForecastChart from '~/components/simulator/WeatherForecastChart.vue'
+import DigitalTwinField from '~/components/digital-twin/DigitalTwinField.vue'
 
 definePageMeta({
   middleware: 'auth'
