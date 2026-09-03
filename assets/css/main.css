@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-white text-zinc-900 antialiased selection:bg-zinc-900 selection:text-white font-sans;
+  }
+}
+
+/* Crisp Monochrome Utility Patterns */
+.bg-grid-pattern {
+  background-size: 24px 24px;
+  background-image: 
+    linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+}
+
+.bg-dot-pattern {
+  background-size: 16px 16px;
+  background-image: radial-gradient(rgba(0, 0, 0, 0.12) 1px, transparent 1px);
+}
+
+.bg-stripe-pattern {
+  background: repeating-linear-gradient(
+    45deg,
+    #18181b,
+    #18181b 10px,
+    #27272a 10px,
+    #27272a 20px
+  );
+}
+
+.bg-stripe-pattern-light {
+  background: repeating-linear-gradient(
+    45deg,
+    #f4f4f5,
+    #f4f4f5 10px,
+    #e4e4e7 10px,
+    #e4e4e7 20px
+  );
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f4f4f5;
+}
+::-webkit-scrollbar-thumb {
+  background: #a1a1aa;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #71717a;
+}
