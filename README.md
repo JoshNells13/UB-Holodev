@@ -181,23 +181,27 @@ Untuk membuktikan kebaruan (*novelty*) dan nilai strategis produk, berikut adala
 
 ## 5. Tech Stack
 
-### Frontend & Visualisasi
-- **Framework:** [Nuxt 4](https://nuxt.com/) (Vue 3, Composition API, `<script setup>`)
-- **3D Graphics Engine:** [Three.js](https://threejs.org/) (WebGL, OrbitControls, Procedural Geometries, Lighting & Shadow Mapping)
-- **Bahasa:** [TypeScript](https://www.typescriptlang.org/) (Strict Typings)
-- **Styling:** [Tailwind CSS](https://tailwindcss.com/) (Modern High-Contrast UI & Glassmorphism)
-- **Ikonografi:** [Lucide Icons](https://lucide.dev/) (`@lucide/vue`)
-- **Peta Interaktif GIS:** [Leaflet.js](https://leafletjs.com/) & OpenStreetMap Tiles
+Semua teknologi yang digunakan dalam platform TANIAMAN dipilih untuk menjamin performa tinggi, visualisasi 3D yang mulus tanpa lag, keamanan data, dan akurasi komputasi agroklimat:
 
-### Backend & Server Engine
-- **Server Runtime:** Nuxt Nitro Server (`server/api/*`, `server/services/*`)
-- **Klimatologi & Prakiraan Cuaca:** Open-Meteo High-Resolution NWP (ECMWF & GFS)
-- **Geocoding & Reverse GPS:** BigDataCloud & OpenStreetMap Nominatim Engine
+### Frontend & Visualisasi 3D
+- **Fullstack Web Framework:** [Nuxt 4](https://nuxt.com/) (Vue 3, Composition API, `<script setup>`, File-based Routing)
+- **3D Graphics & WebGL Engine:** [Three.js](https://threejs.org/) (`three`, `@types/three`) untuk rendering diorama digital twin lahan interaktif, partikel cuaca, dan model prosedural tanaman
+- **Bahasa Pemrograman:** [TypeScript](https://www.typescriptlang.org/) (Strict Typing untuk kalkulasi agronomis dan DSS)
+- **Styling & CSS Framework:** [Tailwind CSS](https://tailwindcss.com/) & `@nuxtjs/tailwindcss` (Desain minimalis monokromatik modern, clean utility, dan glassmorphism)
+- **Ikonografi Vektor:** [Lucide Icons](https://lucide.dev/) (`@lucide/vue`)
+- **Peta GIS Interaktif:** [Leaflet.js](https://leafletjs.com/) (`leaflet`, `@types/leaflet`) & [OpenStreetMap Standard Tiles](https://www.openstreetmap.org/) (100% Free & Open-Source, No API Key Required)
+- **Micro-Animations & Effects:** [Canvas Confetti](https://www.npmjs.com/package/canvas-confetti) (`canvas-confetti`, `@types/canvas-confetti`)
+- **Build Tool:** [Vite](https://vitejs.dev/) (Ultra-fast HMR & Optimized Bundling)
 
-### Basis Data & Otentikasi
-- **Database:** [Supabase](https://supabase.com/) PostgreSQL Serverless
-- **Auth:** Supabase Auth + Mock/Local Fallback Session
-- **Penyimpanan Lokal:** LocalStorage Persistence untuk state offline
+### Backend, Komputasi & Server Engine
+- **Server Engine:** [Nuxt Nitro](https://nitro.unjs.io/) (Serverless REST API, Event Handlers, & Service Layer Architecture)
+- **Prakiraan Cuaca & Reanalisis Satelit:** [Open-Meteo Weather API](https://open-meteo.com/en/docs) & [Open-Meteo Climate Archive API](https://open-meteo.com/en/docs/historical-weather-api) (Model ECMWF IFS & GFS 16-Day NWP)
+- **Reverse Geocoding & Lokasi GPS:** [BigDataCloud Reverse Geocoding](https://www.bigdatacloud.com/geocoding-apis/reverse-geocode-to-city-api) & [OpenStreetMap Nominatim](https://nominatim.openstreetmap.org/)
+
+### Basis Data, Otentikasi & Penyimpanan
+- **Cloud Database:** [Supabase PostgreSQL](https://supabase.com/) (`@supabase/supabase-js`) Serverless Relational Database
+- **Otentikasi Pengguna:** [Supabase Auth](https://supabase.com/docs/guides/auth) (JWT Sessions & Multi-tenant Profile Mapping)
+- **Offline Client Persistence:** Web Browser `LocalStorage` API untuk persistensi state offline
 
 ---
 
@@ -311,16 +315,26 @@ ub_hology2/
 
 ---
 
-## 8. Sumber Data Resmi & Metodologi Ilmiah
+## 8. Sumber Data Resmi, Metodologi Ilmiah & Cara Verifikasi
 
-TANIAMAN mengacu pada metodologi ilmiah dan standar institusi terpercaya:
+TANIAMAN mengacu secara ketat pada metodologi ilmiah, publikasi akademik, dan basis data institusi pemerintah resmi. Anda dan dewan juri dapat memverifikasi kesesuaian data melalui tautan resmi berikut:
 
-| Sumber Resmi | Parameter / Standar | Implementasi di TANIAMAN |
-|---|---|---|
-| **BMKG** *(Badan Meteorologi, Klimatologi, dan Geofisika)* | Zona Musim (ZOM), Klasifikasi Curah Hujan Bulanan, Ambang Suhu Ekstrem Tropis | Evaluasi `Weather Risk` & anomali iklim di `risk.service.ts` |
-| **Kementerian Pertanian RI** *(Balitbangtan)* | Kalender Tanam Terpadu (KATAM), Rekomendasi Jarak Tanam, Dosis Pemupukan Berimbang (Urea, NPK, Organik) | Fase pertumbuhan agronomis di `agronomy.service.ts` & panduan pemupukan |
-| **FAO Paper No. 56** *(Food and Agriculture Organization)* | Kebutuhan Air Tanaman & Evapotranspirasi Standar ($ET_c = K_c \times ET_0$) | Perhitungan volume air irigasi presisi ($m^3$) dan neraca air harian |
-| **Open-Meteo & ECMWF/GFS** | High-Resolution Reanalysis & Numerical Weather Prediction | Prakiraan cuaca 16 hari (suhu min/max, hujan harian mm, probabilitas hujan, $ET_0$) |
+### 8.1. Matriks Rujukan Resmi & Tautan Verifikasi
+
+| Sumber Resmi & Institusi | Tautan Portal Resmi | Parameter / Standar yang Digunakan | Implementasi di Source Code |
+|---|---|---|---|
+| **Kementerian Pertanian RI (KATAM Terpadu)** | [katam.litbang.pertanian.go.id](https://katam.litbang.pertanian.go.id/) | Pola Musim Tanam (MT I, II, III), peta kerawanan banjir/kekeringan kecamatan | [decision.service.ts](file:///d:/my-project-programming/ub_hology2/server/services/decision.service.ts) |
+| **BSIP Agroklimat & Balitbangtan Kementan** | [balitklimat.litbang.pertanian.go.id](http://balitklimat.litbang.pertanian.go.id/) | Karakteristik tanaman pangan, toleransi suhu, ambang curah hujan komoditas | [crops.data.ts](file:///d:/my-project-programming/ub_hology2/server/data/crops.data.ts) |
+| **Pedoman Pemupukan Berimbang (Permentan No. 40/2007)** | [jdih.pertanian.go.id](https://jdih.pertanian.go.id/) | Dosis rekomendasi NPK, Urea, dan Organik pada fase dasar, susulan I & II | [agronomy.service.ts](file:///d:/my-project-programming/ub_hology2/server/services/agronomy.service.ts#L78-L103) |
+| **Badan Pusat Statistik (BPS RI)** | [bps.go.id - Statistik Pertanian](https://www.bps.go.id/id/statistics-table?subject=53) | Benchmark produktivitas hasil panen (Ton/Ha) dan data puso kekeringan nasional | [agronomy.service.ts](file:///d:/my-project-programming/ub_hology2/server/services/agronomy.service.ts#L48-L75) |
+| **BMKG (Badan Meteorologi, Klimatologi, & Geofisika)** | [bmkg.go.id - Iklim & Cuaca](https://www.bmkg.go.id/) | Normalitas iklim Zona Musim (ZOM), ambang suhu ekstrem, dan pola monsun | [risk.service.ts](file:///d:/my-project-programming/ub_hology2/server/services/risk.service.ts) |
+| **FAO Paper No. 56 (Food and Agriculture Org.)** | [fao.org - Irrigation & Drainage Paper 56](https://www.fao.org/land-water/databases-and-software/crop-information/en/) | Neraca air harian, koefisien tanaman ($K_c$), evapotranspirasi standar ($ET_0$) | [agronomy.service.ts](file:///d:/my-project-programming/ub_hology2/server/services/agronomy.service.ts#L18-L45) |
+| **Open-Meteo & ECMWF/GFS Reanalysis** | [open-meteo.com](https://open-meteo.com/) | Prakiraan numerik 16 hari (suhu min/max, hujan mm, kecepatan angin, $ET_0$) | [weather.service.ts](file:///d:/my-project-programming/ub_hology2/server/services/weather.service.ts) |
+
+### 8.2. Panduan Cara Memverifikasi Data Langsung:
+1. **Verifikasi Kalender Tanam & Rekomendasi Musim:** Buka portal [KATAM Kementan](https://katam.litbang.pertanian.go.id/) $\rightarrow$ Masukkan provinsi & kabupaten yang ingin disimulasikan $\rightarrow$ Cocokkan rekomendasi jendela waktu tanamnya dengan output pada menu **Simulasi** & **Kalender Tani** TANIAMAN.
+2. **Verifikasi Dosis Pupuk & Fase HST:** Buka buku saku *Rekomendasi Pemupukan Spesifik Lokasi Balittanah Kementan* $\rightarrow$ Cocokkan dosis per Hektar pada Tab 2 (*Rencana Agronomi*) di TANIAMAN.
+3. **Verifikasi Prakiraan Cuaca Realtime:** Bandingkan grafik 16 hari pada Tab 3 (*Cuaca & Jendela Tanam*) dengan data satelit live di portal [Open-Meteo](https://open-meteo.com/) atau BMKG.
 
 ---
 
