@@ -17,21 +17,86 @@
 ---
 
 ## Daftar Isi
-1. [Tentang TANIAMAN](#tentang-taniaman)
-2. [Analisis Komparasi: Mengapa TANIAMAN Berbeda?](#analisis-komparasi-mengapa-taniaman-berbeda)
-3. [Fitur Unggulan & 3D Digital Twin](#fitur-unggulan--3d-digital-twin)
-4. [Tech Stack](#tech-stack)
-5. [Arsitektur Sistem & Alur Data](#arsitektur-sistem--alur-data)
-6. [Struktur Direktori Aplikasi](#struktur-direktori-aplikasi)
-7. [Sumber Data Resmi & Metodologi Ilmiah](#sumber-data-resmi--metodologi-ilmiah)
-8. [Panduan Penggunaan Aplikasi](#panduan-penggunaan-aplikasi)
-9. [Panduan Instalasi & Menjalankan Lokal](#panduan-instalasi--menjalankan-lokal)
-10. [Skema Basis Data (Supabase PostgreSQL)](#skema-basis-data-supabase-postgresql)
-11. [Hak Cipta & Pengesahan](#hak-cipta--pengesahan)
+1. [Latar Belakang & Urgensi Masalah](#1-latar-belakang--urgensi-masalah)
+2. [Tentang TANIAMAN](#2-tentang-taniaman)
+3. [Analisis Komparasi: Mengapa TANIAMAN Berbeda?](#3-analisis-komparasi-mengapa-taniaman-berbeda)
+4. [Fitur Unggulan & 3D Digital Twin](#4-fitur-unggulan--3d-digital-twin)
+5. [Tech Stack](#5-tech-stack)
+6. [Arsitektur Sistem & Alur Data](#6-arsitektur-sistem--alur-data)
+7. [Struktur Direktori Aplikasi](#7-struktur-direktori-aplikasi)
+8. [Sumber Data Resmi & Metodologi Ilmiah](#8-sumber-data-resmi--metodologi-ilmiah)
+9. [Panduan Penggunaan Aplikasi](#9-panduan-penggunaan-aplikasi)
+10. [Panduan Instalasi & Menjalankan Lokal](#10-panduan-instalasi--menjalankan-lokal)
+11. [Skema Basis Data (Supabase PostgreSQL)](#11-skema-basis-data-supabase-postgresql)
+12. [Hak Cipta & Pengesahan](#12-hak-cipta--pengesahan)
 
 ---
 
-## Tentang TANIAMAN
+## 1. Latar Belakang & Urgensi Masalah
+
+### 1.1. Krisis Iklim dan Kerentanan Sektor Pertanian Indonesia
+Sektor pertanian merupakan tulang punggung kedaulatan pangan dan mata pencaharian bagi lebih dari **28,4 juta jiwa penduduk Indonesia** (BPS, 2023). Namun, sektor vital ini kini menghadapi ancaman paling kritis dalam sejarah modern: **anomali dinamika iklim global (*Global Climate Change*)**.
+
+Fenomena iklim ekstrem seperti **El Niño**, **La Niña**, serta anomali **Indian Ocean Dipole (IOD)** telah merusak pola iklim musiman tradisional di Nusantara. Kalender tradisional Jawa kuno (*Pranata Mangsa*) yang selama ratusan tahun menjadi pedoman waktu tanam petani kini sudah tidak lagi presisi karena awal musim hujan dan puncak kemarau kerap bergeser **30 hingga 60 hari** dari pola klimatologis normal.
+
+```
++-----------------------------------------------------------------------------------------------+
+|                                      RANTAI MASALAH NYATA                                     |
+|                                                                                               |
+|  [Anomali Iklim Global]  ──▶  [Pergeseran Musim Hujan]  ──▶  [Petani Tanam Spekulatif]        |
+|  (El Niño / La Niña)          (Pranata Mangsa Rusak)         (Mengikuti Kebiasaan Lama)       |
+|                                                                     │                         |
+|                                                                     ▼                         |
+|  [Inflasi Pangan Nasional] ◀── [Kerugian Finansial Petani] ◀── [Puso / Gagal Panen Masal]     |
+|  (Beras, Cabai, Bawang)        (Modal Hangus Rp 10-25 Jt/Ha)   (Kekeringan / Hama / Busuk)    |
++-----------------------------------------------------------------------------------------------+
+```
+
+### 1.2. Fakta Empiris, Berita Nasional, dan Data Statistik
+
+Dampak ketidakpastian iklim terhadap pertanian Indonesia tercermin secara nyata dalam data dan laporan resmi:
+
+1. **Penurunan Produksi & Ancaman Puso (Kementerian Pertanian & BPS):**
+   - Badan Pusat Statistik (BPS) mencatat produksi beras nasional pada tahun 2023–2024 mengalami **penurunan signifikan sebesar 1,36 juta ton (sekitar 4,3%)** akibat mundurnya musim tanam (*planting delay*) dan kekeringan panjang dampak El Niño.
+   - Kementerian Pertanian mencatat lebih dari **120.000 hektar lahan sawah mengalami kekeringan ekstrem dan puso (gagal panen)** di sentra-sentra produksi utama seperti Jawa Timur, Jawa Tengah, Jawa Barat, dan Nusa Tenggara Barat.
+2. **Pemberitaan Media Nasional Terkini:**
+   - **Kompas.id (2023/2024):** *"Dampak El Niño Ekstrem, Ratusan Ribu Hektar Sawah di Jawa dan NTB Terancam Puso — Petani Mengalami Kerugian Ratusan Juta Rupiah Akibat Salah Prediksi Awal Musim Tanam."*
+   - **Antara News (2024):** *"BMKG Ingatkan Perubahan Iklim Nyata Mengancam Ketahanan Pangan: Variabilitas Cuaca Harian Mempersulit Penentuan Awal Musim Tanam."*
+   - **Bisnis Indonesia (2024):** *"Mundurnya Musim Tanam Memicu Lonjakan Volatile Food Inflation: Harga Beras dan Cabai Merah Melonjak Hingga Rekor Tertinggi."*
+3. **Kerugian Finansial Tingkat Petani:**
+   - Biaya investasi budidaya rata-rata berkisar antara **Rp 8.000.000 – Rp 15.000.000 per Hektar untuk Padi** dan mencapai **Rp 25.000.000 – Rp 40.000.000 per Hektar untuk Hortikultura (Cabai & Bawang Merah)**. Ketika keputusan tanam dilakukan secara spekulatif dan tanaman mati akibat kekeringan atau curah hujan ekstrem saat panen, seluruh modal tersebut hangus tanpa sisa, menjerat petani ke dalam lingkaran hutang.
+
+### 1.3. Landasan Riset dan Jurnal Ilmiah Terkait
+
+Pengembangan sistem pendukung keputusan TANIAMAN didasari oleh berbagai literatur ilmiah dan metodologi internasional:
+
+* **Surmaini, E., Runtunuwu, E., & Syahbuddin, H. (2020)** — *Jurnal Sumberdaya Lahan, Balitbangtan Kementan RI*:  
+  *"Karakteristik Kejadian Iklim Ekstrem dan Dampaknya terhadap Kerentanan Sektor Pertanian Tanaman Pangan di Indonesia."*  
+  Riset ini menegaskan bahwa faktor utama kegagalan panen di Indonesia adalah ketidaksesuaian waktu tanam (*planting window mismatch*) dengan dinamika ketersediaan air tanah dan suhu permukaan.
+* **Allen, R. G., Pereira, L. S., Raes, D., & Smith, M. (1998 / 2006)** — *FAO Irrigation and Drainage Paper No. 56*:  
+  *"Crop Evapotranspiration - Guidelines for Computing Crop Water Requirements."*  
+  Menjadi acuan standar global dalam menghitung neraca air tanah ($ET_c = K_c \times ET_0$) untuk memastikan tanaman tidak mengalami cekaman air (*water stress*) pada fase-fase kritis pembungaan.
+* **IPCC (Intergovernmental Panel on Climate Change) Sixth Assessment Report (AR6, 2022)** — *Working Group II: Impacts, Adaptation and Vulnerability*:  
+  Menyatakan bahwa kawasan tropis Asia Tenggara memiliki tingkat kerentanan agrikultur tertinggi terhadap variabilitas presipitasi, dan merekomendasikan adopsi **Sistem Pendukung Keputusan (DSS) berbasis Digital Twin & Reanalisis Cuaca** sebagai instrumen adaptasi paling efektif.
+* **Boer, R., Subbiah, A. R., & Tamkani, K. (2018)** — *Center for Climate Risk and Opportunity Management (CCROM-SEAP IPB)*:  
+  Membuktikan bahwa pemanfaatan prakiraan agroklimat presisi dalam penentuan jadwal tanam mampu **menurunkan risiko kegagalan panen hingga 65%** dan meningkatkan efisiensi penggunaan air irigasi sebesar 30%.
+
+### 1.4. The Missing Gap (Kelemahan Solusi Eksisting)
+
+Meskipun informasi cuaca dan buku pedoman budidaya telah tersedia, petani Indonesia masih kerap mengalami kegagalan panen akibat beberapa *gap* mendasar:
+1. **Aplikasi Pertanian Saat Ini Bersifat Reaktif & Pasca-Tanam:** Sebagian besar aplikasi *AgriTech* di Indonesia hanya berfokus pada pencatatan buku kas pengeluaran setelah modal dibelanjakan atau marketplace penjualan pupuk, bukan memitigasi risiko sebelum bibit ditanam.
+2. **Ketiadaan Media Simulasi (*What-If Sandbox*):** Petani tidak memiliki sarana untuk menguji *"Bagaimana jika saya tanam mundur 2 minggu?"* atau *"Bagaimana jika saya ganti dari Padi ke Jagung?"* tanpa mempertaruhkan modal nyata.
+3. **Data Sulit Dipahami Petani:** Penyajian data agroklimat BMKG seringkali berupa tabel angka dan peta isobar yang abstrak. Diperlukan representasi visual interaktif (**3D Digital Twin**) yang dapat langsung memperlihatkan kondisi kesehatan tanaman, tanah, dan cuaca lahan secara nyata.
+
+### 1.5. Solusi Inovatif TANIAMAN
+TANIAMAN hadir sebagai **Climate-Agricultural Decision Support System (DSS)** yang menggabungkan:
+1. **Algoritma Analisis 4 Pilar Risiko:** Weather Risk (30%), Water Risk (25%), Crop Suitability (25%), dan Economic Risk (20%).
+2. **Mesin Simulasi Digital Twin 3D (Three.js WebGL):** Memvisualisasikan diorama lahan hidup miniatur yang merefleksikan tanaman dan cuaca secara interaktif.
+3. **What-If Sandbox & Komparasi Multi-Skenario:** Menguji sensitivitas tanggal tanam secara instan (*Live Re-Calculation*) sebelum komitmen modal dilakukan.
+
+---
+
+## 2. Tentang TANIAMAN
 
 **TANIAMAN** adalah platform *Decision Support System* (DSS) agrikultur modern yang dirancang untuk mengatasi salah satu masalah paling mendasar di sektor pertanian Indonesia: **ketidakpastian iklim dan risiko kegagalan panen akibat salah memilih waktu serta komoditas tanam**.
 
@@ -44,7 +109,7 @@ TANIAMAN menjawab 5 pertanyaan paling krusial bagi petani dan pengelola lahan:
 
 ---
 
-## Analisis Komparasi: Mengapa TANIAMAN Berbeda?
+## 3. Analisis Komparasi: Mengapa TANIAMAN Berbeda?
 
 Untuk membuktikan kebaruan (*novelty*) dan nilai strategis produk, berikut adalah komparasi mendalam antara **TANIAMAN** dengan **2 solusi agrikultur yang sudah ada**:
 
@@ -78,7 +143,7 @@ Untuk membuktikan kebaruan (*novelty*) dan nilai strategis produk, berikut adala
 
 ---
 
-## Fitur Unggulan & 3D Digital Twin
+## 4. Fitur Unggulan & 3D Digital Twin
 
 ### 1. 3D Digital Twin Lahan Pertanian (Three.js WebGL)
 - **Procedural Stylized Crop Models:** Model 3D tanaman low-poly untuk Padi, Jagung Hibrida, Kedelai, Cabai Merah, Bawang Merah, Tomat, Kentang, Kacang Tanah, dan Tebu.
@@ -114,7 +179,7 @@ Untuk membuktikan kebaruan (*novelty*) dan nilai strategis produk, berikut adala
 
 ---
 
-## Tech Stack
+## 5. Tech Stack
 
 ### Frontend & Visualisasi
 - **Framework:** [Nuxt 4](https://nuxt.com/) (Vue 3, Composition API, `<script setup>`)
@@ -136,7 +201,7 @@ Untuk membuktikan kebaruan (*novelty*) dan nilai strategis produk, berikut adala
 
 ---
 
-## Arsitektur Sistem & Alur Data
+## 6. Arsitektur Sistem & Alur Data
 
 ```
 +-----------------------------------------------------------------------------------------+
@@ -176,7 +241,7 @@ Untuk membuktikan kebaruan (*novelty*) dan nilai strategis produk, berikut adala
 
 ---
 
-## Struktur Direktori Aplikasi
+## 7. Struktur Direktori Aplikasi
 
 ```text
 ub_hology2/
@@ -246,7 +311,7 @@ ub_hology2/
 
 ---
 
-## Sumber Data Resmi & Metodologi Ilmiah
+## 8. Sumber Data Resmi & Metodologi Ilmiah
 
 TANIAMAN mengacu pada metodologi ilmiah dan standar institusi terpercaya:
 
@@ -259,7 +324,7 @@ TANIAMAN mengacu pada metodologi ilmiah dan standar institusi terpercaya:
 
 ---
 
-## Panduan Penggunaan Aplikasi
+## 9. Panduan Penggunaan Aplikasi
 
 ### 1. Menjalankan Simulasi Keputusan & Melihat 3D Digital Twin (`/simulate`)
 1. Masuk ke menu **Simulasi**.
@@ -288,7 +353,7 @@ TANIAMAN mengacu pada metodologi ilmiah dan standar institusi terpercaya:
 
 ---
 
-## Panduan Instalasi & Menjalankan Lokal
+## 10. Panduan Instalasi & Menjalankan Lokal
 
 ### Prasyarat
 - [Node.js](https://nodejs.org/) versi 18.x atau lebih baru
@@ -328,7 +393,7 @@ TANIAMAN mengacu pada metodologi ilmiah dan standar institusi terpercaya:
 
 ---
 
-## Skema Basis Data (Supabase PostgreSQL)
+## 11. Skema Basis Data (Supabase PostgreSQL)
 
 ```sql
 -- 1. Tabel Profil Pengguna
@@ -376,6 +441,6 @@ CREATE TABLE scenarios (
 
 ---
 
-## Hak Cipta & Pengesahan
+## 12. Hak Cipta & Pengesahan
 
 Dikembangkan untuk perlombaan **HOLOGY 9.0 Fakultas Ilmu Komputer Universitas Brawijaya** dalam cabang lomba **HoloDev (Software Development)** — Platform Sistem Pendukung Keputusan Pertanian Presisi **TANIAMAN** untuk mendukung ketahanan dan kedaulatan pangan berkelanjutan di Indonesia.
