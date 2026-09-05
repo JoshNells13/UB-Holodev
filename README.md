@@ -2,50 +2,50 @@
 
 <div align="center">
 
-[![HOLOGY 9.0](https://img.shields.io/badge/Competition-HOLOGY%209.0%20FILKOM%20UB-emerald?style=for-the-badge)](https://hology.ub.ac.id/)
-[![Category](https://img.shields.io/badge/Track-HoloDev%20(Software%20Development)-blue?style=for-the-badge)](#)
-[![Theme](https://img.shields.io/badge/Theme-Smart%20Agriculture%20%26%20Food%20Security-amber?style=for-the-badge)](#)
-[![License](https://img.shields.io/badge/License-MIT-zinc?style=for-the-badge)](#)
+[![HOLOGY 9.0](https://img.shields.io/badge/Kompetisi-HOLOGY%209.0%20FILKOM%20UB-emerald?style=for-the-badge)](https://hology.ub.ac.id/)
+[![Kategori](https://img.shields.io/badge/Cabang-HoloDev%20(Software%20Development)-blue?style=for-the-badge)](#)
+[![Subtema](https://img.shields.io/badge/Subtema-Ketahanan%20Pangan%20%26%20Pertanian%20Cerdas-amber?style=for-the-badge)](#)
+[![Lisensi](https://img.shields.io/badge/Lisensi-MIT-zinc?style=for-the-badge)](#)
 
-### *"Simulasikan Sebelum Menanam — Simulate Before You Plant."*
+### *"Simulasikan Sebelum Menanam — Keputusan Presisi untuk Ketahanan Pangan"*
 
-**A predictive Decision Support System (DSS) empowering farmers and land managers to test, simulate, and compare planting scenarios against climate variability, water availability, and economic risk before committing resources in the field.**
+**Platform Decision Support System (DSS) prediktif yang memberdayakan petani dan pengelola lahan untuk menguji, mensimulasikan, dan membandingkan skenario tanam terhadap risiko iklim, ketersediaan air, dan volatilitas ekonomi sebelum modal dialokasikan di lahan nyata.**
 
-[Try Live Demo](https://ub-holodev.vercel.app/) • [View Methodology](#methodology--scientific-grounding) • [System Architecture](#system-architecture)
+[Coba Demo Langsung](https://ub-holodev.vercel.app/) • [Lihat Metodologi](#metodologi--landasan-ilmiah) • [Arsitektur Sistem](#arsitektur-sistem)
 
 </div>
 
 ---
 
 ```
-                                    [ HERO DEMO / PREVIEW ]
+                                    [ DEMO / PRATINJAU UTAMA ]
    +-----------------------------------------------------------------------------------------+
    |                                                                                         |
-   |              [ 3D DIGITAL TWIN FIELD ]             [ LIVE WHAT-IF DSS CONTROLS ]        |
+   |              [ 3D DIGITAL TWIN LAHAN ]             [ KONTROL DSS WHAT-IF REAL-TIME ]    |
    |                                                                                         |
    |     ┌──────────────────────────────────────┐     ┌────────────────────────────────┐     |
-   |     │   Live 3D Crop Growth & Soil State   │     │  Optimal Planting Window:      │     |
-   |     │   Dynamic Weather (Sun/Rain/Drought) │     │  Nov 12 - Nov 26 (Score: 88)   │     |
-   |     │   Multi-Crop Polyculture Zoning      │     │  Water Stress Index: LOW (12%) │     |
+   |     │   Pertumbuhan Tanaman & Tanah 3D     │     │  Jendela Tanam Optimal:        │     |
+   |     │   Cuaca Dinamis (Cerah/Hujan/Kering) │     │  12 Nov - 26 Nov (Skor: 88)    │     |
+   |     │   Zonasi Polikultur Multi-Komoditas  │     │  Indeks Cekaman Air: RENDAH    │     |
    |     └──────────────────────────────────────┘     └────────────────────────────────┘     |
    |                                                                                         |
    +-----------------------------------------------------------------------------------------+
-                    (Insert Primary App Screenshot / Demonstration GIF Here)
+                    (Tempatkan Tangkapan Layar / GIF Demonstrasi Aplikasi di Sini)
 ```
 
 ---
 
-## The Problem
+## 1. Latar Belakang dan Urgensi Masalah
 
-Climate change is actively disrupting agricultural rhythms across Indonesia:
+Krisis iklim global bukan lagi sekadar prediksi masa depan, melainkan ancaman nyata yang secara aktif mengacaukan pola musiman pertanian di Indonesia:
 
 ```mermaid
 flowchart LR
-    A["Global Climate Anomaly<br/>El Nino / La Nina / IOD"] --> B["Unpredictable Seasonal Shifts<br/>Rainfall & Drought"]
-    B --> C["Planting Window Mismatch<br/>Traditional calendars obsolete"]
-    C --> D["Water Stress & Pest Vulnerability<br/>Critical growth phase failures"]
-    D --> E["Mass Harvest Failure & Debt<br/>Farmer economic vulnerability"]
-    E --> F["National Food Insecurity"]
+    A["Anomali Iklim Global<br/>El Nino / La Nina / IOD"] --> B["Pergeseran Musim Ekstrem<br/>Pola Hujan & Kemarau Tak Menentu"]
+    B --> C["Ketidakpastian Waktu Tanam<br/>Kalender tradisional tidak presisi"]
+    C --> D["Cekaman Air & Serangan Hama<br/>Fase kritis tanaman terganggu"]
+    D --> E["Gagal Panen Massal & Kerugian<br/>Kerentanan finansial petani"]
+    E --> F["Ancaman Ketahanan Pangan Nasional"]
     
     style A fill:#fee2e2,stroke:#ef4444,stroke-width:2px,color:#991b1b
     style C fill:#fef3c7,stroke:#f59e0b,stroke-width:2px,color:#92400e
@@ -53,46 +53,46 @@ flowchart LR
     style F fill:#fecdd3,stroke:#e11d48,stroke-width:2px,color:#881337
 ```
 
-### The Missing Gap in Existing AgriTech
-Most agricultural applications today are **reactive and post-planting**—focusing merely on logbook bookkeeping after capital has already been spent, or offering isolated, static weather charts that farmers find difficult to translate into actionable decisions. Farmers lack a risk-free **"What-If Sandbox"** to test decisions *before* seeds and fertilizers are purchased.
+### Kesenjangan pada Solusi Pertanian Eksisting
+Mayoritas aplikasi pertanian saat ini bersifat **reaktif dan pasca-tanam**—hanya berfokus pada pencatatan buku kas pengeluaran setelah modal dibelanjakan, atau menyajikan grafik prakiraan cuaca mentah yang abstrak dan sulit diterjemahkan petani menjadi aksi konkret. Petani tidak memiliki sarana **"What-If Sandbox"** untuk menguji skenario risiko *sebelum* bibit dan pupuk dibeli.
 
 ---
 
-## Our Solution: SIAP TANI
+## 2. Solusi Kami: SIAP TANI
 
-**SIAP TANI** is a pre-planting **Decision Support System (DSS)** designed to replace guesswork with data-driven simulation. By synthesizing 16-day numerical weather predictions, soil water balance models, commodity agrometeorological thresholds, and market price volatility, SIAP TANI evaluates planting feasibility across spatial and temporal dimensions.
+**SIAP TANI** hadir sebagai **Climate-Agricultural Decision Support System (DSS)** yang dirancang untuk menggantikan spekulasi dengan simulasi berbasis data terpadu. Melalui integrasi prakiraan numerik cuaca 16 hari, kalkulasi neraca air tanah harian, ambang batas agroklimat komoditas, dan analisis fluktuasi ekonomi pasar, SIAP TANI mengevaluasi kelayakan tanam secara spasial dan temporal.
 
-Instead of only telling farmers what the weather is today, SIAP TANI answers critical pre-planting questions:
-* *"What if I plant Rice on November 10 versus delaying by 14 days?"*
-* *"What if I switch this plot from Corn to Soybean under forecasted dry spells?"*
-* *"How should I divide my land across multiple crops to minimize total failure risk?"*
+Alih-alih sekadar menampilkan data cuaca hari ini, SIAP TANI menjawab pertanyaan paling krusial sebelum menanam:
+* *"Bagaimana jika saya menanam Padi pada 10 November dibandingkan menundanya 14 hari?"*
+* *"Bagaimana jika saya mengganti lahan ini dari Jagung ke Kedelai saat diproyeksikan musim kering?"*
+* *"Bagaimana cara membagi lahan ke dalam beberapa komoditas untuk meminimalkan risiko gagal panen total?"*
 
 ---
 
-## How It Works
+## 3. Cara Kerja Sistem
 
 ```mermaid
 flowchart TD
-    subgraph DataInputs ["1. Multi-Stream Data Ingestion"]
-        A1["16-Day Forecast & Reanalysis<br/>Open-Meteo NWP / ECMWF"]
-        A2["Crop Agro-Climatology<br/>BSIP / FAO-56 Coefficients"]
-        A3["Soil Water Balance<br/>Evapotranspiration ET0 / ETc"]
-        A4["Market Economics<br/>Baseline & Volatility Indices"]
+    subgraph DataInputs ["1. Ingesti Data Multi-Sumber"]
+        A1["Prakiraan Cuaca 16 Hari & Reanalisis<br/>Open-Meteo NWP / ECMWF"]
+        A2["Karakteristik Agroklimat Komoditas<br/>Standar BSIP / Koefisien FAO-56"]
+        A3["Kebutuhan & Neraca Air Tanah<br/>Evapotranspirasi ET0 / ETc"]
+        A4["Faktor Ekonomi Pasar<br/>Harga Dasar & Volatilitas Komoditas"]
     end
 
-    subgraph Engine ["2. 4-Pillar Decision Engine"]
-        B["SIAP TANI Multi-Factor Risk Assessment Engine<br/>Weather 30%, Water 25%, Suitability 25%, Economic 20%"]
+    subgraph Engine ["2. Mesin Analisis Risiko 4 Pilar"]
+        B["Engine Penilaian Risiko Multi-Faktor SIAP TANI<br/>Cuaca 30%, Air 25%, Kesesuaian 25%, Ekonomi 20%"]
     end
 
-    subgraph Simulation ["3. What-If Scenario Sandbox"]
-        C1["Planting Date Sensitivity Scanner<br/>+/- 28-Day Shift Analysis"]
-        C2["Multi-Scenario Side-by-Side Comparison<br/>Scenario A vs B vs C"]
-        C3["Polyculture Portfolio Optimizer<br/>Herfindahl-Hirschman Index (HHI)"]
+    subgraph Simulation ["3. Sandbox Simulasi Skenario What-If"]
+        C1["Pemindai Sensitivitas Tanggal Tanam<br/>Analisis Pergeseran +/- 28 Hari"]
+        C2["Komparasi Multi-Skenario Side-by-Side<br/>Skenario A vs B vs C"]
+        C3["Optimizer Portofolio Polikultur Lahan<br/>Herfindahl-Hirschman Index (HHI)"]
     end
 
-    subgraph Output ["4. Explainable Decision & 3D Twin"]
-        D1["3D Digital Twin Visualizer<br/>Interactive Three.js Diorama"]
-        D2["Prescriptive Agronomic Schedule<br/>-10 HST to Harvest + .ics Export"]
+    subgraph Output ["4. Rekomendasi Terjelaskan & 3D Twin"]
+        D1["Visualisator 3D Digital Twin Lahan<br/>Diorama WebGL Three.js Interaktif"]
+        D2["Jadwal Agronomi Preskriptif<br/>Fase -10 HST hingga Panen + Ekspor .ics"]
     end
 
     DataInputs --> Engine
@@ -106,220 +106,222 @@ flowchart TD
 
 ---
 
-## Core Features
+## 4. Fitur Utama
 
-| Feature | Description | Impact |
+| Fitur Utama | Deskripsi Kapabilitas | Nilai Manfaat |
 |:---|:---|:---|
-| **4-Pillar Risk Engine** | Quantifies aggregate planting risk (0–100 score) decomposed into **Weather Risk (30%)**, **Water Risk (25%)**, **Crop Suitability (25%)**, and **Economic Volatility (20%)**. | Replaces intuition with transparent, weighted risk indicators. |
-| **What-If Scenario Sandbox** | Live date-shift slider scanning +/- 28 days to reveal optimal planting windows with minimized drought and flood hazards. | Prevents costly timing mismatches before committing capital. |
-| **Multi-Scenario Comparison** | Side-by-side comparative matrix evaluating multiple commodities (e.g., Rice vs Corn vs Soybean) with automated *Best Decision Picker*. | Identifies the most resilient crop under dynamic weather projections. |
-| **3D Digital Twin Field** | Interactive WebGL diorama (Three.js) displaying procedural crop stages, soil moisture levels, and simulated dynamic weather conditions. | Bridges abstract numerical metrics into an intuitive visual medium. |
-| **Polyculture Land Portfolio** | Land-use diversification simulator calculating the **Herfindahl-Hirschman Index (HHI)** to mitigate monoculture pest and price crash risks. | Maximizes farm revenue stability through balanced crop allocation. |
+| **Engine Risiko 4 Pilar** | Menguantifikasi risiko tanam agregat (skor 0–100) yang didekomposisi menjadi **Risiko Cuaca (30%)**, **Risiko Kebutuhan Air (25%)**, **Kesesuaian Agroklimat (25%)**, dan **Volatilitas Ekonomi (20%)**. | Menggantikan asumsi subjektif dengan indikator risiko terbobot yang transparan. |
+| **Sandbox Simulasi What-If** | Slider interaktif pemindai sensitivitas tanggal tanam (+/- 28 hari) untuk mendeteksi jendela tanam dengan risiko kekeringan atau banjir terendah. | Mencegah kerugian salah waktu tanam sebelum modal dikeluarkan. |
+| **Komparasi Multi-Skenario** | Matriks evaluasi berdampingan (*side-by-side*) antar berbagai pilihan tanaman (misal: Padi vs Jagung vs Kedelai) dilengkapi penentu skenario terbaik otomatis (*Best Decision Picker*). | Memberikan kejelasan komparatif komoditas yang paling tahan risiko iklim. |
+| **3D Digital Twin Lahan** | Diorama visual WebGL interaktif (Three.js) yang merefleksikan fase morfologi tanaman, kondisi kelembapan tanah, dan simulasi cuaca dinamis secara real-time. | Menjembatani data numerik yang rumit menjadi visualisasi yang mudah dipahami. |
+| **Portofolio Lahan Polikultur** | Simulator diversifikasi lahan berbasis **Herfindahl-Hirschman Index (HHI)** untuk memitigasi bahaya serangan hama massal dan anjloknya harga monokultur. | Menjaga stabilitas pendapatan petani melalui pembagian zonasi lahan yang seimbang. |
 
 ---
 
-## The Core Innovation: Beyond Static Data
+## 5. Inovasi Utama: Melampaui Data Statis
 
-Traditional apps stop at data display. SIAP TANI transforms raw data into **prescriptive simulations**:
+Aplikasi konvensional berhenti pada penyajian data. SIAP TANI mentransformasikan data mentah menjadi **simulasi preskriptif**:
 
-$$\text{Raw Climate Data} \;\longrightarrow\; \text{Agronomic Simulation} \;\longrightarrow\; \text{Risk Decomposition} \;\longrightarrow\; \mathbf{Actionable\;Decision}$$
+$$\text{Data Mentah Iklim} \;\longrightarrow\; \text{Simulasi Agronomi} \;\longrightarrow\; \text{Dekomposisi Risiko} \;\longrightarrow\; \mathbf{Keputusan\;Terukur}$$
 
 ```
-   TRADITIONAL WEATHER APPS                      SIAP TANI DECISION SUPPORT
-   ────────────────────────                      ──────────────────────────
-   "Rainfall will be 140 mm."      ───►          "Planting on Nov 15 exposes flowering phase (45 HST)
-                                                  to severe water deficit. Delaying to Nov 28 reduces
-                                                  water stress by 42% and increases DSS Score to 86/100."
+   APLIKASI CUACA KONVENSIONAL                   SISTEM PENDUKUNG KEPUTUSAN SIAP TANI
+   ───────────────────────────                   ────────────────────────────────────
+   "Curah hujan diprediksi 140 mm." ───►        "Menanam pada 15 Nov mengekspos fase berbunga (45 HST)
+                                                 pada defisit air kritis. Menggeser ke 28 Nov menurunkan
+                                                 cekaman air sebesar 42% dan menaikkan skor DSS ke 86/100."
 ```
+
+Sistem tidak hanya menjawab *"Bagaimana kondisi cuaca saat ini?"*, melainkan *"Apa dampak yang akan terjadi jika saya mengambil keputusan tanam yang berbeda?"*
 
 ---
 
-## What-If Simulation in Action
+## 6. Simulasi What-If dalam Praktik
 
-Consider a land manager in East Java facing uncertain monsoon onset:
+Contoh simulasi pengambilan keputusan pada lahan di Jawa Timur menghadapi ketidakpastian awal musim hujan:
 
-| Evaluation Dimension | **Scenario A** (Plant Now - Nov 10) | **Scenario B** (Delay +14 Days - Nov 24) | **Scenario C** (Switch to Soybean) |
+| Dimensi Evaluasi | **Skenario A** (Tanam Sekarang - 10 Nov) | **Skenario B** (Tunda +14 Hari - 24 Nov) | **Skenario C** (Ganti ke Kedelai) |
 |:---|:---:|:---:|:---:|
-| **Target Crop** | Wetland Rice (*Oryza sativa*) | Wetland Rice (*Oryza sativa*) | Soybean (*Glycine max*) |
-| **Weather Risk** | High (Early dry spell) | Low (Steady precipitation) | Low (Tolerant to moderate rain) |
-| **Water Balance (FAO-56)** | 38% Deficit during Tillering | Optimal Soil Moisture | 100% Water Demand Satisfied |
-| **Agro-Climate Suitability** | 64 / 100 | 88 / 100 | 84 / 100 |
-| **Overall DSS Score** | **52 / 100 (High Risk)** | **88 / 100 (Recommended Winner)** | **82 / 100 (Viable Alternative)** |
-| **System Recommendation** | *Avoid planting. High drought risk.* | *Optimal planting window.* | *Strong alternative for low water.* |
+| **Komoditas Pilihan** | Padi Sawah (*Oryza sativa*) | Padi Sawah (*Oryza sativa*) | Kedelai (*Glycine max*) |
+| **Risiko Cuaca** | Tinggi (Ancaman kekeringan awal) | Rendah (Curah hujan stabil) | Rendah (Toleran cuaca moderat) |
+| **Neraca Air (FAO-56)** | Defisit 38% pada fase anakan | Ketersediaan air optimal | 100% Kebutuhan air tercukupi |
+| **Kesesuaian Agroklimat** | 64 / 100 (Kurang Sesuai) | 88 / 100 (Sangat Sesuai) | 84 / 100 (Sesuai) |
+| **Skor Total DSS** | **52 / 100 (Risiko Tinggi)** | **88 / 100 (Direkomendasikan - Pemenang)** | **82 / 100 (Alternatif Layak)** |
+| **Rekomendasi Sistem** | *Hindari tanam. Risiko defisit air tinggi.* | *Jendela tanam terbaik teridentifikasi.* | *Pilihan aman untuk efisiensi air.* |
 
 ---
 
-## 3D Digital Twin: Purposeful Visualization
+## 7. 3D Digital Twin: Visualisasi Berbasis Fungsi
 
-The **Three.js WebGL 3D Digital Twin** is not decorative—it is an **interpretability bridge** designed for rapid decision-making:
+Penggunaan **Three.js WebGL 3D Digital Twin** bukan sekadar elemen estetika, melainkan **jembatan interpretabilitas data** untuk mempermudah pengambilan keputusan:
 
-$$\text{Complex Hydro-Meteorological Tables} \;\xrightarrow{\quad\text{Three.js 3D Twin}\quad}\; \text{Intuitive Visual Diorama}$$
+$$\text{Tabel Hidrometeorologi Kompleks} \;\xrightarrow{\quad\text{3D Digital Twin}\quad}\; \text{Diorama Visual Intuitif}$$
 
-* **Visual Soil Health:** Soil textures dynamically shift hue to indicate moisture saturation, optimal balance, or severe drought parching.
-* **Procedural Growth Stages:** Visualizes vegetative, flowering, and ripening morphology according to Days After Planting (HST).
-* **Dynamic Weather Particles:** Real-time sun azimuth, cloud density, and rain particle systems reflect forecasted localized conditions.
-* **Polyculture Land Partitions:** Multi-zone bounding stakes illustrate spatial crop allocation and land-share percentages in real-time.
+* **Indikator Visual Tanah:** Tekstur dan saturasi warna tanah berubah dinamis memperlihatkan kondisi tergenang, optimal, atau retak kekeringan.
+* **Morfologi Pertumbuhan Prosedural:** Menampilkan bentuk fase vegetatif, pembungaan, hingga pematangan bulir sesuai Hari Setelah Tanam (HST).
+* **Partikel Cuaca Dinamis:** Arah pencahayaan matahari, ketebalan awan, dan partikel rintik hujan merefleksikan prakiraan cuaca di lokasi GPS lahan.
+* **Partisi Zonasi Polikultur:** Patok batas zonasi lahan 3D beradaptasi secara real-time mengikuti proporsi persentase pembagian komoditas.
 
 ---
 
-## Competition Alignment & Impact: Bloom Beyond
+## 8. Keselarasan Tema & Dampak: Bloom Beyond
 
-SIAP TANI directly embodies the HOLOGY 9.0 theme: **"Bloom Beyond: Where Ideas Take Root and Reach Further"**:
+SIAP TANI mengakar dan berkembang selaras dengan tema HOLOGY 9.0: **"Bloom Beyond: Where Ideas Take Root and Reach Further"**:
 
 ```
-  [1] ROOT (Real-World Problem)
-  Rooted in the existential crisis of Indonesian smallholders facing climate volatility and seasonal unpredictability.
+  [1] ROOT (Berakar pada Masalah Nyata)
+  Berakar dari krisis kerentanan petani kecil Indonesia menghadapi anomali dinamika iklim dan ketidakpastian awal musim tanam.
                            │
                            ▼
-  [2] GROW (Validated Science & Engineering)
-  Grows by translating FAO-56 evapotranspiration models, BSIP crop norms, and NWP forecasts into a responsive DSS engine.
+  [2] GROW (Berkembang Menjadi Solusi Ilmiah Tervalidasi)
+  Berkembang dengan mengintegrasikan standar neraca air FAO-56, karakteristik agroklimat BSIP Kementan, dan prakiraan numerik cuaca.
                            │
                            ▼
-  [3] BLOOM (Empowering Simulation)
-  Blooms by giving farmers a risk-free What-If sandbox to test scenarios virtually before risking real capital.
+  [3] BLOOM (Mekar Memberikan Nilai Guna Nyata)
+  Mekar melalui sarana simulasi What-If interaktif yang memungkinkan petani menguji skenario tanam secara virtual sebelum mempertaruhkan modal.
                            │
                            ▼
-  [4] REACH BEYOND (Sustainable Food Security)
-  Reaches beyond the individual farm to bolster regional food supply stability, minimize crop failure rates, and optimize water stewardship.
+  [4] REACH BEYOND (Dampak Berkelanjutan bagi Ketahanan Pangan)
+  Menjangkau lebih jauh untuk menekan angka gagal panen nasional, mengoptimalkan tata kelola air irigasi, dan memperkuat ketahanan pangan berkelanjutan.
 ```
 
-### Problem-Response Matrix
+### Matriks Masalah & Respons Solusi
 
-| Challenge in Indonesian Agriculture | SIAP TANI Response | Subtheme Relevance |
+| Tantangan Pertanian Indonesia | Respons Solusi SIAP TANI | Relevansi Subtema |
 |:---|:---|:---|
-| **Seasonal shift & unpredictable rains** | +/- 28-Day Planting Window Scanner & Sensitivity Engine | Smart Agriculture (Precision Timing) |
-| **Water scarcity & over-irrigation** | Daily FAO-56 Crop Water Balance ($ET_c = K_c \times ET_0$) | Resource Efficiency & Water Conservation |
-| **Monoculture price crashes & pest blooms** | Polyculture Portfolio Optimizer with HHI Diversification | Economic Resilience & Food Security |
-| **Complex meteorological charts** | Interactive 3D Digital Twin & Explainable Decision Breakdown | Inclusive Technology & Usability |
-| **Guesswork-based planting habits** | Pre-Planting Simulation & Comparative Matrix | Data-Driven Agricultural Transformation |
+| **Pergeseran musim tanam ekstrem** | Pemindai jendela tanam optimal (+/- 28 hari) | Pertanian Cerdas (Presisi Waktu) |
+| **Kekurangan atau kelebihan air irigasi** | Kalkulasi neraca air harian FAO-56 ($ET_c = K_c \times ET_0$) | Efisiensi Sumber Daya Air |
+| **Anjloknya harga monokultur & hama massal** | Simulator diversifikasi lahan dengan Indeks HHI | Ketahanan Ekonomi & Pangan |
+| **Data cuaca teknis yang sulit dipahami** | 3D Digital Twin interaktif & ringkasan keputusan terjelaskan | Inklusivitas Teknologi Petani |
+| **Keputusan tanam berbasis tebakan** | Simulasi What-If non-destruktif sebelum komitmen modal | Transformasi Pertanian Berbasis Data |
 
 ---
 
-## Technology Stack
+## 9. Teknologi Pendukung (Tech Stack)
 
-SIAP TANI is engineered for high computational accuracy, low-latency client rendering, and seamless cross-device accessibility:
+SIAP TANI dibangun dengan arsitektur modern berkinerja tinggi:
 
 ```
 +─────────────────────────────────────────────────────────────────────────────────────────+
-|                                    APPLICATION STACK                                    |
+|                                    STACK APLIKASI                                       |
 +─────────────────────────────────────────────────────────────────────────────────────────+
   [ FRONTEND & UI ]         Nuxt 4 • Vue 3 (Composition API) • Tailwind CSS • Lucide Icons
   [ 3D DIGITAL TWIN ]       Three.js (WebGL Procedural Plants, Dynamic Shaders, OrbitControls)
-  [ GIS & MAPPING ]         Leaflet.js • OpenStreetMap Tiles • BigDataCloud Reverse Geocoding
-  [ BACKEND & SERVICES ]    Nuxt Nitro Server Engine • REST Handlers • Service Architecture
-  [ CLIMATE & AGRO DATA ]   Open-Meteo 16-Day NWP (ECMWF/GFS) • FAO-56 Hydrology Engine
-  [ PERSISTENCE & AUTH ]    Supabase PostgreSQL • Supabase Auth • Browser LocalStorage Cache
+  [ GIS & PEMETAAN ]        Leaflet.js • OpenStreetMap Tiles • BigDataCloud Reverse Geocoding
+  [ BACKEND ENGINE ]        Nuxt Nitro Server Engine • REST Handlers • Service Architecture
+  [ DATA AGROKLIMAT ]       Open-Meteo 16-Day NWP (ECMWF/GFS) • FAO-56 Hydrology Engine
+  [ BASIS DATA & SESI ]     Supabase PostgreSQL • Supabase Auth • Browser LocalStorage Cache
 +─────────────────────────────────────────────────────────────────────────────────────────+
 ```
 
 ---
 
-## System Architecture
+## 10. Arsitektur Sistem
 
 ```
-                                  [ CLIENT LAYER ]
-               Nuxt 4 / Vue 3 SPA + Three.js 3D Canvas + Leaflet GIS Picker
+                                  [ LAPISAN KLIEN / UI ]
+               Nuxt 4 / Vue 3 SPA + Canvas 3D Three.js + Peta GIS Leaflet
                                          │
-                                         ▼ (Reactive State & Composables)
+                                         ▼ (Composables & State Reaktif)
                         useSimulation.ts  •  useAuth.ts
                                          │
-                                         ▼ ($fetch / Nitro Server Endpoints)
+                                         ▼ ($fetch / Nitro Endpoint API)
 +─────────────────────────────────────────────────────────────────────────────────────────+
-|                                  NITRO SERVER LAYER                                     |
+|                                  LAPISAN SERVER NITRO                                   |
 |     /api/simulate         /api/portfolio         /api/weather         /api/crops        |
 +─────────────────────────────────────────────────────────────────────────────────────────+
                                          │
                  ┌───────────────────────┼───────────────────────┐
                  ▼                       ▼                       ▼
-    [ RISK ENGINE SERVICE ]     [ AGRONOMY SERVICE ]    [ WEATHER AGGREGATOR ]
-    • Weather Risk (30%)        • FAO-56 Water Balance  • 16-Day Forecast NWP
-    • Water Risk (25%)          • Growth Phases (HST)   • Temperature Extremes
-    • Suitability (25%)         • Financial & ROI Model • Historical ZOM Normals
-    • Economic Risk (20%)       • Fertilizer Schedules  • Precipitation Trend
+    [ SERVICE ENGINE RISIKO ]   [ SERVICE AGRONOMI ]    [ AGREGATOR CUACA ]
+    • Risiko Cuaca (30%)        • Neraca Air FAO-56     • Prakiraan 16 Hari NWP
+    • Risiko Air (25%)          • Fase Tumbuh (HST)     • Ambang Suhu Ekstrem
+    • Kesesuaian Lahan (25%)    • Proyeksi Finansial    • Normalitas Iklim ZOM
+    • Risiko Ekonomi (20%)      • Dosis Rekomendasi     • Tren Curah Hujan
                  │                       │                       │
                  └───────────────────────┼───────────────────────┘
                                          ▼
 +─────────────────────────────────────────────────────────────────────────────────────────+
-|                               PERSISTENCE & STORAGE                                     |
+|                               PERSISTENSI & PENYIMPANAN                                 |
 |            Supabase PostgreSQL (`profiles`, `simulations`, `scenarios`)                |
 +─────────────────────────────────────────────────────────────────────────────────────────+
 ```
 
 ---
 
-## Methodology & Scientific Grounding
+## 11. Metodologi & Landasan Ilmiah
 
-Recommendations in SIAP TANI are derived from established agricultural standards:
+Rekomendasi pada SIAP TANI tidak dihasilkan secara acak, melainkan berakar pada metodologi ilmiah teruji:
 
-1. **Crop Evapotranspiration & Water Balance ($ET_c$):** Calculated following **FAO Irrigation and Drainage Paper No. 56**, estimating crop water requirements per phenological growth stage ($ET_c = K_c \times ET_0$).
-2. **Crop Agro-Climatology Norms:** Built upon data from the **Indonesian Agency for Agricultural Standard Instruments (BSIP Agroklimat)** and **Balitbangtan Kementan RI**, cross-referencing cardinal temperature, humidity, and rainfall tolerances.
-3. **Four-Pillar Risk Engine:**
-   $$\text{Composite Risk} = 0.30(R_{\text{weather}}) + 0.25(R_{\text{water}}) + 0.25(R_{\text{suitability}}) + 0.20(R_{\text{economic}})$$
-4. **Diversification Index:** Utilizes the **Herfindahl-Hirschman Index (HHI)**:
-   $$HHI = \sum_{i=1}^{N} s_i^2 \quad (\text{where } s_i \text{ is the percentage share of crop } i)$$
-   Lower HHI values indicate higher diversification and superior ecological/financial resilience.
+1. **Evapotranspirasi & Neraca Air Tanaman ($ET_c$):** Dihitung mengacu pada **FAO Irrigation and Drainage Paper No. 56** untuk memprediksi kebutuhan air tanaman per fase pertumbuhan ($ET_c = K_c \times ET_0$).
+2. **Karakteristik Agroklimat Komoditas:** Berbasis basis data **Badan Standardisasi Instrumen Pertanian (BSIP Agroklimat)** dan **Balitbangtan Kementan RI** untuk toleransi suhu kardinal, ketinggian, dan ambang curah hujan.
+3. **Engine Pembobotan Risiko 4 Pilar:**
+   $$\text{Skor Risiko Terbobot} = 0.30(R_{\text{cuaca}}) + 0.25(R_{\text{air}}) + 0.25(R_{\text{kesesuaian}}) + 0.20(R_{\text{ekonomi}})$$
+4. **Indeks Diversifikasi Portofolio Lahan:** Menggunakan formulasi **Herfindahl-Hirschman Index (HHI)**:
+   $$HHI = \sum_{i=1}^{N} s_i^2 \quad (\text{di mana } s_i \text{ merupakan persentase alokasi komoditas } i)$$
+   Nilai HHI yang lebih rendah merefleksikan tingkat diversifikasi yang lebih tinggi dan ketahanan ekologis yang lebih kuat terhadap risiko hama atau kegagalan pasar.
 
 ---
 
-## Live Demo & Getting Started
+## 12. Panduan Penggunaan & Akses Demo
 
-### Live Access
-* **Production Deployment:** [https://ub-holodev.vercel.app/](https://ub-holodev.vercel.app/)
-* **Demo Evaluation Mode:** Instant 1-click demo access is available on the Login/Register modal for immediate judging without requiring email confirmation.
+### Akses Demo Publik
+* **Tautan Deployment Produksi:** [https://ub-holodev.vercel.app/](https://ub-holodev.vercel.app/)
+* **Akses Evaluasi Cepat Juri (1-Click Demo):** Tersedia tombol evaluasi instan pada modal login/daftar untuk kemudahan pengujian tanpa perlu verifikasi email.
 
-### Running Locally
+### Menjalankan Secara Lokal
 
 ```bash
-# 1. Clone the repository
+# 1. Clone repository
 git clone https://github.com/JoshNells13/UB-Holodev.git
 cd UB-Holodev
 
-# 2. Install dependencies
+# 2. Install dependensi
 npm install
 
-# 3. Configure environment variables (.env)
+# 3. Konfigurasi variabel lingkungan (.env)
 SUPABASE_URL=https://your-project.supabase.co
 SUPABASE_KEY=your-anon-or-service-role-key
 
-# 4. Start local development server
+# 4. Jalankan server development
 npm run dev
 ```
 
-Application will be accessible at `http://localhost:3000`.
+Aplikasi dapat diakses melalui peramban web pada alamat `http://localhost:3000`.
 
 ---
 
-## Project Status & Roadmap
+## 13. Status Proyek & Rencana Pengembangan
 
-- [x] **Core DSS Risk Assessment Engine (4 Pillars)** — *Completed*
-- [x] **Interactive 3D Digital Twin (Procedural Crops & Dynamic Weather)** — *Completed*
-- [x] **What-If Date-Shift Sensitivity Sandbox** — *Completed*
-- [x] **Multi-Scenario Side-by-Side Comparison Matrix** — *Completed*
-- [x] **Polyculture Land Portfolio Simulator (HHI Index)** — *Completed*
-- [x] **Automated Agronomic Calendar with .ics Calendar Export** — *Completed*
-- [x] **User Authentication & Cloud Persistence (Supabase)** — *Completed*
-- [ ] *IoT Soil Moisture Sensor Integration via MQTT* — *Roadmap*
-- [ ] *Hyperlocal Satellite Soil Moisture (Sentinel-2)* — *Roadmap*
-
----
-
-## Development Team
-
-Developed for **HOLOGY 9.0 Fakultas Ilmu Komputer Universitas Brawijaya** (Cabang Lomba **HoloDev - Software Development**):
-
-* **Team Name:** [UB-Holodev Team]
-* **Institution:** Universitas Brawijaya
-* **Repository:** [https://github.com/JoshNells13/UB-Holodev](https://github.com/JoshNells13/UB-Holodev)
+- [x] **Engine Penilaian Risiko DSS (4 Pilar Terbobot)** — *Selesai*
+- [x] **Visualisasi 3D Digital Twin Interaktif (Three.js WebGL)** — *Selesai*
+- [x] **Sandbox Simulasi Sensitivitas Tanggal Tanam What-If** — *Selesai*
+- [x] **Matriks Komparasi Multi-Skenario Side-by-Side** — *Selesai*
+- [x] **Simulator Diversifikasi Portofolio Lahan (Indeks HHI)** — *Selesai*
+- [x] **Kalender Agronomi Terintegrasi & Ekspor Berkas .ics** — *Selesai*
+- [x] **Autentikasi Pengguna & Sinkronisasi Cloud (Supabase)** — *Selesai*
+- [ ] *Integrasi Sensor Kelembapan Tanah IoT berbasis MQTT* — *Roadmap Pengembangan*
+- [ ] *Analisis Kelembapan Tanah Berbasis Citra Satelit Resolusi Tinggi* — *Roadmap Pengembangan*
 
 ---
 
-## License
+## 14. Tim Pengembang
 
-This project is licensed under the [MIT License](LICENSE).
+Karya ini dikembangkan untuk kompetisi **HOLOGY 9.0 Fakultas Ilmu Komputer Universitas Brawijaya** pada cabang lomba **HoloDev (Software Development)**:
+
+* **Nama Tim:** UB-Holodev Team
+* **Perguruan Tinggi:** Universitas Brawijaya
+* **Tautan Repository:** [https://github.com/JoshNells13/UB-Holodev](https://github.com/JoshNells13/UB-Holodev)
+
+---
+
+## 15. Lisensi
+
+Proyek ini didistribusikan di bawah naungan [Lisensi MIT](LICENSE).
 
 <div align="center">
 
 **SIAP TANI — Simulasikan Sebelum Menanam.**  
-*Supporting Climate-Resilient Agriculture & National Food Security.*
+*Mendukung Pertanian Berkelanjutan & Ketahanan Pangan Nasional Indonesia.*
 
 </div>
