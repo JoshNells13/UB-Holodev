@@ -291,7 +291,7 @@ Aplikasi dapat diakses melalui peramban web pada alamat `http://localhost:3000`.
 
 ---
 
-## 13. Status Proyek & Rencana Pengembangan
+## 13. Status Proyek
 
 - [x] **Engine Penilaian Risiko DSS (4 Pilar Terbobot)** — *Selesai*
 - [x] **Visualisasi 3D Digital Twin Interaktif (Three.js WebGL)** — *Selesai*
@@ -300,8 +300,7 @@ Aplikasi dapat diakses melalui peramban web pada alamat `http://localhost:3000`.
 - [x] **Simulator Diversifikasi Portofolio Lahan (Indeks HHI)** — *Selesai*
 - [x] **Kalender Agronomi Terintegrasi & Ekspor Berkas .ics** — *Selesai*
 - [x] **Autentikasi Pengguna & Sinkronisasi Cloud (Supabase)** — *Selesai*
-- [ ] *Integrasi Sensor Kelembapan Tanah IoT berbasis MQTT* — *Roadmap Pengembangan*
-- [ ] *Analisis Kelembapan Tanah Berbasis Citra Satelit Resolusi Tinggi* — *Roadmap Pengembangan*
+
 
 ---
 
