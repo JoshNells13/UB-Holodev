@@ -1,4 +1,4 @@
-# 🌱 SIAP TANI — Climate-Agricultural Decision Support System
+# SIAP TANI — Climate-Agricultural Decision Support System
 
 <div align="center">
 
@@ -11,7 +11,7 @@
 
 **A predictive Decision Support System (DSS) empowering farmers and land managers to test, simulate, and compare planting scenarios against climate variability, water availability, and economic risk before committing resources in the field.**
 
-[🚀 Try Live Demo](https://ub-holodev.vercel.app/) • [📑 View Methodology](#-methodology--scientific-grounding) • [ Architecture](#-system-architecture)
+[Try Live Demo](https://ub-holodev.vercel.app/) • [View Methodology](#methodology--scientific-grounding) • [System Architecture](#system-architecture)
 
 </div>
 
@@ -35,17 +35,17 @@
 
 ---
 
-## 🌾 The Problem
+## The Problem
 
-Climate change is no longer a future prediction—it is actively disrupting agricultural rhythms across Indonesia:
+Climate change is actively disrupting agricultural rhythms across Indonesia:
 
 ```mermaid
 flowchart LR
-    A[Global Climate Anomaly\nEl Niño / La Niña / IOD] --> B[Unpredictable Seasonal Shifts\nRainfall & Drought]
-    B --> C[Planting Window Mismatch\nTraditional calendars obsolete]
-    C --> D[Water Stress & Pest Vulnerability\nCritical growth phase failures]
-    D --> E[Mass Harvest Failure & Debt\nFarmer economic vulnerability]
-    E --> F[National Food Insecurity]
+    A["Global Climate Anomaly<br/>El Nino / La Nina / IOD"] --> B["Unpredictable Seasonal Shifts<br/>Rainfall & Drought"]
+    B --> C["Planting Window Mismatch<br/>Traditional calendars obsolete"]
+    C --> D["Water Stress & Pest Vulnerability<br/>Critical growth phase failures"]
+    D --> E["Mass Harvest Failure & Debt<br/>Farmer economic vulnerability"]
+    E --> F["National Food Insecurity"]
     
     style A fill:#fee2e2,stroke:#ef4444,stroke-width:2px,color:#991b1b
     style C fill:#fef3c7,stroke:#f59e0b,stroke-width:2px,color:#92400e
@@ -58,7 +58,7 @@ Most agricultural applications today are **reactive and post-planting**—focusi
 
 ---
 
-## 💡 Our Solution: SIAP TANI
+## Our Solution: SIAP TANI
 
 **SIAP TANI** is a pre-planting **Decision Support System (DSS)** designed to replace guesswork with data-driven simulation. By synthesizing 16-day numerical weather predictions, soil water balance models, commodity agrometeorological thresholds, and market price volatility, SIAP TANI evaluates planting feasibility across spatial and temporal dimensions.
 
@@ -69,30 +69,30 @@ Instead of only telling farmers what the weather is today, SIAP TANI answers cri
 
 ---
 
-## ⚙️ How It Works
+## How It Works
 
 ```mermaid
 flowchart TD
-    subgraph DataInputs [1. Multi-Stream Data Ingestion]
-        A1[16-Day Forecast & Reanalysis\nOpen-Meteo NWP / ECMWF]
-        A2[Crop Agro-Climatology\nBSIP / FAO-56 Coefficients]
-        A3[Soil Water Balance\nEvapotranspiration ET0 / ETc]
-        A4[Market Economics\nBaseline & Volatility Indices]
+    subgraph DataInputs ["1. Multi-Stream Data Ingestion"]
+        A1["16-Day Forecast & Reanalysis<br/>Open-Meteo NWP / ECMWF"]
+        A2["Crop Agro-Climatology<br/>BSIP / FAO-56 Coefficients"]
+        A3["Soil Water Balance<br/>Evapotranspiration ET0 / ETc"]
+        A4["Market Economics<br/>Baseline & Volatility Indices"]
     end
 
-    subgraph Engine [2. 4-Pillar Decision Engine]
-        B[SIAP TANI Multi-Factor Risk Assessment Engine\nWeather 30% | Water 25% | Suitability 25% | Economic 20%]
+    subgraph Engine ["2. 4-Pillar Decision Engine"]
+        B["SIAP TANI Multi-Factor Risk Assessment Engine<br/>Weather 30%, Water 25%, Suitability 25%, Economic 20%"]
     end
 
-    subgraph Simulation [3. What-If Scenario Sandbox]
-        C1[Planting Date Sensitivity Scanner\n±28-Day Shift Analysis]
-        C2[Multi-Scenario Side-by-Side Comparison\nScenario A vs B vs C]
-        C3[Polyculture Portfolio Optimizer\nHerfindahl-Hirschman Index - HHI]
+    subgraph Simulation ["3. What-If Scenario Sandbox"]
+        C1["Planting Date Sensitivity Scanner<br/>+/- 28-Day Shift Analysis"]
+        C2["Multi-Scenario Side-by-Side Comparison<br/>Scenario A vs B vs C"]
+        C3["Polyculture Portfolio Optimizer<br/>Herfindahl-Hirschman Index (HHI)"]
     end
 
-    subgraph Output [4. Explainable Decision & 3D Twin]
-        D1[3D Digital Twin Visualizer\nInteractive Three.js Diorama]
-        D2[Prescriptive Agronomic Schedule\n-10 HST to Harvest + .ics Export]
+    subgraph Output ["4. Explainable Decision & 3D Twin"]
+        D1["3D Digital Twin Visualizer<br/>Interactive Three.js Diorama"]
+        D2["Prescriptive Agronomic Schedule<br/>-10 HST to Harvest + .ics Export"]
     end
 
     DataInputs --> Engine
@@ -106,19 +106,19 @@ flowchart TD
 
 ---
 
-## ✨ Core Features
+## Core Features
 
 | Feature | Description | Impact |
 |:---|:---|:---|
-| 🌦️ **4-Pillar Risk Engine** | Quantifies aggregate planting risk (0–100 score) decomposed into **Weather Risk (30%)**, **Water Risk (25%)**, **Crop Suitability (25%)**, and **Economic Volatility (20%)**. | Replaces intuition with transparent, weighted risk indicators. |
-| 🔮 **What-If Scenario Sandbox** | Live date-shift slider scanning ±28 days to reveal optimal planting windows with minimized drought and flood hazards. | Prevents costly timing mismatches before committing capital. |
-| ⚖️ **Multi-Scenario Comparison** | Side-by-side comparative matrix evaluating multiple commodities (e.g., Rice vs Corn vs Soybean) with automated *Best Decision Picker*. | Identifies the most resilient crop under dynamic weather projections. |
-| 🌾 **3D Digital Twin Field** | Interactive WebGL diorama (Three.js) displaying procedural crop stages, soil moisture levels, and simulated dynamic weather conditions. | Bridges abstract numerical metrics into an intuitive visual medium. |
-| 🛡️ **Polyculture Land Portfolio** | Land-use diversification simulator calculating the **Herfindahl-Hirschman Index (HHI)** to mitigate monoculture pest and price crash risks. | Maximizes farm revenue stability through balanced crop allocation. |
+| **4-Pillar Risk Engine** | Quantifies aggregate planting risk (0–100 score) decomposed into **Weather Risk (30%)**, **Water Risk (25%)**, **Crop Suitability (25%)**, and **Economic Volatility (20%)**. | Replaces intuition with transparent, weighted risk indicators. |
+| **What-If Scenario Sandbox** | Live date-shift slider scanning +/- 28 days to reveal optimal planting windows with minimized drought and flood hazards. | Prevents costly timing mismatches before committing capital. |
+| **Multi-Scenario Comparison** | Side-by-side comparative matrix evaluating multiple commodities (e.g., Rice vs Corn vs Soybean) with automated *Best Decision Picker*. | Identifies the most resilient crop under dynamic weather projections. |
+| **3D Digital Twin Field** | Interactive WebGL diorama (Three.js) displaying procedural crop stages, soil moisture levels, and simulated dynamic weather conditions. | Bridges abstract numerical metrics into an intuitive visual medium. |
+| **Polyculture Land Portfolio** | Land-use diversification simulator calculating the **Herfindahl-Hirschman Index (HHI)** to mitigate monoculture pest and price crash risks. | Maximizes farm revenue stability through balanced crop allocation. |
 
 ---
 
-## 🚀 The Core Innovation: Beyond Static Data
+## The Core Innovation: Beyond Static Data
 
 Traditional apps stop at data display. SIAP TANI transforms raw data into **prescriptive simulations**:
 
@@ -134,22 +134,22 @@ $$\text{Raw Climate Data} \;\longrightarrow\; \text{Agronomic Simulation} \;\lon
 
 ---
 
-## 🔬 What-If Simulation in Action
+## What-If Simulation in Action
 
 Consider a land manager in East Java facing uncertain monsoon onset:
 
 | Evaluation Dimension | **Scenario A** (Plant Now - Nov 10) | **Scenario B** (Delay +14 Days - Nov 24) | **Scenario C** (Switch to Soybean) |
 |:---|:---:|:---:|:---:|
 | **Target Crop** | Wetland Rice (*Oryza sativa*) | Wetland Rice (*Oryza sativa*) | Soybean (*Glycine max*) |
-| **Weather Risk** | ⚠️ High (Early dry spell) | ✅ Low (Steady precipitation) | ✅ Low (Tolerant to moderate rain) |
-| **Water Balance (FAO-56)** | ❌ 38% Deficit during Tillering | ✅ Optimal Soil Moisture | ✅ 100% Water Demand Satisfied |
-| **Agro-Climate Suitability** | ⚠️ 64 / 100 | ✅ 88 / 100 | ✅ 84 / 100 |
-| **Overall DSS Score** | **52 / 100 (High Risk)** | **88 / 100 (Recommended 🏆)** | **82 / 100 (Viable Alternative)** |
+| **Weather Risk** | High (Early dry spell) | Low (Steady precipitation) | Low (Tolerant to moderate rain) |
+| **Water Balance (FAO-56)** | 38% Deficit during Tillering | Optimal Soil Moisture | 100% Water Demand Satisfied |
+| **Agro-Climate Suitability** | 64 / 100 | 88 / 100 | 84 / 100 |
+| **Overall DSS Score** | **52 / 100 (High Risk)** | **88 / 100 (Recommended Winner)** | **82 / 100 (Viable Alternative)** |
 | **System Recommendation** | *Avoid planting. High drought risk.* | *Optimal planting window.* | *Strong alternative for low water.* |
 
 ---
 
-## 🌿 3D Digital Twin: Purposeful Visualization
+## 3D Digital Twin: Purposeful Visualization
 
 The **Three.js WebGL 3D Digital Twin** is not decorative—it is an **interpretability bridge** designed for rapid decision-making:
 
@@ -162,24 +162,24 @@ $$\text{Complex Hydro-Meteorological Tables} \;\xrightarrow{\quad\text{Three.js 
 
 ---
 
-## 🎯 Competition Alignment & Impact: *Bloom Beyond*
+## Competition Alignment & Impact: Bloom Beyond
 
 SIAP TANI directly embodies the HOLOGY 9.0 theme: **"Bloom Beyond: Where Ideas Take Root and Reach Further"**:
 
 ```
-  🌱 ROOT (Real-World Problem)
+  [1] ROOT (Real-World Problem)
   Rooted in the existential crisis of Indonesian smallholders facing climate volatility and seasonal unpredictability.
                            │
                            ▼
-  🌿 GROW (Validated Science & Engineering)
+  [2] GROW (Validated Science & Engineering)
   Grows by translating FAO-56 evapotranspiration models, BSIP crop norms, and NWP forecasts into a responsive DSS engine.
                            │
                            ▼
-  🌾 BLOOM (Empowering Simulation)
+  [3] BLOOM (Empowering Simulation)
   Blooms by giving farmers a risk-free What-If sandbox to test scenarios virtually before risking real capital.
                            │
                            ▼
-  🌍 REACH BEYOND (Sustainable Food Security)
+  [4] REACH BEYOND (Sustainable Food Security)
   Reaches beyond the individual farm to bolster regional food supply stability, minimize crop failure rates, and optimize water stewardship.
 ```
 
@@ -187,7 +187,7 @@ SIAP TANI directly embodies the HOLOGY 9.0 theme: **"Bloom Beyond: Where Ideas T
 
 | Challenge in Indonesian Agriculture | SIAP TANI Response | Subtheme Relevance |
 |:---|:---|:---|
-| **Seasonal shift & unpredictable rains** | ±28-Day Planting Window Scanner & Sensitivity Engine | Smart Agriculture (Precision Timing) |
+| **Seasonal shift & unpredictable rains** | +/- 28-Day Planting Window Scanner & Sensitivity Engine | Smart Agriculture (Precision Timing) |
 | **Water scarcity & over-irrigation** | Daily FAO-56 Crop Water Balance ($ET_c = K_c \times ET_0$) | Resource Efficiency & Water Conservation |
 | **Monoculture price crashes & pest blooms** | Polyculture Portfolio Optimizer with HHI Diversification | Economic Resilience & Food Security |
 | **Complex meteorological charts** | Interactive 3D Digital Twin & Explainable Decision Breakdown | Inclusive Technology & Usability |
@@ -195,7 +195,7 @@ SIAP TANI directly embodies the HOLOGY 9.0 theme: **"Bloom Beyond: Where Ideas T
 
 ---
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 SIAP TANI is engineered for high computational accuracy, low-latency client rendering, and seamless cross-device accessibility:
 
@@ -214,7 +214,7 @@ SIAP TANI is engineered for high computational accuracy, low-latency client rend
 
 ---
 
-## 🏛️ System Architecture
+## System Architecture
 
 ```
                                   [ CLIENT LAYER ]
@@ -247,7 +247,7 @@ SIAP TANI is engineered for high computational accuracy, low-latency client rend
 
 ---
 
-## 📚 Methodology & Scientific Grounding
+## Methodology & Scientific Grounding
 
 Recommendations in SIAP TANI are derived from established agricultural standards:
 
@@ -261,7 +261,7 @@ Recommendations in SIAP TANI are derived from established agricultural standards
 
 ---
 
-## 🚀 Live Demo & Getting Started
+## Live Demo & Getting Started
 
 ### Live Access
 * **Production Deployment:** [https://ub-holodev.vercel.app/](https://ub-holodev.vercel.app/)
@@ -289,7 +289,7 @@ Application will be accessible at `http://localhost:3000`.
 
 ---
 
-## 📊 Project Status & Roadmap
+## Project Status & Roadmap
 
 - [x] **Core DSS Risk Assessment Engine (4 Pillars)** — *Completed*
 - [x] **Interactive 3D Digital Twin (Procedural Crops & Dynamic Weather)** — *Completed*
@@ -303,7 +303,7 @@ Application will be accessible at `http://localhost:3000`.
 
 ---
 
-## 👥 Development Team
+## Development Team
 
 Developed for **HOLOGY 9.0 Fakultas Ilmu Komputer Universitas Brawijaya** (Cabang Lomba **HoloDev - Software Development**):
 
@@ -313,7 +313,7 @@ Developed for **HOLOGY 9.0 Fakultas Ilmu Komputer Universitas Brawijaya** (Caban
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the [MIT License](LICENSE).
 
