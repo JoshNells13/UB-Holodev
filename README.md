@@ -1,4 +1,4 @@
-# TANIAMAN — Agricultural Decision Support System (DSS)
+# Siap Tani — Agricultural Decision Support System (DSS)
 
 > **Repository ini dikembangkan untuk perlombaan HOLOGY 9.0 Fakultas Ilmu Komputer Universitas Brawijaya pada cabang lomba HoloDev (Software Development).**
 >
@@ -11,15 +11,15 @@
 - **Kompetisi:** HOLOGY 9.0 (House of Technology 9.0)
 - **Penyelenggara:** Fakultas Ilmu Komputer, Universitas Brawijaya (FILKOM UB)
 - **Bidang / Cabang Lomba:** HoloDev (Software Development)
-- **Karya / Produk:** TANIAMAN — Climate-Agricultural Decision Support System (DSS)
+- **Karya / Produk:** Siap Tani — Climate-Agricultural Decision Support System (DSS)
 - **Tagline:** *"Simulasikan Sebelum Menanam — Keputusan Presisi untuk Ketahanan Pangan"*
 
 ---
 
 ## Daftar Isi
 1. [Latar Belakang & Urgensi Masalah](#1-latar-belakang--urgensi-masalah)
-2. [Tentang TANIAMAN](#2-tentang-taniaman)
-3. [Analisis Komparasi: Mengapa TANIAMAN Berbeda?](#3-analisis-komparasi-mengapa-taniaman-berbeda)
+2. [Tentang Siap Tani](#2-tentang-siap-tani)
+3. [Analisis Komparasi: Mengapa Siap Tani Berbeda?](#3-analisis-komparasi-mengapa-siap-tani-berbeda)
 4. [Fitur Unggulan & 3D Digital Twin](#4-fitur-unggulan--3d-digital-twin)
 5. [Tech Stack](#5-tech-stack)
 6. [Arsitektur Sistem & Alur Data](#6-arsitektur-sistem--alur-data)
@@ -68,7 +68,7 @@ Dampak ketidakpastian iklim terhadap pertanian Indonesia tercermin secara nyata 
 
 ### 1.3. Landasan Riset dan Jurnal Ilmiah Terkait
 
-Pengembangan sistem pendukung keputusan TANIAMAN didasari oleh berbagai literatur ilmiah dan metodologi internasional:
+Pengembangan sistem pendukung keputusan Siap Tani didasari oleh berbagai literatur ilmiah dan metodologi internasional:
 
 * **Surmaini, E., Runtunuwu, E., & Syahbuddin, H. (2020)** — *Jurnal Sumberdaya Lahan, Balitbangtan Kementan RI*:  
   *"Karakteristik Kejadian Iklim Ekstrem dan Dampaknya terhadap Kerentanan Sektor Pertanian Tanaman Pangan di Indonesia."*  
@@ -88,19 +88,19 @@ Meskipun informasi cuaca dan buku pedoman budidaya telah tersedia, petani Indone
 2. **Ketiadaan Media Simulasi (*What-If Sandbox*):** Petani tidak memiliki sarana untuk menguji *"Bagaimana jika saya tanam mundur 2 minggu?"* atau *"Bagaimana jika saya ganti dari Padi ke Jagung?"* tanpa mempertaruhkan modal nyata.
 3. **Data Sulit Dipahami Petani:** Penyajian data agroklimat BMKG seringkali berupa tabel angka dan peta isobar yang abstrak. Diperlukan representasi visual interaktif (**3D Digital Twin**) yang dapat langsung memperlihatkan kondisi kesehatan tanaman, tanah, dan cuaca lahan secara nyata.
 
-### 1.5. Solusi Inovatif TANIAMAN
-TANIAMAN hadir sebagai **Climate-Agricultural Decision Support System (DSS)** yang menggabungkan:
+### 1.5. Solusi Inovatif Siap Tani
+Siap Tani hadir sebagai **Climate-Agricultural Decision Support System (DSS)** yang menggabungkan:
 1. **Algoritma Analisis 4 Pilar Risiko:** Weather Risk (30%), Water Risk (25%), Crop Suitability (25%), dan Economic Risk (20%).
 2. **Mesin Simulasi Digital Twin 3D (Three.js WebGL):** Memvisualisasikan diorama lahan hidup miniatur yang merefleksikan tanaman dan cuaca secara interaktif.
 3. **What-If Sandbox & Komparasi Multi-Skenario:** Menguji sensitivitas tanggal tanam secara instan (*Live Re-Calculation*) sebelum komitmen modal dilakukan.
 
 ---
 
-## 2. Tentang TANIAMAN
+## 2. Tentang Siap Tani
 
-**TANIAMAN** adalah platform *Decision Support System* (DSS) agrikultur modern yang dirancang untuk mengatasi salah satu masalah paling mendasar di sektor pertanian Indonesia: **ketidakpastian iklim dan risiko kegagalan panen akibat salah memilih waktu serta komoditas tanam**.
+**Siap Tani** adalah platform *Decision Support System* (DSS) agrikultur modern yang dirancang untuk mengatasi salah satu masalah paling mendasar di sektor pertanian Indonesia: **ketidakpastian iklim dan risiko kegagalan panen akibat salah memilih waktu serta komoditas tanam**.
 
-TANIAMAN menjawab 5 pertanyaan paling krusial bagi petani dan pengelola lahan:
+Siap Tani menjawab 5 pertanyaan paling krusial bagi petani dan pengelola lahan:
 1. **Kapan waktu tanam paling optimal?** (Mendeteksi jendela tanam dengan risiko cuaca ekstrem dan kekeringan terendah dalam rentang +/- 28 hari).
 2. **Komoditas apa yang paling adaptif dan menguntungkan?** (Analisis kesesuaian agroklimat dan proyeksi finansial ROI untuk Padi, Jagung, Kedelai, Cabai, Bawang Merah, Tomat, Kentang, Kacang Tanah, dan Tebu).
 3. **Berapa kebutuhan air presisi tanaman?** (Kalkulasi neraca air harian $ET_c = K_c \times ET_0$ berdasarkan FAO-56 untuk irigasi hemat air).
@@ -109,16 +109,16 @@ TANIAMAN menjawab 5 pertanyaan paling krusial bagi petani dan pengelola lahan:
 
 ---
 
-## 3. Analisis Komparasi: Mengapa TANIAMAN Berbeda?
+## 3. Analisis Komparasi: Mengapa Siap Tani Berbeda?
 
-Untuk membuktikan kebaruan (*novelty*) dan nilai strategis produk, berikut adalah komparasi mendalam antara **TANIAMAN** dengan **2 solusi agrikultur yang sudah ada**:
+Untuk membuktikan kebaruan (*novelty*) dan nilai strategis produk, berikut adalah komparasi mendalam antara **Siap Tani** dengan **2 solusi agrikultur yang sudah ada**:
 
 1. **Aplikasi A: KATAM Terpadu (Kalender Tanam Kementerian Pertanian RI)** — *Platform Resmi Pemerintah berbasis Makro-Spasial*.
 2. **Aplikasi B: Aplikasi Manajemen Pertanian Konvensional (contoh: RiTx Bertani / Petani Digital / Farm Logbook Apps)** — *Aplikasi Catatan Lapangan & Marketplace Saprotan*.
 
 ### Matriks Perbandingan Fitur & Kapabilitas
 
-| Kriteria Evaluasi | KATAM Terpadu (Kementan) | Aplikasi Farm Logbook / RiTx | **TANIAMAN (DSS & 3D Digital Twin)** |
+| Kriteria Evaluasi | KATAM Terpadu (Kementan) | Aplikasi Farm Logbook / RiTx | **Siap Tani (DSS & 3D Digital Twin)** |
 |---|---|---|---|
 | **Fokus Utama Produk** | Peta rekomendasi statis tingkat kecamatan per musim (6 bulanan). | Pencatatan biaya pasca-tanam & pembelian saprotan/toko tani. | **Decision Support Pra-Tanam Presisi Spasial GPS Titik Lahan.** |
 | **Prinsip Keputusan** | Pasif (hanya menampilkan tabel rekomendasi umum per ZOM). | Reaktif (mencatat pengeluaran setelah kegiatan terjadi). | **Prediktif & Preskriptif (*"Simulasikan Sebelum Menanam"*).** |
@@ -130,16 +130,16 @@ Untuk membuktikan kebaruan (*novelty*) dan nilai strategis produk, berikut adala
 | **Kalkulasi Neraca Air Harian** | Indeks surplus/defisit makro bulanan. | ❌ Tidak Ada. | ✅ **Standar FAO-56 ($ET_c = K_c \times ET_0$) per fase vegetatif (HST).** |
 | **Jadwal Budidaya & Kalender Tani** | Petunjuk teknis umum (buku panduan). | Catatan to-do list manual. | **Otomatis generate jadwal -10 s/d Panen Raya + Ekspor Google Calendar (.ics).** |
 
-### Keunggulan Kompetitif Utama TANIAMAN:
+### Keunggulan Kompetitif Utama Siap Tani:
 
 1. **Paradigma *Pre-Planting Simulation* (Bukan Sekadar *Post-Planting Record*)**
-   Aplikasi yang ada di pasaran umumnya hanya berfokus pada pencatatan buku kas atau e-commerce pupuk. TANIAMAN bertindak sebagai *asisten agronomi cerdas* yang menguji skenario risiko **sebelum modal dan bibit dikeluarkan**, mencegah kerugian gagal panen sejak awal.
+   Aplikasi yang ada di pasaran umumnya hanya berfokus pada pencatatan buku kas atau e-commerce pupuk. Siap Tani bertindak sebagai *asisten agronomi cerdas* yang menguji skenario risiko **sebelum modal dan bibit dikeluarkan**, mencegah kerugian gagal panen sejak awal.
 
 2. **Diorama 3D Digital Twin Pertama untuk Edukasi Keputusan Petani**
-   Alih-alih menyajikan angka dan tabel mentah yang membingungkan petani, TANIAMAN menyajikan **miniatur 3D interaktif** yang menampilkan visualisasi kesehatan tanaman, kelembapan tanah, dan cuaca dinamis (cerah, hujan, kekeringan) yang mudah dipahami oleh siapa saja.
+   Alih-alih menyajikan angka dan tabel mentah yang membingungkan petani, Siap Tani menyajikan **miniatur 3D interaktif** yang menampilkan visualisasi kesehatan tanaman, kelembapan tanah, dan cuaca dinamis (cerah, hujan, kekeringan) yang mudah dipahami oleh siapa saja.
 
 3. **Multi-Crop Polyculture Portfolio Engine**
-   TANIAMAN mengadopsi teori portofolio finansial modern (HHI) ke dalam lahan agrikultur untuk memitigasi bahaya serangan hama massal dan anjloknya harga komoditas monokultur.
+   Siap Tani mengadopsi teori portofolio finansial modern (HHI) ke dalam lahan agrikultur untuk memitigasi bahaya serangan hama massal dan anjloknya harga komoditas monokultur.
 
 ---
 
@@ -181,7 +181,7 @@ Untuk membuktikan kebaruan (*novelty*) dan nilai strategis produk, berikut adala
 
 ## 5. Tech Stack
 
-Semua teknologi yang digunakan dalam platform TANIAMAN dipilih untuk menjamin performa tinggi, visualisasi 3D yang mulus tanpa lag, keamanan data, dan akurasi komputasi agroklimat:
+Semua teknologi yang digunakan dalam platform Siap Tani dipilih untuk menjamin performa tinggi, visualisasi 3D yang mulus tanpa lag, keamanan data, dan akurasi komputasi agroklimat:
 
 ### Frontend & Visualisasi 3D
 - **Fullstack Web Framework:** [Nuxt 4](https://nuxt.com/) (Vue 3, Composition API, `<script setup>`, File-based Routing)
@@ -317,7 +317,7 @@ ub_hology2/
 
 ## 8. Sumber Data Resmi, Metodologi Ilmiah & Cara Verifikasi
 
-TANIAMAN mengacu secara ketat pada metodologi ilmiah, publikasi akademik, dan basis data institusi pemerintah resmi. Anda dan dewan juri dapat memverifikasi kesesuaian data melalui tautan resmi berikut:
+Siap Tani mengacu secara ketat pada metodologi ilmiah, publikasi akademik, dan basis data institusi pemerintah resmi. Anda dan dewan juri dapat memverifikasi kesesuaian data melalui tautan resmi berikut:
 
 ### 8.1. Matriks Rujukan Resmi & Tautan Verifikasi
 
@@ -332,8 +332,8 @@ TANIAMAN mengacu secara ketat pada metodologi ilmiah, publikasi akademik, dan ba
 | **Open-Meteo & ECMWF/GFS Reanalysis** | [open-meteo.com](https://open-meteo.com/) | Prakiraan numerik 16 hari (suhu min/max, hujan mm, kecepatan angin, $ET_0$) | [weather.service.ts](file:///d:/my-project-programming/ub_hology2/server/services/weather.service.ts) |
 
 ### 8.2. Panduan Cara Memverifikasi Data Langsung:
-1. **Verifikasi Kalender Tanam & Rekomendasi Musim:** Buka portal [KATAM Kementan](https://katam.litbang.pertanian.go.id/) $\rightarrow$ Masukkan provinsi & kabupaten yang ingin disimulasikan $\rightarrow$ Cocokkan rekomendasi jendela waktu tanamnya dengan output pada menu **Simulasi** & **Kalender Tani** TANIAMAN.
-2. **Verifikasi Dosis Pupuk & Fase HST:** Buka buku saku *Rekomendasi Pemupukan Spesifik Lokasi Balittanah Kementan* $\rightarrow$ Cocokkan dosis per Hektar pada Tab 2 (*Rencana Agronomi*) di TANIAMAN.
+1. **Verifikasi Kalender Tanam & Rekomendasi Musim:** Buka portal [KATAM Kementan](https://katam.litbang.pertanian.go.id/) $\rightarrow$ Masukkan provinsi & kabupaten yang ingin disimulasikan $\rightarrow$ Cocokkan rekomendasi jendela waktu tanamnya dengan output pada menu **Simulasi** & **Kalender Tani** Siap Tani.
+2. **Verifikasi Dosis Pupuk & Fase HST:** Buka buku saku *Rekomendasi Pemupukan Spesifik Lokasi Balittanah Kementan* $\rightarrow$ Cocokkan dosis per Hektar pada Tab 2 (*Rencana Agronomi*) di Siap Tani.
 3. **Verifikasi Prakiraan Cuaca Realtime:** Bandingkan grafik 16 hari pada Tab 3 (*Cuaca & Jendela Tanam*) dengan data satelit live di portal [Open-Meteo](https://open-meteo.com/) atau BMKG.
 
 ---
@@ -457,4 +457,4 @@ CREATE TABLE scenarios (
 
 ## 12. Hak Cipta & Pengesahan
 
-Dikembangkan untuk perlombaan **HOLOGY 9.0 Fakultas Ilmu Komputer Universitas Brawijaya** dalam cabang lomba **HoloDev (Software Development)** — Platform Sistem Pendukung Keputusan Pertanian Presisi **TANIAMAN** untuk mendukung ketahanan dan kedaulatan pangan berkelanjutan di Indonesia.
+Dikembangkan untuk perlombaan **HOLOGY 9.0 Fakultas Ilmu Komputer Universitas Brawijaya** dalam cabang lomba **HoloDev (Software Development)** — Platform Sistem Pendukung Keputusan Pertanian Presisi **Siap Tani** untuk mendukung ketahanan dan kedaulatan pangan berkelanjutan di Indonesia.

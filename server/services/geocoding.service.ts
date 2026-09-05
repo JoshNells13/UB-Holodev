@@ -27,7 +27,7 @@ export class GeocodingService {
     try {
       const nominatimUrl = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(cleanQuery + ', Indonesia')}&countrycodes=id&format=json&addressdetails=1&limit=8`
       const res: any = await $fetch(nominatimUrl, {
-        headers: { 'User-Agent': 'Taniaman-DSS/1.0 (agri-climate-dss)' },
+        headers: { 'User-Agent': 'SiapTani-DSS/1.0 (agri-climate-dss)' },
         timeout: 4000
       })
 
@@ -112,7 +112,7 @@ export class GeocodingService {
     try {
       const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&addressdetails=1`
       const res: any = await $fetch(url, {
-        headers: { 'User-Agent': 'Taniaman-DSS/1.0 (agri-climate-dss)' },
+        headers: { 'User-Agent': 'SiapTani-DSS/1.0 (agri-climate-dss)' },
         timeout: 4000
       })
 

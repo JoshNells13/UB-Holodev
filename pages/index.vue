@@ -20,7 +20,7 @@
             </h1>
 
             <p class="max-w-xl text-sm sm:text-base leading-relaxed text-zinc-600">
-              Jangan hanya melihat prakiraan cuaca. TANIAMAN mengintegrasikan data agroklimat, kalkulasi kebutuhan air, dan analisis risiko ekonomi menjadi simulasi keputusan pertanian yang dapat diuji secara virtual.
+              Jangan hanya melihat prakiraan cuaca. Siap Tani mengintegrasikan data agroklimat, kalkulasi kebutuhan air, dan analisis risiko ekonomi menjadi simulasi keputusan pertanian yang dapat diuji secara virtual.
             </p>
 
             <!-- CTA Buttons -->
@@ -121,7 +121,7 @@
           Arsitektur Keputusan Pertanian
         </h2>
         <p class="mt-2 text-xs sm:text-sm text-zinc-600">
-          TANIAMAN tidak hanya menyajikan data mentah cuaca, melainkan mengonversinya menjadi wawasan agronomi terukur.
+          Siap Tani tidak hanya menyajikan data mentah cuaca, melainkan mengonversinya menjadi wawasan agronomi terukur.
         </p>
       </div>
 
@@ -173,13 +173,13 @@
       </div>
     </section>
 
-    <!-- Comparison Table / Why TANIAMAN (PRD Section 29) -->
+    <!-- Comparison Table / Why Siap Tani (PRD Section 29) -->
     <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="rounded-3xl border-2 border-zinc-950 bg-zinc-50 p-8 sm:p-10 shadow-clean-md">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-200 pb-6">
           <div>
             <h3 class="text-lg sm:text-xl font-extrabold text-zinc-950 uppercase tracking-tight">
-              Diferensiasi: Aplikasi Cuaca Biasa vs TANIAMAN DSS
+              Diferensiasi: Aplikasi Cuaca Biasa vs Siap Tani DSS
             </h3>
             <p class="text-xs text-zinc-600 mt-1">Mengapa pendekatan simulasi keputusan lebih unggul dibanding ramalan cuaca sederhana</p>
           </div>
@@ -194,7 +194,7 @@
               <tr class="border-b border-zinc-300 font-mono text-zinc-500 uppercase text-[11px]">
                 <th class="py-3 pr-4">Fitur / Dimensi</th>
                 <th class="py-3 px-4 text-zinc-500">Sistem Cuaca Biasa</th>
-                <th class="py-3 pl-4 font-bold text-zinc-950">TANIAMAN DSS</th>
+                <th class="py-3 pl-4 font-bold text-zinc-950">Siap Tani DSS</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-zinc-200 font-mono">

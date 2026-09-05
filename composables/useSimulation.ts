@@ -321,7 +321,7 @@ export const useSimulation = () => {
 
     // Delete from Supabase if we have a valid UUID
     if (simulationDbId) {
-      console.log('[TANIAMAN] Deleting simulation from Supabase, simulation_id:', simulationDbId)
+      console.log('[Siap Tani] Deleting simulation from Supabase, simulation_id:', simulationDbId)
       try {
         const res: any = await $fetch('/api/simulations/delete', {
           method: 'POST',
@@ -331,18 +331,18 @@ export const useSimulation = () => {
           }
         })
         if (res?.success) {
-          console.log('[TANIAMAN] Simulation deleted from Supabase successfully')
+          console.log('[Siap Tani] Simulation deleted from Supabase successfully')
         } else {
-          console.warn('[TANIAMAN] Supabase delete returned error:', res?.error)
+          console.warn('[Siap Tani] Supabase delete returned error:', res?.error)
         }
         return { success: true }
       } catch (err: any) {
-        console.warn('[TANIAMAN] Delete from Supabase failed:', err?.message || err)
+        console.warn('[Siap Tani] Delete from Supabase failed:', err?.message || err)
         return { success: false, error: err?.message }
       }
     } else {
       // Only in localStorage — already removed above
-      console.log('[TANIAMAN] Simulation was local-only (no Supabase ID), removed from localStorage')
+      console.log('[Siap Tani] Simulation was local-only (no Supabase ID), removed from localStorage')
       return { success: true }
     }
   }

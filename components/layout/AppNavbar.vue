@@ -8,7 +8,7 @@
             <Sprout :size="20" :stroke-width="2.2" />
           </div>
           <div class="flex flex-col">
-            <span class="text-lg font-extrabold uppercase leading-none tracking-wider">TANIAMAN</span>
+            <span class="text-lg font-extrabold uppercase leading-none tracking-wider">SIAP TANI</span>
             <span class="text-[10px] font-medium tracking-widest text-zinc-500 uppercase">Decision Support System</span>
           </div>
         </NuxtLink>

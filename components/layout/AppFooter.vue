@@ -8,7 +8,7 @@
             <div class="flex h-7 w-7 items-center justify-center rounded-md bg-zinc-950 text-white">
               <Sprout :size="16" />
             </div>
-            <span class="tracking-wider uppercase font-extrabold text-sm">TANIAMAN DSS</span>
+            <span class="tracking-wider uppercase font-extrabold text-sm">SIAP TANI DSS</span>
           </div>
           <p class="max-w-md text-xs leading-relaxed text-zinc-600">
             Platform Decision Support System (DSS) berbasis iklim, kebutuhan air, dan analisis risiko ekonomi. Membantu petani, agronomis, dan peneliti membuat keputusan tanam berbasis simulasi.
@@ -58,7 +58,7 @@
       </div>
 
       <div class="mt-8 border-t border-zinc-200 pt-6 text-center text-xs text-zinc-500 flex flex-col sm:flex-row items-center justify-between gap-2">
-        <p>© 2026 TANIAMAN. Climate-Agricultural Decision Support System.</p>
+        <p>© 2026 Siap Tani. Climate-Agricultural Decision Support System.</p>
         <p class="font-mono text-[11px] text-zinc-400">Design Mode: High-Contrast Monochrome (Wireframe Ready)</p>
       </div>
     </div>

@@ -717,12 +717,12 @@ const formatFullDate = (dateStr: string) => {
 const exportICalendar = () => {
   if (eventsList.value.length === 0) return
 
-  let icsContent = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//TANIAMAN//DSS Agronomy Calendar//ID\nCALSCALE:GREGORIAN\nMETHOD:PUBLISH\n"
+  let icsContent = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Siap Tani//DSS Agronomy Calendar//ID\nCALSCALE:GREGORIAN\nMETHOD:PUBLISH\n"
 
   eventsList.value.forEach(ev => {
     const dFormatted = ev.date.replace(/-/g, '')
     icsContent += `BEGIN:VEVENT\n`
-    icsContent += `UID:${ev.id}@taniaman.id\n`
+    icsContent += `UID:${ev.id}@siaptani.id\n`
     icsContent += `DTSTAMP:${dFormatted}T000000Z\n`
     icsContent += `DTSTART;VALUE=DATE:${dFormatted}\n`
     icsContent += `SUMMARY:${ev.title}\n`
@@ -738,7 +738,7 @@ const exportICalendar = () => {
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
   a.href = url
-  a.download = `Kalender_Agronomi_${activeScenario.value?.crop.slug || 'taniaman'}.ics`
+  a.download = `Kalender_Agronomi_${activeScenario.value?.crop.slug || 'siaptani'}.ics`
   document.body.appendChild(a)
   a.click()
   document.body.removeChild(a)

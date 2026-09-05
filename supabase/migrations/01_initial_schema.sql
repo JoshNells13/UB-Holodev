@@ -1,5 +1,5 @@
 -- ========================================================================
--- TANIAMAN: Climate-Agricultural Decision Support System (DSS)
+-- SIAP TANI: Climate-Agricultural Decision Support System (DSS)
 -- Database Schema Migration (Supabase PostgreSQL)
 -- ========================================================================
 

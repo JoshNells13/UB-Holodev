@@ -1,5 +1,5 @@
 -- ========================================================================
--- TANIAMAN: Seed Data for Crops & Market Baselines
+-- SIAP TANI: Seed Data for Crops & Market Baselines
 -- ========================================================================
 
 INSERT INTO public.crops (slug, name, category, description, growth_days_min, growth_days_max, water_requirement, water_requirement_mm, optimal_temp_min, optimal_temp_max, rainfall_min, rainfall_max, market_price_baseline)

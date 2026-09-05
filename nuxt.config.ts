@@ -24,13 +24,13 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      title: 'TANIAMAN — Climate-Agricultural Decision Support System',
+      title: 'Siap Tani — Climate-Agricultural Decision Support System',
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         {
           name: 'description',
-          content: 'Simulasikan Sebelum Menanam. Platform Decision Support System (DSS) pertanian adaptif iklim terpadu.'
+          content: 'Siap Tani: Simulasikan Sebelum Menanam. Platform Decision Support System (DSS) pertanian adaptif iklim terpadu.'
         }
       ],
       link: [

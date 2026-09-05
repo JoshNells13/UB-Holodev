@@ -5,7 +5,7 @@
         <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-zinc-950 text-white">
           <Sprout :size="24" />
         </div>
-        <h1 class="mt-4 text-xl font-extrabold text-zinc-950 uppercase tracking-tight">Masuk ke TANIAMAN</h1>
+        <h1 class="mt-4 text-xl font-extrabold text-zinc-950 uppercase tracking-tight">Masuk ke Siap Tani</h1>
         <p class="mt-1 text-xs text-zinc-500">Akses Decision Support System & Eksekusi Simulasi Keputusan Pertanian</p>
       </div>
 

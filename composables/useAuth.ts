@@ -157,7 +157,7 @@ export const useAuth = () => {
   }
 
   // Quick Demo Login (for instant presentation / judges evaluation without waiting for email confirmations)
-  const signInDemo = (name = 'Budi Santoso', email = 'petani.demo@taniaman.id') => {
+  const signInDemo = (name = 'Budi Santoso', email = 'petani.demo@siaptani.id') => {
     const demoUser: UserProfile = {
       id: 'demo-farmer-' + Math.random().toString(36).substring(2, 9),
       email,

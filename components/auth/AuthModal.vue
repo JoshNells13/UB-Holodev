@@ -10,7 +10,7 @@
             <Lock :size="16" />
           </div>
           <div>
-            <h3 class="text-base font-bold text-zinc-950">Akses Sistem TANIAMAN</h3>
+            <h3 class="text-base font-bold text-zinc-950">Akses Sistem Siap Tani</h3>
             <p class="text-xs text-zinc-500">Wajib masuk atau daftar sebelum melakukan simulasi</p>
           </div>
         </div>
@@ -72,7 +72,7 @@
         <button type="submit" :disabled="loading"
           class="flex w-full items-center justify-center gap-2 rounded-lg bg-zinc-950 py-2.5 text-xs font-semibold text-white transition hover:bg-zinc-800 disabled:opacity-50">
           <Loader2 v-if="loading" :size="15" class="animate-spin" />
-          <span v-else>{{ mode === 'login' ? 'Masuk ke Sistem' : 'Buat Akun TANIAMAN' }}</span>
+          <span v-else>{{ mode === 'login' ? 'Masuk ke Sistem' : 'Buat Akun Siap Tani' }}</span>
         </button>
       </form>
 
