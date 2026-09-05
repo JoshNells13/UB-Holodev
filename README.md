@@ -310,7 +310,7 @@ Aplikasi dapat diakses melalui peramban web pada alamat `http://localhost:3000`.
 Karya ini dikembangkan untuk kompetisi **HOLOGY 9.0 Fakultas Ilmu Komputer Universitas Brawijaya** pada cabang lomba **HoloDev (Software Development)**:
 
 * **Nama Tim:** Mamah Aku bisa ngak ya
-* **Perguruan Tinggi:** Universitas Brawijaya
+* **Perguruan Tinggi:** Institut Teknologi Sepuluh Nopember Surabaya
 * **Tautan Repository:** [https://github.com/JoshNells13/UB-Holodev](https://github.com/JoshNells13/UB-Holodev)
 
 ### Anggota Tim:
