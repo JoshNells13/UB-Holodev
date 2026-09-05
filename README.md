@@ -309,9 +309,14 @@ Aplikasi dapat diakses melalui peramban web pada alamat `http://localhost:3000`.
 
 Karya ini dikembangkan untuk kompetisi **HOLOGY 9.0 Fakultas Ilmu Komputer Universitas Brawijaya** pada cabang lomba **HoloDev (Software Development)**:
 
-* **Nama Tim:** UB-Holodev Team
+* **Nama Tim:** Mamah Aku bisa ngak ya
 * **Perguruan Tinggi:** Universitas Brawijaya
 * **Tautan Repository:** [https://github.com/JoshNells13/UB-Holodev](https://github.com/JoshNells13/UB-Holodev)
+
+### Anggota Tim:
+1. **Joshua Christian Lionel** — Ketua Tim & Fullstack Developer
+2. **Muhammad Firjatullah** — UI/UX Designer
+3. **Kalisna Joharastama** — Proposal Writer
 
 ---
 
