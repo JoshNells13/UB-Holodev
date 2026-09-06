@@ -11,7 +11,7 @@
 
 **Platform Decision Support System (DSS) prediktif yang memberdayakan petani dan pengelola lahan untuk menguji, mensimulasikan, dan membandingkan skenario tanam terhadap risiko iklim, ketersediaan air, dan volatilitas ekonomi sebelum modal dialokasikan di lahan nyata.**
 
-[Coba Demo Langsung](https://ub-holodev.vercel.app/) • [Lihat Metodologi](#metodologi--landasan-ilmiah) • [Arsitektur Sistem](#arsitektur-sistem)
+[Coba Demo Langsung](https://siaptani.vercel.app/) • [Lihat Metodologi](#metodologi--landasan-ilmiah) • [Arsitektur Sistem](#arsitektur-sistem)
 
 </div>
 
@@ -266,7 +266,7 @@ Rekomendasi pada SIAP TANI tidak dihasilkan secara acak, melainkan berakar pada 
 ## 12. Panduan Penggunaan & Akses Demo
 
 ### Akses Demo Publik
-* **Tautan Deployment Produksi:** [https://ub-holodev.vercel.app/](https://ub-holodev.vercel.app/)
+* **Tautan Deployment Produksi:** [https://siaptani.vercel.app/](https://siaptani.vercel.app/)
 * **Akses Evaluasi Cepat Juri (1-Click Demo):** Tersedia tombol evaluasi instan pada modal login/daftar untuk kemudahan pengujian tanpa perlu verifikasi email.
 
 ### Menjalankan Secara Lokal
