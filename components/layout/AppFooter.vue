@@ -5,9 +5,7 @@
         <!-- Col 1 -->
         <div class="space-y-3 md:col-span-2">
           <div class="flex items-center gap-2 font-bold text-zinc-950">
-            <div class="flex h-7 w-7 items-center justify-center rounded-md bg-zinc-950 text-white">
-              <Sprout :size="16" />
-            </div>
+            <img src="/icon_logo.png" alt="Siap Tani Logo" class="h-8 w-8 object-contain shrink-0" />
             <span class="tracking-wider uppercase font-extrabold text-sm">SIAP TANI DSS</span>
           </div>
           <p class="max-w-md text-xs leading-relaxed text-zinc-600">

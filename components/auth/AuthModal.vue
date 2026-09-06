@@ -5,10 +5,8 @@
     <div class="w-full max-w-md rounded-xl border border-zinc-300 bg-white p-6 shadow-2xl transition-all">
       <!-- Modal Header -->
       <div class="flex items-center justify-between pb-4 border-b border-zinc-200">
-        <div class="flex items-center gap-2">
-          <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-950 text-white">
-            <Lock :size="16" />
-          </div>
+        <div class="flex items-center gap-2.5">
+          <img src="/icon_logo.png" alt="Siap Tani Logo" class="h-8 w-8 object-contain shrink-0" />
           <div>
             <h3 class="text-base font-bold text-zinc-950">Akses Sistem Siap Tani</h3>
             <p class="text-xs text-zinc-500">Wajib masuk atau daftar sebelum melakukan simulasi</p>

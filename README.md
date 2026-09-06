@@ -1,6 +1,8 @@
-# SIAP TANI — Climate-Agricultural Decision Support System
-
 <div align="center">
+
+<img src="./public/icon_logo.png" alt="SIAP TANI Logo Resmi" width="180" />
+
+# SIAP TANI — Climate-Agricultural Decision Support System
 
 [![HOLOGY 9.0](https://img.shields.io/badge/Kompetisi-HOLOGY%209.0%20FILKOM%20UB-emerald?style=for-the-badge)](https://hology.ub.ac.id/)
 [![Kategori](https://img.shields.io/badge/Cabang-HoloDev%20(Software%20Development)-blue?style=for-the-badge)](#)
@@ -11,7 +13,7 @@
 
 **Platform Decision Support System (DSS) prediktif yang memberdayakan petani dan pengelola lahan untuk menguji, mensimulasikan, dan membandingkan skenario tanam terhadap risiko iklim, ketersediaan air, dan volatilitas ekonomi sebelum modal dialokasikan di lahan nyata.**
 
-[Coba Demo Langsung](https://siaptani.vercel.app/) • [Lihat Metodologi](#metodologi--landasan-ilmiah) • [Arsitektur Sistem](#arsitektur-sistem)
+[Coba Demo Langsung](https://siaptani.vercel.app/) • [Lihat Metodologi](#12-metodologi--landasan-ilmiah) • [Arsitektur Sistem](#10-arsitektur-sistem) • [Skema Database & ERD](#11-skema-basis-data--entity-relationship-diagram-erd)
 
 </div>
 
@@ -249,7 +251,219 @@ SIAP TANI dibangun dengan arsitektur modern berkinerja tinggi:
 
 ---
 
-## 11. Metodologi & Landasan Ilmiah
+## 11. Skema Basis Data & Entity Relationship Diagram (ERD)
+
+Sistem **SIAP TANI** menggunakan arsitektur relasional pada **Supabase PostgreSQL** yang terintegrasi dengan Supabase Authentication, Row Level Security (RLS) terisolasi, dan pemicu otomatis (*database trigger*).
+
+### Entity Relationship Diagram (ERD)
+
+```mermaid
+erDiagram
+    AUTH_USERS ||--o| PROFILES : "1:1 (extends user metadata)"
+    AUTH_USERS ||--o{ SIMULATIONS : "1:N (owns simulations)"
+    SIMULATIONS ||--o{ SCENARIOS : "1:N (contains evaluated scenarios)"
+    CROPS ||--o{ SCENARIOS : "1:N (referenced crop baseline)"
+    CROPS ||--o{ MARKET_PRICES : "1:N (slug relational reference)"
+    
+    AUTH_USERS {
+        UUID id PK "Internal Supabase Auth ID"
+        VARCHAR email "Email user"
+        TIMESTAMPTZ created_at
+    }
+
+    PROFILES {
+        UUID id PK "FK -> auth.users.id (ON DELETE CASCADE)"
+        TEXT full_name "Nama lengkap pengguna"
+        TEXT email "Email pengguna"
+        TEXT avatar_url "URL avatar"
+        TEXT role "Peran: farmer / agronomist / admin"
+        TIMESTAMPTZ created_at "Waktu pendaftaran"
+        TIMESTAMPTZ updated_at "Waktu perbaruan profil"
+    }
+
+    CROPS {
+        UUID id PK "gen_random_uuid()"
+        TEXT slug UK "Unique slug: padi, jagung, kedelai, dll"
+        TEXT name "Nama komoditas & nama latin"
+        TEXT category "Kategori komoditas: Pangan, Palawija, dll"
+        TEXT description "Deskripsi agronomi & sifat tanaman"
+        INTEGER growth_days_min "Umur panen minimal (HST)"
+        INTEGER growth_days_max "Umur panen maksimal (HST)"
+        TEXT water_requirement "Kebutuhan air: Low / Medium / High"
+        NUMERIC water_requirement_mm "Total kebutuhan air musiman (mm)"
+        NUMERIC optimal_temp_min "Suhu batas bawah optimal (°C)"
+        NUMERIC optimal_temp_max "Suhu batas atas optimal (°C)"
+        NUMERIC rainfall_min "Ambang curah hujan minimal (mm/bln)"
+        NUMERIC rainfall_max "Ambang curah hujan maksimal (mm/bln)"
+        NUMERIC market_price_baseline "Harga acuan dasar pasar (Rp/kg)"
+        TIMESTAMPTZ created_at "Waktu entri master"
+        TIMESTAMPTZ updated_at "Waktu pembaruan master"
+    }
+
+    SIMULATIONS {
+        UUID id PK "gen_random_uuid()"
+        UUID user_id FK "FK -> auth.users.id (ON DELETE CASCADE)"
+        TEXT title "Judul sesi pengujian simulasi"
+        TEXT location_name "Nama lokasi geografis / desa"
+        NUMERIC latitude "Koordinat lintang (9,6)"
+        NUMERIC longitude "Koordinat bujur (9,6)"
+        NUMERIC land_area "Luas lahan m2 (Default 1000)"
+        TEXT status "Status simulasi: completed"
+        TIMESTAMPTZ created_at "Waktu pembuatan simulasi"
+        TIMESTAMPTZ updated_at "Waktu update terakhir"
+    }
+
+    SCENARIOS {
+        UUID id PK "gen_random_uuid()"
+        UUID simulation_id FK "FK -> simulations.id (ON DELETE CASCADE)"
+        UUID crop_id FK "FK -> crops.id (ON DELETE SET NULL)"
+        TEXT crop_name "Nama komoditas skenario"
+        TEXT crop_slug "Slug komoditas"
+        DATE planting_date "Tanggal rencana tanam"
+        NUMERIC weather_score "Skor risiko cuaca 30% (0-100)"
+        NUMERIC water_score "Skor neraca air FAO 25% (0-100)"
+        NUMERIC crop_score "Skor kesesuaian agroklimat 25% (0-100)"
+        NUMERIC economic_score "Skor kestabilan pasar 20% (0-100)"
+        NUMERIC total_score "Skor agregat DSS 0-100"
+        TEXT weather_risk "Tingkat risiko cuaca: LOW / MED / HIGH"
+        TEXT water_risk "Tingkat risiko air: LOW / MED / HIGH"
+        TEXT economic_risk "Tingkat risiko pasar: LOW / MED / HIGH"
+        TEXT recommendation "Tingkat rekomendasi preskriptif"
+        JSONB reasons "Daftar butir pertimbangan rekomendasi"
+        JSONB metrics "Rincian hidrologi & ekonomi detail"
+        BOOLEAN is_best_scenario "Flag skenario terbaik (Best Decision)"
+        TIMESTAMPTZ created_at "Waktu kalkulasi dihasilkan"
+    }
+
+    WEATHER_CACHE {
+        UUID id PK "gen_random_uuid()"
+        NUMERIC latitude "Koordinat lintang (9,6)"
+        NUMERIC longitude "Koordinat bujur (9,6)"
+        DATE date "Tanggal data cuaca"
+        NUMERIC temperature "Suhu rata-rata (°C)"
+        NUMERIC precipitation "Presipitasi harian (mm)"
+        NUMERIC humidity "Kelembapan relatif (%)"
+        NUMERIC wind_speed "Kecepatan angin (km/h)"
+        JSONB raw_data "Payload respons mentah provider"
+        TIMESTAMPTZ created_at "Waktu entri cache"
+    }
+
+    MARKET_PRICES {
+        UUID id PK "gen_random_uuid()"
+        TEXT crop_slug "Slug komoditas terkait"
+        DATE date "Tanggal pencatatan harga pasar"
+        NUMERIC price "Harga komoditas per kg (Rp)"
+        TEXT market "Nama pasar acuan (Bapanas)"
+        NUMERIC price_change_pct "Perubahan tren harga (%)"
+        TIMESTAMPTZ created_at "Waktu pencatatan"
+    }
+```
+
+### Kamus Data Seluruh Tabel (Data Dictionary)
+
+#### 1. Tabel `profiles`
+Menyimpan profil pengguna yang tersinkronisasi langsung dengan `auth.users` Supabase melalui trigger otomatis `handle_new_user()`.
+| Kolom | Tipe Data | Constraint | Deskripsi |
+|:---|:---|:---|:---|
+| `id` | UUID | PRIMARY KEY, REFERENCES `auth.users(id)` ON DELETE CASCADE | ID unik pengguna terikat dengan Supabase Auth |
+| `full_name` | TEXT | Nullable | Nama lengkap pengguna / petani |
+| `email` | TEXT | Nullable | Alamat surel aktif |
+| `avatar_url` | TEXT | Nullable | URL foto profil pengguna |
+| `role` | TEXT | DEFAULT `'farmer'` | Peran pengguna (`farmer`, `agronomist`, `admin`) |
+| `created_at` | TIMESTAMPTZ | NOT NULL, DEFAULT `NOW()` | Waktu pendaftaran akun |
+| `updated_at` | TIMESTAMPTZ | NOT NULL, DEFAULT `NOW()` | Waktu pembaruan profil pengguna |
+
+#### 2. Tabel `crops`
+Master data acuan karakteristik agroklimat dan fisiologis tanaman mengacu standar BSIP Kementan dan FAO-56.
+| Kolom | Tipe Data | Constraint | Deskripsi |
+|:---|:---|:---|:---|
+| `id` | UUID | PRIMARY KEY, DEFAULT `gen_random_uuid()` | ID unik master komoditas |
+| `slug` | TEXT | UNIQUE, NOT NULL | Pengidentifikasi unik tanaman (misal: `padi`, `jagung`, `kedelai`) |
+| `name` | TEXT | NOT NULL | Nama komoditas lengkap beserta nama latin |
+| `category` | TEXT | DEFAULT `'Pangan'` | Kategori komoditas (Pangan Utama, Palawija, Hortikultura, dsb) |
+| `description` | TEXT | Nullable | Penjelasan agronomi & sifat kerentanan tanaman |
+| `growth_days_min` | INTEGER | NOT NULL | Estimasi umur panen minimal (Hari Setelah Tanam) |
+| `growth_days_max` | INTEGER | NOT NULL | Estimasi umur panen maksimal (Hari Setelah Tanam) |
+| `water_requirement` | TEXT | NOT NULL | Kategori kebutuhan air (`'Low'`, `'Medium'`, `'High'`) |
+| `water_requirement_mm` | NUMERIC | NOT NULL | Total kebutuhan air musiman standar (mm per musim) |
+| `optimal_temp_min` | NUMERIC | NOT NULL | Suhu batas bawah kardinal tumbuh ideal (°C) |
+| `optimal_temp_max` | NUMERIC | NOT NULL | Suhu batas atas kardinal tumbuh ideal (°C) |
+| `rainfall_min` | NUMERIC | NOT NULL | Ambang curah hujan bulanan minimal (mm/bulan) |
+| `rainfall_max` | NUMERIC | NOT NULL | Ambang curah hujan bulanan maksimal (mm/bulan) |
+| `market_price_baseline` | NUMERIC | NOT NULL | Harga acuan dasar pasar nasional (Rp / kg) |
+| `created_at` | TIMESTAMPTZ | NOT NULL, DEFAULT `NOW()` | Waktu entri master tanaman |
+| `updated_at` | TIMESTAMPTZ | NOT NULL, DEFAULT `NOW()` | Waktu pembaruan master tanaman |
+
+#### 3. Tabel `simulations`
+Menyimpan sesi pengujian simulasi lokasi lahan dan parameter spasial yang diuji oleh pengguna.
+| Kolom | Tipe Data | Constraint | Deskripsi |
+|:---|:---|:---|:---|
+| `id` | UUID | PRIMARY KEY, DEFAULT `gen_random_uuid()` | ID unik sesi simulasi |
+| `user_id` | UUID | REFERENCES `auth.users(id)` ON DELETE CASCADE | ID pemilik simulasi (mendukung sesi guest/demo) |
+| `title` | TEXT | NOT NULL, DEFAULT `'Simulasi Pertanian'` | Label/judul sesi pengujian skenario |
+| `location_name` | TEXT | NOT NULL | Nama desa/kecamatan/wilayah hasil reverse-geocoding |
+| `latitude` | NUMERIC(9,6) | NOT NULL | Titik koordinat Lintang GPS lahan |
+| `longitude` | NUMERIC(9,6) | NOT NULL | Titik koordinat Bujur GPS lahan |
+| `land_area` | NUMERIC(12,2)| NOT NULL, DEFAULT `1000` | Luas hamparan lahan dalam satuan meter persegi ($m^2$) |
+| `status` | TEXT | DEFAULT `'completed'` | Status eksekusi kalkulasi simulasi |
+| `created_at` | TIMESTAMPTZ | NOT NULL, DEFAULT `NOW()` | Waktu pembuatan simulasi |
+| `updated_at` | TIMESTAMPTZ | NOT NULL, DEFAULT `NOW()` | Waktu pembaruan simulasi |
+
+#### 4. Tabel `scenarios`
+Menyimpan rincian hasil evaluasi mesin DSS untuk setiap kombinasi komoditas dan tanggal tanam dalam satu sesi simulasi.
+| Kolom | Tipe Data | Constraint | Deskripsi |
+|:---|:---|:---|:---|
+| `id` | UUID | PRIMARY KEY, DEFAULT `gen_random_uuid()` | ID unik hasil skenario |
+| `simulation_id` | UUID | NOT NULL, REFERENCES `simulations(id)` ON DELETE CASCADE | Relasi ke sesi simulasi induk |
+| `crop_id` | UUID | REFERENCES `crops(id)` ON DELETE SET NULL | Relasi ke master data tanaman |
+| `crop_name` | TEXT | NOT NULL | Nama komoditas saat simulasi dijalankan |
+| `crop_slug` | TEXT | Nullable | Slug komoditas |
+| `planting_date` | DATE | NOT NULL | Tanggal tanam yang diuji |
+| `weather_score` | NUMERIC(5,2)| NOT NULL | Nilai skor pilar risiko cuaca (bobot 30%) |
+| `water_score` | NUMERIC(5,2)| NOT NULL | Nilai skor pilar neraca air FAO-56 (bobot 25%) |
+| `crop_score` | NUMERIC(5,2)| NOT NULL | Nilai skor kesesuaian agroklimat (bobot 25%) |
+| `economic_score` | NUMERIC(5,2)| NOT NULL | Nilai skor stabilitas ekonomi pasar (bobot 20%) |
+| `total_score` | NUMERIC(5,2)| NOT NULL | Skor agregat akhir DSS (skala 0–100) |
+| `weather_risk` | TEXT | NOT NULL | Label tingkat risiko cuaca (`'LOW'`, `'MEDIUM'`, `'HIGH'`) |
+| `water_risk` | TEXT | NOT NULL | Label risiko neraca air (`'LOW'`, `'MEDIUM'`, `'HIGH'`) |
+| `economic_risk` | TEXT | NOT NULL | Label risiko volatilitas pasar (`'LOW'`, `'MEDIUM'`, `'HIGH'`) |
+| `recommendation` | TEXT | NOT NULL | Kategori preskriptif (`'Highly Recommended'`, `'Recommended'`, `'Consider Carefully'`, `'High Risk'`) |
+| `reasons` | JSONB | DEFAULT `'[]'::jsonb` | Array butir penjelasan pendorong & penghambat rekomendasi |
+| `metrics` | JSONB | DEFAULT `'{}'::jsonb` | Metrik agronomi detail (ETc harian, defisit air, proyeksi panen, dsb) |
+| `is_best_scenario` | BOOLEAN | DEFAULT `false` | Penanda skenario paling optimal (*best decision*) |
+| `created_at` | TIMESTAMPTZ | NOT NULL, DEFAULT `NOW()` | Waktu kalkulasi dihasilkan |
+
+#### 5. Tabel `weather_cache`
+Mekanisme persistensi spasial-temporal untuk efisiensi API Open-Meteo & NASA POWER.
+| Kolom | Tipe Data | Constraint | Deskripsi |
+|:---|:---|:---|:---|
+| `id` | UUID | PRIMARY KEY, DEFAULT `gen_random_uuid()` | ID unik entri cache cuaca |
+| `latitude` | NUMERIC(9,6) | NOT NULL | Titik koordinat Lintang |
+| `longitude` | NUMERIC(9,6) | NOT NULL | Titik koordinat Bujur |
+| `date` | DATE | NOT NULL | Tanggal data historis / prakiraan cuaca |
+| `temperature` | NUMERIC(5,2)| Nullable | Rata-rata temperatur harian (°C) |
+| `precipitation` | NUMERIC(6,2)| Nullable | Akumulasi curah hujan harian (mm) |
+| `humidity` | NUMERIC(5,2)| Nullable | Rata-rata kelembapan udara harian (%) |
+| `wind_speed` | NUMERIC(5,2)| Nullable | Kecepatan angin harian (km/jam) |
+| `raw_data` | JSONB | Nullable | Salinan payload JSON mentah dari penyedia data cuaca |
+| `created_at` | TIMESTAMPTZ | NOT NULL, DEFAULT `NOW()` | Waktu entri cache |
+| *Constraint Khusus* | UNIQUE | `(latitude, longitude, date)` | Memastikan keunikan titik koordinat per tanggal |
+
+#### 6. Tabel `market_prices`
+Pencatatan tren pergerakan harga komoditas pangan sebagai input pilar evaluasi risiko ekonomi pasar.
+| Kolom | Tipe Data | Constraint | Deskripsi |
+|:---|:---|:---|:---|
+| `id` | UUID | PRIMARY KEY, DEFAULT `gen_random_uuid()` | ID unik data harga |
+| `crop_slug` | TEXT | NOT NULL | Slug komoditas pangan terkait |
+| `date` | DATE | NOT NULL | Tanggal pencatatan harga pasar |
+| `price` | NUMERIC(12,2)| NOT NULL | Nominal harga pasar per kilogram (Rp) |
+| `market` | TEXT | NOT NULL, DEFAULT `'Nasional (Bapanas)'` | Nama sumber atau pasar pencatatan |
+| `price_change_pct` | NUMERIC(5,2)| DEFAULT `0` | Persentase fluktuasi harga dibandingkan periode sebelumnya (%) |
+| `created_at` | TIMESTAMPTZ | NOT NULL, DEFAULT `NOW()` | Waktu pencatatan data harga |
+
+---
+
+## 12. Metodologi & Landasan Ilmiah
 
 Rekomendasi pada SIAP TANI tidak dihasilkan secara acak, melainkan berakar pada metodologi ilmiah teruji:
 
@@ -263,7 +477,7 @@ Rekomendasi pada SIAP TANI tidak dihasilkan secara acak, melainkan berakar pada 
 
 ---
 
-## 12. Panduan Penggunaan & Akses Demo
+## 13. Panduan Penggunaan & Akses Demo
 
 ### Akses Demo Publik
 * **Tautan Deployment Produksi:** [https://siaptani.vercel.app/](https://siaptani.vercel.app/)
@@ -291,7 +505,7 @@ Aplikasi dapat diakses melalui peramban web pada alamat `http://localhost:3000`.
 
 ---
 
-## 13. Status Proyek
+## 14. Status Proyek
 
 - [x] **Engine Penilaian Risiko DSS (4 Pilar Terbobot)** — *Selesai*
 - [x] **Visualisasi 3D Digital Twin Interaktif (Three.js WebGL)** — *Selesai*
@@ -300,11 +514,12 @@ Aplikasi dapat diakses melalui peramban web pada alamat `http://localhost:3000`.
 - [x] **Simulator Diversifikasi Portofolio Lahan (Indeks HHI)** — *Selesai*
 - [x] **Kalender Agronomi Terintegrasi & Ekspor Berkas .ics** — *Selesai*
 - [x] **Autentikasi Pengguna & Sinkronisasi Cloud (Supabase)** — *Selesai*
-
+- [x] **Dokumentasi Skema Basis Data Lengkap & ERD** — *Selesai*
+- [x] **Integrasi Logo Resmi Seluruh Antarmuka & Berkas Proyek** — *Selesai*
 
 ---
 
-## 14. Tim Pengembang
+## 15. Tim Pengembang
 
 Karya ini dikembangkan untuk kompetisi **HOLOGY 9.0 Fakultas Ilmu Komputer Universitas Brawijaya** pada cabang lomba **HoloDev (Software Development)**:
 
@@ -319,11 +534,13 @@ Karya ini dikembangkan untuk kompetisi **HOLOGY 9.0 Fakultas Ilmu Komputer Unive
 
 ---
 
-## 15. Lisensi
+## 16. Lisensi
 
 Proyek ini didistribusikan di bawah naungan [Lisensi MIT](LICENSE).
 
 <div align="center">
+
+<img src="./public/icon_logo.png" alt="SIAP TANI Logo" width="80" />
 
 **SIAP TANI — Simulasikan Sebelum Menanam.**  
 *Mendukung Pertanian Berkelanjutan & Ketahanan Pangan Nasional Indonesia.*

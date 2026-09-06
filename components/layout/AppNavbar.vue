@@ -4,9 +4,7 @@
       <!-- Logo & Brand -->
       <div class="flex items-center gap-8">
         <NuxtLink to="/" class="flex items-center gap-2.5 font-bold tracking-tight text-zinc-950 transition hover:opacity-80">
-          <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-950 text-white shadow-sm">
-            <Sprout :size="20" :stroke-width="2.2" />
-          </div>
+          <img src="/icon_logo.png" alt="Siap Tani Logo" class="h-10 w-10 object-contain shrink-0" />
           <div class="flex flex-col">
             <span class="text-lg font-extrabold uppercase leading-none tracking-wider">SIAP TANI</span>
             <span class="text-[10px] font-medium tracking-widest text-zinc-500 uppercase">Decision Support System</span>

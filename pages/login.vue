@@ -2,9 +2,7 @@
   <div class="min-h-[calc(100vh-4rem)] flex items-center justify-center bg-zinc-50 px-4 py-12">
     <div class="w-full max-w-md rounded-2xl border border-zinc-300 bg-white p-8 shadow-clean-lg">
       <div class="text-center">
-        <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-zinc-950 text-white">
-          <Sprout :size="24" />
-        </div>
+        <img src="/icon_logo.png" alt="Siap Tani Logo" class="mx-auto h-16 w-16 object-contain" />
         <h1 class="mt-4 text-xl font-extrabold text-zinc-950 uppercase tracking-tight">Masuk ke Siap Tani</h1>
         <p class="mt-1 text-xs text-zinc-500">Akses Decision Support System & Eksekusi Simulasi Keputusan Pertanian</p>
       </div>
