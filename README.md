@@ -13,7 +13,7 @@
 
 **Platform Decision Support System (DSS) prediktif yang memberdayakan petani dan pengelola lahan untuk menguji, mensimulasikan, dan membandingkan skenario tanam terhadap risiko iklim, ketersediaan air, dan volatilitas ekonomi sebelum modal dialokasikan di lahan nyata.**
 
-[Coba Demo Langsung](https://siaptani.vercel.app/) • [Lihat Metodologi](#12-metodologi--landasan-ilmiah) • [Arsitektur Sistem](#10-arsitektur-sistem) • [Skema Database & ERD](#11-skema-basis-data--entity-relationship-diagram-erd)
+[Coba Demo Langsung](https://siaptani.vercel.app/) • [Alur Pengguna & Diagram](#4-alur-pengguna-user-flow) • [Arsitektur Sistem](#13-arsitektur-sistem) • [Skema Database & ERD](#14-skema-basis-data--entity-relationship-diagram-erd) • [Metodologi](#15-metodologi--landasan-ilmiah)
 
 </div>
 
@@ -108,7 +108,185 @@ flowchart TD
 
 ---
 
-## 4. Fitur Utama
+## 4. Alur Pengguna (User Flow)
+
+Diagram di bawah ini menggambarkan alur perjalanan pengguna (*end-to-end user journey*) saat berinteraksi dengan platform **SIAP TANI**:
+
+```mermaid
+flowchart TD
+    Start([Mulai: Kunjungi Platform SIAP TANI]) --> Landing[Halaman Beranda / Landing Page]
+    Landing --> CheckAuth{Status Autentikasi?}
+    
+    CheckAuth -- Belum Masuk --> AuthChoice{Pilih Metode Akses}
+    AuthChoice -- Email & Sandi --> AuthForm[Login / Register Akun Baru]
+    AuthChoice -- Akses Instan Juri --> DemoLogin[Mode Demo Petani 1-Click]
+    
+    AuthForm --> Dashboard[Halaman Simulasi What-If Sandbox]
+    DemoLogin --> Dashboard
+    CheckAuth -- Sudah Masuk --> Dashboard
+
+    subgraph Step1 ["Langkah 1: Konfigurasi Parameter Lahan"]
+        Dashboard --> LocInput[Pilih Lokasi Lahan via Peta Leaflet / GPS Otomatis]
+        LocInput --> AreaInput[Input Luas Hamparan Lahan m²]
+        AreaInput --> CropInput[Pilih Komoditas Tanaman dari Database]
+        CropInput --> DateInput[Pilih Target Tanggal Rencana Tanam]
+    end
+
+    subgraph Step2 ["Langkah 2: Eksekusi & Evaluasi Simulasi"]
+        DateInput --> RunSim[Klik 'Jalankan Simulasi DSS']
+        RunSim --> ResultsView[Dashboard Hasil Evaluasi Multi-Pilar]
+        ResultsView --> Breakdown[Inspeksi Skor 4 Pilar & Neraca Air FAO-56]
+        ResultsView --> SensitivitySlider[Geser Slider Jendela Tanam +/- 28 Hari]
+        ResultsView --> View3D[Eksplorasi 3D Digital Twin Interaktif]
+    end
+
+    subgraph Step3 ["Langkah 3: Pengambilan Keputusan Lanjutan"]
+        ResultsView --> DecisionChoice{Pilih Analisis Lanjutan}
+        DecisionChoice -- Komparasi Tanaman --> CompPage[Halaman Komparasi Side-by-Side]
+        CompPage --> BestScenario[Evaluasi Komparasi & Skenario Terbaik Otomatis]
+        
+        DecisionChoice -- Diversifikasi Lahan --> PortPage[Halaman Portofolio Lahan Polikultur]
+        PortPage --> HHICalc[Simulasi Zonasi Lahan & Indeks Ketahanan HHI]
+        
+        DecisionChoice -- Jadwal Agronomi --> CalPage[Halaman Kalender Tanam Preskriptif]
+    end
+
+    subgraph Step4 ["Langkah 4: Aksi Preskriptif & Persistensi"]
+        CalPage --> ExportICS[Ekspor Kalender Agronomi .ics]
+        CalPage --> PrintReport[Cetak / Simpan Ringkasan Rekomendasi]
+        BestScenario --> SaveCloud[Riwayat Tersimpan Otomatis di Supabase]
+        HHICalc --> SaveCloud
+    end
+
+    ExportICS --> Finish([Keputusan Tanam Optimal Tervalidasi])
+    PrintReport --> Finish
+    SaveCloud --> Finish
+
+    style Start fill:#18181b,stroke:#27272a,color:#ffffff
+    style Finish fill:#059669,stroke:#047857,color:#ffffff
+    style Step1 fill:#f8fafc,stroke:#cbd5e1,stroke-width:1px
+    style Step2 fill:#ecfdf5,stroke:#a7f3d0,stroke-width:1px
+    style Step3 fill:#eff6ff,stroke:#bfdbfe,stroke-width:1px
+    style Step4 fill:#fdf4ff,stroke:#f5d0fe,stroke-width:1px
+```
+
+---
+
+## 5. Diagram Alir Algoritma Sistem (System Flowchart)
+
+Diagram alir berikut memperlihatkan alur pemrosesan data numerik, pengecekan *caching*, perhitungan neraca air FAO-56, hingga penentuan rekomendasi preskriptif oleh mesin DSS:
+
+```mermaid
+flowchart TD
+    A([Mulai: Request Simulasi Diterima]) --> B[Ekstraksi Parameter: Lat, Lon, Tanggal Tanam, Crop ID, Luas Lahan]
+    
+    B --> C{Cek Cache Cuaca di Supabase<br/>weather_cache?}
+    C -- Hit (Cache Tersedia) --> D[Ambil Data Historis & Prakiraan dari Cache DB]
+    C -- Miss (Belum Ada) --> E[Panggil Open-Meteo 16-Day Forecast & NASA POWER API]
+    E --> F[Simpan Respons Baru ke Tabel weather_cache]
+    F --> D
+
+    D --> G[Ambil Karakteristik Agroklimat Komoditas dari Tabel crops]
+    G --> H[Looping Periode Pertumbuhan: HST 0 s.d. Panen]
+
+    subgraph AgronomyCalc ["Kalkulasi Agronomi & Neraca Air FAO-56"]
+        H --> I1["Hitung Evapotranspirasi Acuan (ET0 Penman-Monteith)"]
+        I1 --> I2["Hitung Kebutuhan Air Tanaman (ETc = Kc × ET0)"]
+        I2 --> I3["Hitung Curah Hujan Efektif (Peff) & Neraca Air Bersih"]
+        I3 --> I4["Evaluasi Deviasi Suhu Kardinal (Topt_min s.d. Topt_max)"]
+    end
+
+    subgraph RiskEngine ["Engine Pembobotan Risiko 4 Pilar"]
+        I4 --> J1["Hitung Skor Risiko Cuaca (Bobot 30%)"]
+        J1 --> J2["Hitung Skor Neraca Air (Bobot 25%)"]
+        J2 --> J3["Hitung Skor Kesesuaian Agroklimat (Bobot 25%)"]
+        J3 --> J4["Hitung Skor Stabilitas Ekonomi Pasar (Bobot 20%)"]
+        J4 --> J5["Hitung Total Skor DSS: Skor Agregat 0 - 100"]
+    end
+
+    J5 --> K[Klasifikasi Tingkat Risiko: LOW / MEDIUM / HIGH]
+    K --> L[Generate Butir Rekomendasi Preskriptif & Alasan Terjelaskan]
+    L --> M[Pindai Sensitivitas Tanggal Tanam: Analisis +/- 28 Hari]
+    M --> N[Simpan Hasil ke Supabase: Tabel simulations & scenarios]
+    N --> O[Kirim Respons JSON Terstruktur ke Klien]
+    O --> P[Frontend: Render UI Hasil, Grafik Metrik & 3D Digital Twin Three.js]
+    P --> Q([Selesai])
+
+    style A fill:#18181b,stroke:#27272a,color:#ffffff
+    style Q fill:#059669,stroke:#047857,color:#ffffff
+    style AgronomyCalc fill:#f0fdf4,stroke:#86efac,stroke-width:1px
+    style RiskEngine fill:#eff6ff,stroke:#93c5fd,stroke-width:1px
+```
+
+---
+
+## 6. Diagram Aktivitas Multi-Layer (Activity Diagram)
+
+Diagram aktivitas dengan partisi *swimlane* yang memperlihatkan orkestrasi antar aktor pengguna, antarmuka klien, server Nitro, dan basis data:
+
+```mermaid
+flowchart TD
+    subgraph Petani ["Aktor: Petani / Pengguna"]
+        U1([Mulai]) --> U2[Buka Aplikasi SIAP TANI]
+        U2 --> U3[Tentukan Titik Koordinat Lahan & Komoditas]
+        U3 --> U4[Tekan Tombol 'Jalankan Simulasi']
+        U7[Eksplorasi Hasil, Geser Slider Tanggal & Model 3D] --> U8{Ingin Analisis Lanjutan?}
+        U8 -- Komparasi Tanaman --> U9[Buka Menu Komparasi Skenario]
+        U8 -- Diversifikasi Lahan --> U10[Atur Zonasi Portofolio Polikultur]
+        U8 -- Jadwal Agronomi --> U11[Buka Kalender Tanam & Unduh .ics]
+        U9 --> U12([Selesai: Keputusan Tereksekusi])
+        U10 --> U12
+        U11 --> U12
+    end
+
+    subgraph Frontend ["Lapisan Klien: Nuxt 4 / Vue 3 SPA"]
+        U4 --> FE1[Tangkap Event Form & Validasi Input]
+        FE1 --> FE2[Kirim Request POST ke /api/simulate]
+        FE3[Terima Payload Respons JSON] --> FE4[Update State Reaktif useSimulation.ts]
+        FE4 --> FE5[Render Kartu Skor 4 Pilar & Jendela Rekomendasi]
+        FE4 --> FE6[Inisialisasi Scene Three.js: Mesh Tanah & Tanaman Sesuai HST]
+        FE5 --> U7
+        FE6 --> U7
+        U9 --> FE7[Render Tabel Komparasi Berdampingan & Best Decision Picker]
+        U10 --> FE8[Hitung Indeks Diversifikasi HHI Real-Time & Update Visual 3D]
+        U11 --> FE9[Generate File .ics Kalender Agronomi & Tampilan Print]
+        FE7 --> U12
+        FE8 --> U12
+        FE9 --> U12
+    end
+
+    subgraph Backend ["Lapisan Server: Nuxt Nitro Engine"]
+        FE2 --> BE1[Routing ke Server Handler /api/simulate.post]
+        BE1 --> BE2[Eksekusi Service Agregator Cuaca]
+        BE3[Data Cuaca Siap] --> BE4[Eksekusi Service Agronomi & FAO-56 Engine]
+        BE4 --> BE5[Eksekusi Risk Engine 4 Pilar & Sensitivity Scanner]
+        BE5 --> BE6[Susun Payload Respons Rekomendasi Terjelaskan]
+        BE6 --> BE7[Eksekusi Persistensi ke Database]
+        BE7 --> FE3
+    end
+
+    subgraph ExternalDB ["Layanan Eksternal & Supabase DB"]
+        BE2 --> DB1{Data Cuaca Ada di weather_cache?}
+        DB1 -- Ya --> DB2[Return Cache Cuaca]
+        DB1 -- Tidak --> EXT1[Fetch API Open-Meteo & NASA POWER]
+        EXT1 --> DB3[Insert ke Tabel weather_cache]
+        DB3 --> DB2
+        DB2 --> BE3
+        BE7 --> DB4[(Insert ke Tabel simulations & scenarios)]
+        DB4 --> BE7
+    end
+
+    style U1 fill:#18181b,stroke:#27272a,color:#ffffff
+    style U12 fill:#059669,stroke:#047857,color:#ffffff
+    style Petani fill:#f8fafc,stroke:#94a3b8,stroke-width:1.5px
+    style Frontend fill:#eff6ff,stroke:#3b82f6,stroke-width:1.5px
+    style Backend fill:#ecfdf5,stroke:#10b981,stroke-width:1.5px
+    style ExternalDB fill:#fdf4ff,stroke:#d946ef,stroke-width:1.5px
+```
+
+---
+
+## 7. Fitur Utama
 
 | Fitur Utama | Deskripsi Kapabilitas | Nilai Manfaat |
 |:---|:---|:---|
@@ -120,7 +298,7 @@ flowchart TD
 
 ---
 
-## 5. Inovasi Utama: Melampaui Data Statis
+## 8. Inovasi Utama: Melampaui Data Statis
 
 Aplikasi konvensional berhenti pada penyajian data. SIAP TANI mentransformasikan data mentah menjadi **simulasi preskriptif**:
 
@@ -138,7 +316,7 @@ Sistem tidak hanya menjawab *"Bagaimana kondisi cuaca saat ini?"*, melainkan *"A
 
 ---
 
-## 6. Simulasi What-If dalam Praktik
+## 9. Simulasi What-If dalam Praktik
 
 Contoh simulasi pengambilan keputusan pada lahan di Jawa Timur menghadapi ketidakpastian awal musim hujan:
 
@@ -153,7 +331,7 @@ Contoh simulasi pengambilan keputusan pada lahan di Jawa Timur menghadapi ketida
 
 ---
 
-## 7. 3D Digital Twin: Visualisasi Berbasis Fungsi
+## 10. 3D Digital Twin: Visualisasi Berbasis Fungsi
 
 Penggunaan **Three.js WebGL 3D Digital Twin** bukan sekadar elemen estetika, melainkan **jembatan interpretabilitas data** untuk mempermudah pengambilan keputusan:
 
@@ -166,7 +344,7 @@ $$\text{Tabel Hidrometeorologi Kompleks} \;\xrightarrow{\quad\text{3D Digital Tw
 
 ---
 
-## 8. Keselarasan Tema & Dampak: Bloom Beyond
+## 11. Keselarasan Tema & Dampak: Bloom Beyond
 
 SIAP TANI mengakar dan berkembang selaras dengan tema HOLOGY 9.0: **"Bloom Beyond: Where Ideas Take Root and Reach Further"**:
 
@@ -199,7 +377,7 @@ SIAP TANI mengakar dan berkembang selaras dengan tema HOLOGY 9.0: **"Bloom Beyon
 
 ---
 
-## 9. Teknologi Pendukung (Tech Stack)
+## 12. Teknologi Pendukung (Tech Stack)
 
 SIAP TANI dibangun dengan arsitektur modern berkinerja tinggi:
 
@@ -218,7 +396,7 @@ SIAP TANI dibangun dengan arsitektur modern berkinerja tinggi:
 
 ---
 
-## 10. Arsitektur Sistem
+## 13. Arsitektur Sistem
 
 ```
                                   [ LAPISAN KLIEN / UI ]
@@ -251,7 +429,7 @@ SIAP TANI dibangun dengan arsitektur modern berkinerja tinggi:
 
 ---
 
-## 11. Skema Basis Data & Entity Relationship Diagram (ERD)
+## 14. Skema Basis Data & Entity Relationship Diagram (ERD)
 
 Sistem **SIAP TANI** menggunakan arsitektur relasional pada **Supabase PostgreSQL** yang terintegrasi dengan Supabase Authentication, Row Level Security (RLS) terisolasi, dan pemicu otomatis (*database trigger*).
 
@@ -463,7 +641,7 @@ Pencatatan tren pergerakan harga komoditas pangan sebagai input pilar evaluasi r
 
 ---
 
-## 12. Metodologi & Landasan Ilmiah
+## 15. Metodologi & Landasan Ilmiah
 
 Rekomendasi pada SIAP TANI tidak dihasilkan secara acak, melainkan berakar pada metodologi ilmiah teruji:
 
@@ -477,7 +655,7 @@ Rekomendasi pada SIAP TANI tidak dihasilkan secara acak, melainkan berakar pada 
 
 ---
 
-## 13. Panduan Penggunaan & Akses Demo
+## 16. Panduan Penggunaan & Akses Demo
 
 ### Akses Demo Publik
 * **Tautan Deployment Produksi:** [https://siaptani.vercel.app/](https://siaptani.vercel.app/)
@@ -505,7 +683,7 @@ Aplikasi dapat diakses melalui peramban web pada alamat `http://localhost:3000`.
 
 ---
 
-## 14. Status Proyek
+## 17. Status Proyek
 
 - [x] **Engine Penilaian Risiko DSS (4 Pilar Terbobot)** — *Selesai*
 - [x] **Visualisasi 3D Digital Twin Interaktif (Three.js WebGL)** — *Selesai*
@@ -514,12 +692,13 @@ Aplikasi dapat diakses melalui peramban web pada alamat `http://localhost:3000`.
 - [x] **Simulator Diversifikasi Portofolio Lahan (Indeks HHI)** — *Selesai*
 - [x] **Kalender Agronomi Terintegrasi & Ekspor Berkas .ics** — *Selesai*
 - [x] **Autentikasi Pengguna & Sinkronisasi Cloud (Supabase)** — *Selesai*
+- [x] **Dokumentasi User Flow, Flowchart Algoritma & Activity Diagram** — *Selesai*
 - [x] **Dokumentasi Skema Basis Data Lengkap & ERD** — *Selesai*
 - [x] **Integrasi Logo Resmi Seluruh Antarmuka & Berkas Proyek** — *Selesai*
 
 ---
 
-## 15. Tim Pengembang
+## 18. Tim Pengembang
 
 Karya ini dikembangkan untuk kompetisi **HOLOGY 9.0 Fakultas Ilmu Komputer Universitas Brawijaya** pada cabang lomba **HoloDev (Software Development)**:
 
@@ -534,7 +713,7 @@ Karya ini dikembangkan untuk kompetisi **HOLOGY 9.0 Fakultas Ilmu Komputer Unive
 
 ---
 
-## 16. Lisensi
+## 19. Lisensi
 
 Proyek ini didistribusikan di bawah naungan [Lisensi MIT](LICENSE).
 
