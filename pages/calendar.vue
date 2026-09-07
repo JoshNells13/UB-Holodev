@@ -19,17 +19,17 @@
       <div class="flex flex-wrap items-center gap-2.5">
         <button
           type="button"
-          @click="showAddCustomModal = true"
-          class="flex items-center gap-1.5 rounded-xl bg-forest-950 px-4 py-2 text-xs font-extrabold text-white transition hover:bg-forest-900 shadow-xs ring-1 ring-forest-900"
+          @click="openAddModalWithDate()"
+          class="flex items-center gap-1.5 rounded-xl bg-forest-950 px-4 py-2 text-xs font-extrabold text-white transition hover:bg-forest-900 shadow-xs ring-1 ring-forest-900 cursor-pointer"
         >
           <Plus :size="14" class="text-gold-400" />
-          <span>Tandai Aktivitas / Catatan Baru</span>
+          <span>Tandai Aktivitas Baru</span>
         </button>
 
         <button
           type="button"
           @click="exportICalendar"
-          class="flex items-center gap-1.5 rounded-xl border border-zinc-300 bg-white px-3.5 py-2 text-xs font-bold text-zinc-800 transition hover:bg-forest-50 hover:border-forest-300 shadow-xs"
+          class="flex items-center gap-1.5 rounded-xl border border-zinc-300 bg-white px-3.5 py-2 text-xs font-bold text-zinc-800 transition hover:bg-forest-50 hover:border-forest-300 shadow-xs cursor-pointer"
         >
           <Download :size="14" class="text-forest-700" />
           <span>Ekspor ke Google Calendar (.ics)</span>
@@ -80,7 +80,7 @@
           <label class="text-[10px] font-mono uppercase font-bold text-zinc-500 mb-1">Ganti Skenario:</label>
           <select
             @change="switchScenario($event)"
-            class="rounded-xl border border-zinc-300 bg-white px-3 py-1.5 text-xs font-bold text-zinc-900 focus:border-forest-950 focus:outline-none shadow-xs"
+            class="rounded-xl border border-zinc-300 bg-white px-3 py-1.5 text-xs font-bold text-zinc-900 focus:border-forest-950 focus:outline-none shadow-xs cursor-pointer"
           >
             <option :value="activeScenario.id" selected>{{ activeScenario.crop.name }} ({{ activeScenario.planting_date }})</option>
             <option
@@ -102,7 +102,7 @@
         <button
           type="button"
           @click="goToToday"
-          class="rounded-xl border border-zinc-200 bg-zinc-50 px-3.5 py-1.5 text-xs font-bold text-zinc-800 hover:bg-forest-50 hover:border-forest-300 transition"
+          class="rounded-xl border border-zinc-200 bg-zinc-50 px-3.5 py-1.5 text-xs font-bold text-zinc-800 hover:bg-forest-50 hover:border-forest-300 transition cursor-pointer"
         >
           Hari Ini
         </button>
@@ -110,14 +110,16 @@
           <button
             type="button"
             @click="prevMonth"
-            class="rounded-xl border border-zinc-200 p-1.5 text-zinc-600 hover:bg-forest-50 hover:text-forest-950 transition"
+            class="rounded-xl border border-zinc-200 p-1.5 text-zinc-600 hover:bg-forest-50 hover:text-forest-950 transition cursor-pointer"
+            title="Bulan Sebelumnya"
           >
             <ChevronLeft :size="16" />
           </button>
           <button
             type="button"
             @click="nextMonth"
-            class="rounded-xl border border-zinc-200 p-1.5 text-zinc-600 hover:bg-forest-50 hover:text-forest-950 transition"
+            class="rounded-xl border border-zinc-200 p-1.5 text-zinc-600 hover:bg-forest-50 hover:text-forest-950 transition cursor-pointer"
+            title="Bulan Berikutnya"
           >
             <ChevronRight :size="16" />
           </button>
@@ -134,7 +136,7 @@
           :key="cat"
           type="button"
           @click="selectedCategoryFilter = cat"
-          class="rounded-xl px-3 py-1 font-bold transition whitespace-nowrap"
+          class="rounded-xl px-3 py-1 font-bold transition whitespace-nowrap cursor-pointer"
           :class="selectedCategoryFilter === cat ? 'bg-forest-950 text-white shadow-xs' : 'bg-forest-50/50 text-zinc-700 hover:bg-forest-100 hover:text-forest-950'"
         >
           {{ cat }}
@@ -146,7 +148,7 @@
         <button
           type="button"
           @click="viewMode = 'month'"
-          class="rounded-lg px-3.5 py-1 font-bold transition"
+          class="rounded-lg px-3.5 py-1 font-bold transition cursor-pointer"
           :class="viewMode === 'month' ? 'bg-forest-950 text-white shadow-xs' : 'text-zinc-700 hover:text-forest-950'"
         >
           Bulan (Month)
@@ -154,7 +156,7 @@
         <button
           type="button"
           @click="viewMode = 'agenda'"
-          class="rounded-lg px-3.5 py-1 font-bold transition"
+          class="rounded-lg px-3.5 py-1 font-bold transition cursor-pointer"
           :class="viewMode === 'agenda' ? 'bg-forest-950 text-white shadow-xs' : 'text-zinc-700 hover:text-forest-950'"
         >
           Daftar Agenda (Timeline)
@@ -180,21 +182,26 @@
         <div
           v-for="cell in monthCells"
           :key="cell.dateStr"
-          class="min-h-[110px] sm:min-h-[125px] p-1.5 sm:p-2 transition flex flex-col justify-between"
-          :class="cell.isCurrentMonth ? 'bg-white' : 'bg-zinc-50/50 text-zinc-400'"
+          @click="handleCellClick(cell.dateStr)"
+          class="min-h-[110px] sm:min-h-[125px] p-1.5 sm:p-2 transition flex flex-col justify-between cursor-pointer hover:bg-forest-50/30"
+          :class="[
+            cell.isCurrentMonth ? 'bg-white' : 'bg-zinc-50/50 text-zinc-400',
+            selectedDate === cell.dateStr ? 'ring-2 ring-forest-900 bg-forest-50/40 z-10' : ''
+          ]"
         >
-          <!-- Date number -->
+          <!-- Date number & quick add -->
           <div class="flex items-center justify-between">
             <span
               class="flex h-6 w-6 items-center justify-center rounded-full font-mono text-xs font-bold"
-              :class="cell.isToday ? 'bg-zinc-950 text-white' : 'text-zinc-900'"
+              :class="cell.isToday ? 'bg-forest-950 text-gold-300 ring-2 ring-gold-400/40' : 'text-zinc-900'"
             >
               {{ cell.dayNum }}
             </span>
             <button
               v-if="cell.isCurrentMonth"
-              @click.stop="quickAddForDate(cell.dateStr)"
-              class="text-zinc-300 hover:text-zinc-900 p-0.5"
+              type="button"
+              @click.stop="openAddModalWithDate(cell.dateStr)"
+              class="text-zinc-300 hover:text-forest-900 hover:bg-forest-50 p-1 rounded-md transition cursor-pointer"
               title="Tandai kegiatan di tanggal ini"
             >
               <Plus :size="12" />
@@ -206,13 +213,19 @@
             <div
               v-for="ev in getFilteredEventsForDate(cell.dateStr)"
               :key="ev.id"
-              @click="openEventDetail(ev)"
-              class="cursor-pointer rounded border p-1 text-[10px] font-mono leading-tight transition flex items-center justify-between gap-1"
-              :class="[getEventStyle(ev.category), isCompleted(ev.id) ? 'opacity-50 line-through' : '']"
-              :title="ev.title"
+              @click.stop="openEventDetail(ev)"
+              class="cursor-pointer rounded-lg border p-1 text-[10px] font-mono leading-tight transition flex items-center justify-between gap-1 shadow-2xs"
+              :class="[
+                getEventStyle(ev.category),
+                getEventStatus(ev.id) === 'completed' ? 'opacity-60 line-through bg-zinc-100 border-zinc-300 text-zinc-500' : ''
+              ]"
+              :title="`${ev.title} (${getStatusLabel(getEventStatus(ev.id))})`"
             >
               <span class="font-bold truncate">{{ ev.title }}</span>
-              <CheckCircle2 v-if="isCompleted(ev.id)" :size="11" class="shrink-0" />
+              <span
+                class="h-1.5 w-1.5 rounded-full shrink-0"
+                :class="getStatusDotColor(getEventStatus(ev.id))"
+              />
             </div>
           </div>
         </div>
@@ -230,28 +243,22 @@
         <div
           v-for="ev in filteredEvents"
           :key="ev.id"
-          class="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-zinc-50/70 px-3 rounded-xl transition"
-          :class="isCompleted(ev.id) ? 'bg-zinc-50/50' : ''"
+          @click="openEventDetail(ev)"
+          class="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-zinc-50/70 px-3 rounded-xl transition cursor-pointer"
+          :class="getEventStatus(ev.id) === 'completed' ? 'bg-zinc-50/40' : ''"
         >
           <div class="flex items-start gap-3.5">
-            <!-- Completion Checkbox -->
-            <button
-              type="button"
-              @click="toggleCompletion(ev.id)"
-              class="mt-1 flex h-5 w-5 items-center justify-center rounded-md border transition shrink-0"
-              :class="isCompleted(ev.id) ? 'bg-zinc-950 border-zinc-950 text-white' : 'border-zinc-300 hover:border-zinc-950 bg-white'"
-            >
-              <Check :size="13" v-if="isCompleted(ev.id)" />
-            </button>
-
             <!-- Day Offset Badge -->
-            <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-zinc-950 text-white font-mono text-xs font-bold shrink-0">
+            <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-forest-950 text-gold-300 font-mono text-xs font-bold shrink-0">
               {{ ev.dayOffset >= 0 ? `+${ev.dayOffset}` : ev.dayOffset }}
             </div>
 
             <div>
               <div class="flex items-center gap-2">
-                <span class="text-xs font-bold text-zinc-950" :class="isCompleted(ev.id) ? 'line-through text-zinc-400' : ''">
+                <span
+                  class="text-xs font-bold text-zinc-950"
+                  :class="getEventStatus(ev.id) === 'completed' ? 'line-through text-zinc-400' : ''"
+                >
                   {{ ev.title }}
                 </span>
                 <span class="rounded px-1.5 py-0.2 text-[9px] font-mono uppercase font-bold border" :class="getEventStyle(ev.category)">
@@ -265,27 +272,35 @@
             </div>
           </div>
 
-          <div class="flex sm:flex-col items-center sm:items-end justify-between sm:justify-center shrink-0 font-mono text-xs pl-8 sm:pl-0">
+          <div class="flex sm:flex-col items-center sm:items-end justify-between sm:justify-center shrink-0 font-mono text-xs pl-8 sm:pl-0 gap-1.5">
             <span class="font-bold text-zinc-950 block">{{ formatFullDate(ev.date) }}</span>
-            <span class="text-[11px] text-zinc-400">HST {{ ev.dayOffset }}</span>
+            <div class="flex items-center gap-1.5">
+              <span class="text-[11px] text-zinc-400">HST {{ ev.dayOffset }}</span>
+              <span
+                class="rounded-full px-2 py-0.5 text-[9px] font-bold border"
+                :class="getStatusBadgeClass(getEventStatus(ev.id))"
+              >
+                {{ getStatusLabel(getEventStatus(ev.id)) }}
+              </span>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Event Detail Modal -->
+    <!-- Event Detail & Status Management Modal -->
     <div
       v-if="selectedEvent"
-      class="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/70 p-4 backdrop-blur-sm"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/70 p-4 backdrop-blur-sm animate-in fade-in duration-150"
       @click.self="selectedEvent = null"
     >
       <div class="w-full max-w-md rounded-2xl border border-zinc-300 bg-white p-6 shadow-2xl space-y-4">
         <div class="flex items-center justify-between border-b border-zinc-200 pb-3">
           <div class="flex items-center gap-2">
-            <Calendar :size="18" class="text-zinc-950" />
+            <Calendar :size="18" class="text-forest-950" />
             <h3 class="text-sm font-bold text-zinc-950">{{ selectedEvent.title }}</h3>
           </div>
-          <button @click="selectedEvent = null" class="text-zinc-400 hover:text-zinc-700">
+          <button @click="selectedEvent = null" class="text-zinc-400 hover:text-zinc-700 cursor-pointer">
             <X :size="18" />
           </button>
         </div>
@@ -303,16 +318,48 @@
             <span class="text-zinc-500">Fase Tanaman:</span>
             <span class="font-bold text-zinc-950">HST {{ selectedEvent.dayOffset }}</span>
           </div>
-          <div class="flex justify-between items-center pt-1 border-t border-zinc-100">
-            <span class="text-zinc-500">Status Penyelesaian:</span>
-            <button
-              type="button"
-              @click="toggleCompletion(selectedEvent.id)"
-              class="rounded-lg px-2.5 py-1 text-xs font-bold border transition-all cursor-pointer"
-              :class="isCompleted(selectedEvent.id) ? 'bg-[#0C2B1C] text-gold-300 border-[#0C2B1C]' : 'bg-zinc-100 text-zinc-800 border-zinc-300'"
-            >
-              {{ isCompleted(selectedEvent.id) ? 'Selesai Dilakukan' : 'Belum Dikerjakan' }}
-            </button>
+
+          <!-- Status Selector Buttons -->
+          <div class="pt-2 border-t border-zinc-100 space-y-2">
+            <span class="text-zinc-600 font-bold block uppercase text-[10px]">Ubah Status Aktivitas:</span>
+            <div class="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                @click="updateEventStatus(selectedEvent.id, 'pending')"
+                class="flex items-center justify-center gap-1.5 rounded-xl border p-2 text-xs font-bold transition cursor-pointer"
+                :class="getEventStatus(selectedEvent.id) === 'pending' ? 'bg-zinc-900 text-white border-zinc-900 shadow-xs' : 'bg-zinc-50 text-zinc-700 border-zinc-200 hover:bg-zinc-100'"
+              >
+                <Clock :size="13" />
+                <span>Belum Dimulai</span>
+              </button>
+              <button
+                type="button"
+                @click="updateEventStatus(selectedEvent.id, 'in_progress')"
+                class="flex items-center justify-center gap-1.5 rounded-xl border p-2 text-xs font-bold transition cursor-pointer"
+                :class="getEventStatus(selectedEvent.id) === 'in_progress' ? 'bg-blue-600 text-white border-blue-600 shadow-xs' : 'bg-blue-50/50 text-blue-800 border-blue-200 hover:bg-blue-100'"
+              >
+                <RotateCw :size="13" />
+                <span>Sedang Berjalan</span>
+              </button>
+              <button
+                type="button"
+                @click="updateEventStatus(selectedEvent.id, 'completed')"
+                class="flex items-center justify-center gap-1.5 rounded-xl border p-2 text-xs font-bold transition cursor-pointer"
+                :class="getEventStatus(selectedEvent.id) === 'completed' ? 'bg-[#0C2B1C] text-gold-300 border-[#0C2B1C] shadow-xs' : 'bg-emerald-50/50 text-emerald-800 border-emerald-200 hover:bg-emerald-100'"
+              >
+                <CheckCircle2 :size="13" />
+                <span>Selesai Dilakukan</span>
+              </button>
+              <button
+                type="button"
+                @click="updateEventStatus(selectedEvent.id, 'delayed')"
+                class="flex items-center justify-center gap-1.5 rounded-xl border p-2 text-xs font-bold transition cursor-pointer"
+                :class="getEventStatus(selectedEvent.id) === 'delayed' ? 'bg-amber-600 text-white border-amber-600 shadow-xs' : 'bg-amber-50/50 text-amber-800 border-amber-200 hover:bg-amber-100'"
+              >
+                <AlertCircle :size="13" />
+                <span>Tertunda</span>
+              </button>
+            </div>
           </div>
 
           <div class="rounded-xl border border-zinc-200 bg-zinc-50 p-3.5 space-y-1.5">
@@ -326,14 +373,14 @@
             v-if="selectedEvent.isCustom"
             type="button"
             @click="deleteCustomEvent(selectedEvent.id)"
-            class="rounded-xl border border-red-200 bg-red-50 px-3.5 py-2.5 text-xs font-bold text-red-600 hover:bg-red-100 transition"
+            class="rounded-xl border border-red-200 bg-red-50 px-3.5 py-2.5 text-xs font-bold text-red-600 hover:bg-red-100 transition cursor-pointer"
           >
             Hapus Catatan
           </button>
           <button
             type="button"
             @click="selectedEvent = null"
-            class="flex-1 rounded-xl bg-zinc-950 py-2.5 text-xs font-bold text-white hover:bg-zinc-800 transition"
+            class="flex-1 rounded-xl bg-forest-950 py-2.5 text-xs font-bold text-white hover:bg-forest-900 transition cursor-pointer"
           >
             Tutup
           </button>
@@ -344,16 +391,16 @@
     <!-- Modal Tambah Aktivitas Manual Baru -->
     <div
       v-if="showAddCustomModal"
-      class="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/70 p-4 backdrop-blur-sm"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/70 p-4 backdrop-blur-sm animate-in fade-in duration-150"
       @click.self="showAddCustomModal = false"
     >
       <div class="w-full max-w-md rounded-2xl border border-zinc-300 bg-white p-6 shadow-2xl space-y-4">
         <div class="flex items-center justify-between border-b border-zinc-200 pb-3">
           <div class="flex items-center gap-2">
-            <Plus :size="18" class="text-zinc-950" />
+            <Plus :size="18" class="text-forest-950" />
             <h3 class="text-sm font-bold text-zinc-950">Tandai Aktivitas / Catatan Tanam Baru</h3>
           </div>
-          <button @click="showAddCustomModal = false" class="text-zinc-400 hover:text-zinc-700">
+          <button @click="showAddCustomModal = false" class="text-zinc-400 hover:text-zinc-700 cursor-pointer">
             <X :size="18" />
           </button>
         </div>
@@ -366,7 +413,7 @@
               type="text"
               required
               placeholder="Contoh: Beli Benih Inpari 32 / Cek Pompa Air"
-              class="w-full rounded-xl border border-zinc-300 p-2.5 font-bold text-zinc-950 focus:border-zinc-950 focus:outline-none"
+              class="w-full rounded-xl border border-zinc-300 p-2.5 font-bold text-zinc-950 focus:border-forest-950 focus:outline-none"
             />
           </div>
 
@@ -377,7 +424,7 @@
                 v-model="newCustomForm.date"
                 type="date"
                 required
-                class="w-full rounded-xl border border-zinc-300 p-2.5 font-mono text-zinc-950 focus:border-zinc-950 focus:outline-none"
+                class="w-full rounded-xl border border-zinc-300 p-2.5 font-mono text-zinc-950 focus:border-forest-950 focus:outline-none"
               />
             </div>
 
@@ -385,7 +432,7 @@
               <label class="block font-bold text-zinc-700 uppercase mb-1">Kategori:</label>
               <select
                 v-model="newCustomForm.category"
-                class="w-full rounded-xl border border-zinc-300 p-2.5 font-bold text-zinc-950 focus:border-zinc-950 focus:outline-none"
+                class="w-full rounded-xl border border-zinc-300 p-2.5 font-bold text-zinc-950 focus:border-forest-950 focus:outline-none"
               >
                 <option value="Tanam">Tanam</option>
                 <option value="Pupuk">Pemupukan</option>
@@ -404,7 +451,7 @@
               v-model="newCustomForm.description"
               rows="3"
               placeholder="Tambahkan detail dosis, petugas lapangan, atau catatan cuaca..."
-              class="w-full rounded-xl border border-zinc-300 p-2.5 text-zinc-950 focus:border-zinc-950 focus:outline-none"
+              class="w-full rounded-xl border border-zinc-300 p-2.5 text-zinc-950 focus:border-forest-950 focus:outline-none"
             ></textarea>
           </div>
 
@@ -412,13 +459,13 @@
             <button
               type="button"
               @click="showAddCustomModal = false"
-              class="flex-1 rounded-xl border border-zinc-300 py-2.5 text-xs font-bold text-zinc-800 hover:bg-zinc-100 transition"
+              class="flex-1 rounded-xl border border-zinc-300 py-2.5 text-xs font-bold text-zinc-800 hover:bg-zinc-100 transition cursor-pointer"
             >
               Batal
             </button>
             <button
               type="submit"
-              class="flex-1 rounded-xl bg-zinc-950 py-2.5 text-xs font-bold text-white hover:bg-zinc-800 transition"
+              class="flex-1 rounded-xl bg-forest-950 py-2.5 text-xs font-bold text-white hover:bg-forest-900 transition cursor-pointer"
             >
               Simpan ke Kalender
             </button>
@@ -440,8 +487,10 @@ import {
   Calendar,
   X,
   Plus,
-  Check,
-  CheckCircle2
+  CheckCircle2,
+  Clock,
+  RotateCw,
+  AlertCircle
 } from '@lucide/vue'
 import type { ScenarioResult } from '~/types/simulation'
 
@@ -451,9 +500,40 @@ definePageMeta({
 
 const { currentScenario, savedSimulations, runSimulation } = useSimulation()
 
+export type EventStatus = 'pending' | 'in_progress' | 'completed' | 'delayed'
+
+interface AgriEvent {
+  id: string
+  date: string // YYYY-MM-DD
+  dayOffset: number
+  title: string
+  category: 'Tanam' | 'Pupuk' | 'Irigasi' | 'PHT/Hama' | 'Panen' | 'Olah Lahan' | 'Catatan'
+  description: string
+  isCustom?: boolean
+}
+
+// Timezone-safe local date string conversion
+const toLocalDateStr = (d: Date): string => {
+  const y = d.getFullYear()
+  const m = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  return `${y}-${m}-${d}`
+}
+
+// Timezone-safe YYYY-MM-DD date parsing to local Date object
+const parseDateString = (dateStr: string): Date => {
+  if (!dateStr) return new Date()
+  const parts = dateStr.split('-').map(Number)
+  if (parts.length === 3 && !isNaN(parts[0]) && !isNaN(parts[1]) && !isNaN(parts[2])) {
+    return new Date(parts[0], parts[1] - 1, parts[2])
+  }
+  return new Date(dateStr)
+}
+
 const activeScenario = ref<ScenarioResult | null>(null)
 const viewMode = ref<'month' | 'agenda'>('month')
-const selectedEvent = ref<any | null>(null)
+const selectedEvent = ref<AgriEvent | null>(null)
+const selectedDate = ref<string | null>(null)
 const showAddCustomModal = ref(false)
 const selectedCategoryFilter = ref('Semua')
 
@@ -468,45 +548,64 @@ const monthNames = [
   'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
 ]
 
-interface AgriEvent {
-  id: string
-  date: string
-  dayOffset: number
-  title: string
-  category: 'Tanam' | 'Pupuk' | 'Irigasi' | 'PHT/Hama' | 'Panen' | 'Olah Lahan' | 'Catatan'
-  description: string
-  isCustom?: boolean
-}
-
-// Completed task ids in localStorage
-const completedEventIds = ref<string[]>([])
+// Status map stored in localStorage
+const eventStatusMap = ref<Record<string, EventStatus>>({})
 // Custom events stored in localStorage
 const customEvents = ref<AgriEvent[]>([])
 
 const newCustomForm = ref({
   title: '',
-  date: new Date().toISOString().split('T')[0],
+  date: toLocalDateStr(new Date()),
   category: 'Catatan' as AgriEvent['category'],
   description: ''
 })
 
-const isCompleted = (id: string) => {
-  return completedEventIds.value.includes(id)
+const getEventStatus = (id: string): EventStatus => {
+  return eventStatusMap.value[id] || 'pending'
 }
 
-const toggleCompletion = (id: string) => {
-  if (completedEventIds.value.includes(id)) {
-    completedEventIds.value = completedEventIds.value.filter(x => x !== id)
-  } else {
-    completedEventIds.value.push(id)
+const updateEventStatus = (id: string, status: EventStatus) => {
+  eventStatusMap.value = {
+    ...eventStatusMap.value,
+    [id]: status
   }
   if (import.meta.client) {
-    localStorage.setItem('taniaman_calendar_completed', JSON.stringify(completedEventIds.value))
+    localStorage.setItem('taniaman_calendar_event_status', JSON.stringify(eventStatusMap.value))
+  }
+}
+
+const getStatusLabel = (status: EventStatus): string => {
+  switch (status) {
+    case 'completed': return 'Selesai'
+    case 'in_progress': return 'Sedang Berjalan'
+    case 'delayed': return 'Tertunda'
+    case 'pending':
+    default: return 'Belum Dimulai'
+  }
+}
+
+const getStatusBadgeClass = (status: EventStatus): string => {
+  switch (status) {
+    case 'completed': return 'bg-emerald-50 text-emerald-800 border-emerald-300'
+    case 'in_progress': return 'bg-blue-50 text-blue-800 border-blue-300'
+    case 'delayed': return 'bg-amber-50 text-amber-800 border-amber-300'
+    case 'pending':
+    default: return 'bg-zinc-100 text-zinc-700 border-zinc-300'
+  }
+}
+
+const getStatusDotColor = (status: EventStatus): string => {
+  switch (status) {
+    case 'completed': return 'bg-emerald-500'
+    case 'in_progress': return 'bg-blue-500'
+    case 'delayed': return 'bg-amber-500'
+    case 'pending':
+    default: return 'bg-zinc-400'
   }
 }
 
 const completedCount = computed(() => {
-  return eventsList.value.filter(e => completedEventIds.value.includes(e.id)).length
+  return eventsList.value.filter(e => getEventStatus(e.id) === 'completed').length
 })
 
 const eventsList = computed<AgriEvent[]>(() => {
@@ -514,14 +613,14 @@ const eventsList = computed<AgriEvent[]>(() => {
 
   if (activeScenario.value) {
     const plantDateStr = activeScenario.value.planting_date
-    const plantDate = new Date(plantDateStr)
+    const plantDate = parseDateString(plantDateStr)
     const crop = activeScenario.value.crop
 
     const addEvent = (offsetDays: number, title: string, category: AgriEvent['category'], desc: string) => {
-      const d = new Date(plantDate.getTime() + offsetDays * 24 * 60 * 60 * 1000)
+      const d = new Date(plantDate.getFullYear(), plantDate.getMonth(), plantDate.getDate() + offsetDays)
       list.push({
         id: 'auto_' + offsetDays + '_' + crop.slug,
-        date: d.toISOString().split('T')[0],
+        date: toLocalDateStr(d),
         dayOffset: offsetDays,
         title,
         category,
@@ -557,7 +656,7 @@ const filteredEvents = computed(() => {
   if (selectedCategoryFilter.value !== 'Semua') {
     list = list.filter(e => e.category === selectedCategoryFilter.value)
   }
-  return list.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+  return list.sort((a, b) => parseDateString(a.date).getTime() - parseDateString(b.date).getTime())
 })
 
 const monthCells = computed(() => {
@@ -570,13 +669,13 @@ const monthCells = computed(() => {
   const totalDays = lastDay.getDate()
 
   const cells = []
-  const todayStr = new Date().toISOString().split('T')[0]
+  const todayStr = toLocalDateStr(new Date())
 
   // Previous month padding
   const prevLastDay = new Date(year, month, 0).getDate()
   for (let i = startDayOfWeek - 1; i >= 0; i--) {
     const d = new Date(year, month - 1, prevLastDay - i)
-    const dStr = d.toISOString().split('T')[0]
+    const dStr = toLocalDateStr(d)
     cells.push({
       dateStr: dStr,
       dayNum: d.getDate(),
@@ -588,7 +687,7 @@ const monthCells = computed(() => {
   // Current month days
   for (let i = 1; i <= totalDays; i++) {
     const d = new Date(year, month, i)
-    const dStr = d.toISOString().split('T')[0]
+    const dStr = toLocalDateStr(d)
     cells.push({
       dateStr: dStr,
       dayNum: i,
@@ -601,7 +700,7 @@ const monthCells = computed(() => {
   const remaining = 35 - cells.length > 0 ? 35 - cells.length : 42 - cells.length
   for (let i = 1; i <= remaining; i++) {
     const d = new Date(year, month + 1, i)
-    const dStr = d.toISOString().split('T')[0]
+    const dStr = toLocalDateStr(d)
     cells.push({
       dateStr: dStr,
       dayNum: i,
@@ -618,9 +717,9 @@ const getFilteredEventsForDate = (dateStr: string) => {
 }
 
 const getEventStyle = (cat: AgriEvent['category']) => {
-  if (cat === 'Tanam' || cat === 'Panen') return 'bg-zinc-950 text-white border-zinc-950'
-  if (cat === 'Pupuk') return 'bg-zinc-200 text-zinc-950 border-zinc-400 font-bold'
-  if (cat === 'Irigasi') return 'bg-zinc-100 text-zinc-900 border-zinc-300'
+  if (cat === 'Tanam' || cat === 'Panen') return 'bg-forest-950 text-gold-300 border-forest-950'
+  if (cat === 'Pupuk') return 'bg-emerald-50 text-emerald-950 border-emerald-300 font-bold'
+  if (cat === 'Irigasi') return 'bg-blue-50 text-blue-900 border-blue-300'
   if (cat === 'PHT/Hama') return 'bg-zinc-900 text-white border-zinc-900'
   return 'bg-zinc-100 text-zinc-800 border-zinc-200'
 }
@@ -649,12 +748,22 @@ const goToToday = () => {
   currentYear.value = d.getFullYear()
 }
 
+const handleCellClick = (dateStr: string) => {
+  selectedDate.value = dateStr
+  const dayEvents = getFilteredEventsForDate(dateStr)
+  if (dayEvents.length > 0) {
+    openEventDetail(dayEvents[0])
+  } else {
+    openAddModalWithDate(dateStr)
+  }
+}
+
 const openEventDetail = (ev: AgriEvent) => {
   selectedEvent.value = ev
 }
 
-const quickAddForDate = (dateStr: string) => {
-  newCustomForm.value.date = dateStr
+const openAddModalWithDate = (dateStr?: string) => {
+  newCustomForm.value.date = dateStr || toLocalDateStr(new Date())
   showAddCustomModal.value = true
 }
 
@@ -663,8 +772,8 @@ const saveCustomEvent = () => {
   
   let offset = 0
   if (activeScenario.value) {
-    const pDate = new Date(activeScenario.value.planting_date).getTime()
-    const targetDate = new Date(newCustomForm.value.date).getTime()
+    const pDate = parseDateString(activeScenario.value.planting_date).getTime()
+    const targetDate = parseDateString(newCustomForm.value.date).getTime()
     offset = Math.round((targetDate - pDate) / (1000 * 60 * 60 * 24))
   }
 
@@ -701,7 +810,7 @@ const switchScenario = (event: any) => {
   const found = savedSimulations.value.find(s => s.id === selectedId)
   if (found) {
     activeScenario.value = found
-    const pDate = new Date(found.planting_date)
+    const pDate = parseDateString(found.planting_date)
     currentMonth.value = pDate.getMonth()
     currentYear.value = pDate.getFullYear()
   }
@@ -709,7 +818,7 @@ const switchScenario = (event: any) => {
 
 const formatFullDate = (dateStr: string) => {
   if (!dateStr) return '-'
-  const d = new Date(dateStr)
+  const d = parseDateString(dateStr)
   return d.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
 }
 
@@ -746,14 +855,26 @@ const exportICalendar = () => {
 }
 
 onMounted(async () => {
-  // Load persisted completed tasks
+  // Load persisted status & custom events
   if (import.meta.client) {
-    const storedCompleted = localStorage.getItem('taniaman_calendar_completed')
-    if (storedCompleted) {
+    const storedStatus = localStorage.getItem('taniaman_calendar_event_status')
+    if (storedStatus) {
       try {
-        completedEventIds.value = JSON.parse(storedCompleted)
+        eventStatusMap.value = JSON.parse(storedStatus)
       } catch (e) {}
+    } else {
+      // Fallback from old completed array if present
+      const storedCompleted = localStorage.getItem('taniaman_calendar_completed')
+      if (storedCompleted) {
+        try {
+          const arr: string[] = JSON.parse(storedCompleted)
+          const map: Record<string, EventStatus> = {}
+          arr.forEach(id => { map[id] = 'completed' })
+          eventStatusMap.value = map
+        } catch (e) {}
+      }
     }
+
     const storedCustom = localStorage.getItem('taniaman_custom_calendar_events')
     if (storedCustom) {
       try {
@@ -768,13 +889,18 @@ onMounted(async () => {
       latitude: -7.4478,
       longitude: 112.7183,
       crop_slug: 'padi',
-      planting_date: '2026-10-15',
+      planting_date: '2026-10-01',
       land_area: 1000,
       is_baseline: true
     })
+    if (activeScenario.value) {
+      const pDate = parseDateString(activeScenario.value.planting_date)
+      currentMonth.value = pDate.getMonth()
+      currentYear.value = pDate.getFullYear()
+    }
   } else {
     activeScenario.value = currentScenario.value
-    const pDate = new Date(currentScenario.value.planting_date)
+    const pDate = parseDateString(currentScenario.value.planting_date)
     currentMonth.value = pDate.getMonth()
     currentYear.value = pDate.getFullYear()
   }

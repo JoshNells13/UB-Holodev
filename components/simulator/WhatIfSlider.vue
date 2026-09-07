@@ -107,10 +107,15 @@ const onDateInput = (val: string) => {
 }
 
 const shiftDate = (days: number) => {
-  const d = new Date(props.currentDate)
-  d.setDate(d.getDate() + days)
-  const newDateStr = d.toISOString().split('T')[0]
-  emit('changeDate', newDateStr)
+  if (!props.currentDate) return
+  const parts = props.currentDate.split('-').map(Number)
+  if (parts.length === 3) {
+    const d = new Date(parts[0], parts[1] - 1, parts[2] + days)
+    const y = d.getFullYear()
+    const m = String(d.getMonth() + 1).padStart(2, '0')
+    const day = String(d.getDate()).padStart(2, '0')
+    emit('changeDate', `${y}-${m}-${day}`)
+  }
 }
 </script>
 
