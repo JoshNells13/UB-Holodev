@@ -75,37 +75,20 @@
           <span v-else>{{ mode === 'login' ? 'Masuk ke Sistem' : 'Buat Akun Siap Tani' }}</span>
         </button>
       </form>
-
-      <!-- Quick Demo Access Divider -->
-      <div class="relative my-4">
-        <div class="absolute inset-0 flex items-center">
-          <div class="w-full border-t border-zinc-200"></div>
-        </div>
-        <div class="relative flex justify-center text-[10px] uppercase font-mono font-bold">
-          <span class="bg-[#FBFAF6] px-2.5 text-zinc-400">Atau Evaluasi Cepat</span>
-        </div>
-      </div>
-
-      <!-- Quick Demo Login Button -->
-      <button type="button" @click="handleDemoLogin"
-        class="w-full flex items-center justify-center gap-2 rounded-xl border border-forest-900/15 bg-emerald-50/70 py-2.5 text-xs font-bold text-forest-950 hover:bg-emerald-100/70 transition-all shadow-xs cursor-pointer font-sans">
-        <Zap :size="14" class="text-[#d49b2a]" />
-        <span>Masuk Cepat Mode Demo Petani (1-Click)</span>
-      </button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Sprout, X, AlertCircle, User, Mail, KeyRound, Loader2, Zap } from '@lucide/vue'
+import { Sprout, X, AlertCircle, Loader2, User, Mail, KeyRound } from '@lucide/vue'
 
-const { isAuthModalOpen, closeAuthModal, redirectAfterAuth, signIn, signUp, signInDemo, loading } = useAuth()
+const { isAuthModalOpen, closeAuthModal, redirectAfterAuth, signIn, signUp, loading } = useAuth()
 
 const mode = ref<'login' | 'register'>('login')
+const fullName = ref('')
 const email = ref('')
 const password = ref('')
-const fullName = ref('')
 const errorMessage = ref('')
 
 const handleSubmit = async () => {
@@ -113,26 +96,21 @@ const handleSubmit = async () => {
   if (mode.value === 'login') {
     const res = await signIn(email.value, password.value)
     if (res.success) {
+      const target = redirectAfterAuth.value || '/'
       closeAuthModal()
-      navigateTo(redirectAfterAuth.value || '/simulate')
+      navigateTo(target)
     } else {
       errorMessage.value = res.error || 'Gagal masuk akun'
     }
   } else {
     const res = await signUp(email.value, password.value, fullName.value)
     if (res.success) {
+      const target = redirectAfterAuth.value || '/'
       closeAuthModal()
-      navigateTo(redirectAfterAuth.value || '/simulate')
+      navigateTo(target)
     } else {
-      errorMessage.value = res.error || 'Gagal mendaftar'
+      errorMessage.value = res.error || 'Gagal mendaftar akun'
     }
   }
 }
-
-const handleDemoLogin = () => {
-  signInDemo('Budi Santoso (Petani Demo)')
-  closeAuthModal()
-  navigateTo(redirectAfterAuth.value || '/simulate')
-}
 </script>
-

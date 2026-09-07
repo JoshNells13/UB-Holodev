@@ -1,34 +1,34 @@
 <template>
-  <div class="pointer-events-none absolute inset-0 flex flex-col justify-between p-4 select-none">
+  <div class="pointer-events-none absolute inset-0 flex flex-col justify-between p-2.5 sm:p-4 select-none">
     <!-- Top HUD Bar -->
-    <div class="flex items-start justify-between gap-3">
+    <div class="flex items-start justify-between gap-2 sm:gap-3">
       <!-- Left: Crop & Metadata Tag -->
-      <div class="pointer-events-auto rounded-2xl bg-forest-950/90 backdrop-blur-md p-3.5 border border-forest-800 shadow-premium space-y-1 max-w-[280px] text-white">
+      <div class="pointer-events-auto rounded-2xl bg-forest-950/90 backdrop-blur-md p-2.5 sm:p-3.5 border border-forest-800 shadow-premium space-y-0.5 sm:space-y-1 max-w-[200px] sm:max-w-[280px] text-white">
         <div class="flex items-center gap-1.5">
-          <span class="inline-block w-2.5 h-2.5 rounded-full animate-pulse shadow-xs" :class="statusDotClass" />
-          <span class="text-[10px] font-mono font-extrabold uppercase tracking-wider text-gold-400">3D Digital Twin Lahan</span>
+          <span class="inline-block w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full animate-pulse shadow-xs shrink-0" :class="statusDotClass" />
+          <span class="text-[8px] sm:text-[10px] font-mono font-extrabold uppercase tracking-wider text-gold-400 truncate">3D Digital Twin</span>
         </div>
-        <div class="font-extrabold text-sm text-white truncate font-sans">
+        <div class="font-extrabold text-xs sm:text-sm text-white truncate font-sans">
           {{ cropName }}
         </div>
-        <div class="flex items-center gap-2 font-mono text-[10px] text-emerald-200/80">
-          <span>{{ (landArea / 10000).toFixed(2) }} Ha ({{ landArea.toLocaleString('id-ID') }} m²)</span>
+        <div class="flex items-center gap-1.5 sm:gap-2 font-mono text-[9px] sm:text-[10px] text-emerald-200/80 truncate">
+          <span>{{ (landArea / 10000).toFixed(2) }} Ha</span>
           <span>•</span>
           <span>{{ formattedDate }}</span>
         </div>
       </div>
 
       <!-- Right: Overall DSS Score Pill -->
-      <div class="pointer-events-auto flex items-center gap-3 rounded-2xl bg-forest-950/90 backdrop-blur-md px-4 py-2.5 border border-forest-800 shadow-premium text-white">
+      <div class="pointer-events-auto flex items-center gap-2 sm:gap-3 rounded-2xl bg-forest-950/90 backdrop-blur-md px-2.5 py-1.5 sm:px-4 sm:py-2.5 border border-forest-800 shadow-premium text-white shrink-0">
         <div class="text-right">
-          <span class="block text-[9px] font-mono uppercase text-gold-400 font-bold">Skor DSS</span>
-          <div class="flex items-baseline justify-end gap-1">
-            <span class="font-mono text-2xl font-extrabold text-white">{{ overallScore }}</span>
-            <span class="font-mono text-[10px] text-zinc-400 font-bold">/100</span>
+          <span class="block text-[8px] sm:text-[9px] font-mono uppercase text-gold-400 font-bold">Skor DSS</span>
+          <div class="flex items-baseline justify-end gap-0.5 sm:gap-1">
+            <span class="font-mono text-lg sm:text-2xl font-extrabold text-white">{{ overallScore }}</span>
+            <span class="font-mono text-[9px] sm:text-[10px] text-zinc-400 font-bold">/100</span>
           </div>
         </div>
         <span
-          class="rounded-full px-2.5 py-1 text-[10px] font-mono font-bold shadow-xs"
+          class="rounded-full px-2 py-0.5 sm:px-2.5 sm:py-1 text-[8px] sm:text-[10px] font-mono font-bold shadow-xs whitespace-nowrap"
           :class="scoreBadgeClass"
         >
           {{ recommendationText }}
@@ -37,29 +37,29 @@
     </div>
 
     <!-- Bottom HUD Bar -->
-    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2 sm:gap-3">
       <!-- Mini Legends -->
-      <div class="pointer-events-auto rounded-2xl bg-forest-950/90 backdrop-blur-md px-3.5 py-2.5 border border-forest-800 shadow-premium flex flex-wrap items-center gap-3 text-xs font-mono text-emerald-100">
-        <div class="flex items-center gap-1.5" title="Kesesuaian Suhu">
-          <Thermometer :size="14" class="text-amber-400" />
+      <div class="pointer-events-auto rounded-2xl bg-forest-950/90 backdrop-blur-md px-2.5 py-1.5 sm:px-3.5 sm:py-2.5 border border-forest-800 shadow-premium flex flex-wrap items-center gap-2 sm:gap-3 text-[10px] sm:text-xs font-mono text-emerald-100 max-w-full">
+        <div class="flex items-center gap-1 sm:gap-1.5" title="Kesesuaian Suhu">
+          <Thermometer :size="12" class="text-amber-400 shrink-0" />
           <span>Suhu: <strong class="text-white">{{ temperatureScore ?? 85 }}</strong></span>
         </div>
-        <div class="flex items-center gap-1.5" title="Kecukupan Air FAO-56">
-          <Droplet :size="14" class="text-cyan-400" />
+        <div class="flex items-center gap-1 sm:gap-1.5" title="Kecukupan Air FAO-56">
+          <Droplet :size="12" class="text-cyan-400 shrink-0" />
           <span>Air: <strong class="text-white">{{ waterScore ?? 80 }}</strong></span>
         </div>
-        <div class="flex items-center gap-1.5" title="Risiko Cuaca & Presipitasi">
-          <CloudRain :size="14" class="text-blue-400" />
+        <div class="flex items-center gap-1 sm:gap-1.5" title="Risiko Cuaca & Presipitasi">
+          <CloudRain :size="12" class="text-blue-400 shrink-0" />
           <span>Cuaca: <strong class="text-white">{{ weatherScore ?? 88 }}</strong></span>
         </div>
-        <div class="flex items-center gap-1.5" title="Kesesuaian Agroklimat Komoditas">
-          <Sprout :size="14" class="text-gold-400" />
+        <div class="flex items-center gap-1 sm:gap-1.5" title="Kesesuaian Agroklimat Komoditas">
+          <Sprout :size="12" class="text-gold-400 shrink-0" />
           <span>Kesesuaian: <strong class="text-white">{{ cropFitScore ?? 90 }}</strong></span>
         </div>
       </div>
 
       <!-- Controls Slot -->
-      <div class="pointer-events-auto">
+      <div class="pointer-events-auto shrink-0">
         <slot name="controls" />
       </div>
     </div>
@@ -119,7 +119,7 @@ const recommendationText = computed(() => {
   if (props.recommendation) return props.recommendation
   if (props.overallScore >= 85) return 'Highly Recommended'
   if (props.overallScore >= 70) return 'Recommended'
-  if (props.overallScore >= 55) return 'Consider Carefully'
+  if (props.overallScore >= 55) return 'Consider'
   return 'High Risk'
 })
 
@@ -137,4 +137,3 @@ const scoreBadgeClass = computed(() => {
   return 'bg-red-500 text-white font-bold'
 })
 </script>
-

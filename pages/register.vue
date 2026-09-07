@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen w-full flex flex-col lg:flex-row bg-[#FBFAF6]">
-    <!-- Left Hero Banner (Deep Dark Forest Green #0C2B1C) -->
-    <div class="w-full lg:w-1/2 min-h-screen bg-[#0C2B1C] p-8 sm:p-14 lg:p-20 text-white flex flex-col justify-between relative overflow-hidden">
+    <!-- Left Hero Banner (Deep Dark Forest Green #0C2B1C) - Hidden on mobile so form shows directly -->
+    <div class="hidden lg:flex lg:w-1/2 min-h-screen bg-[#0C2B1C] p-8 sm:p-14 lg:p-20 text-white flex-col justify-between relative overflow-hidden">
       <!-- Ambient Glows -->
       <div class="absolute -top-32 -left-32 w-96 h-96 bg-[#16432f]/40 rounded-full blur-3xl pointer-events-none"></div>
       <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-[#d49b2a]/10 rounded-full blur-3xl pointer-events-none"></div>
@@ -57,11 +57,24 @@
     <!-- Right Column: Register Form Container (Cream Canvas #FBFAF6) -->
     <div class="w-full lg:w-1/2 min-h-screen bg-[#FBFAF6] flex items-center justify-center p-6 sm:p-12 lg:p-20">
       <div class="w-full max-w-[420px] space-y-6">
+        <!-- Mobile Brand Header -->
+        <div class="lg:hidden flex items-center justify-between border-b border-[#e5e5df] pb-4">
+          <NuxtLink to="/" class="flex items-center gap-2">
+            <img src="/icon_logo.png" alt="Siap Tani" class="h-8 w-8 object-contain" />
+            <span class="text-base font-extrabold uppercase tracking-tight">
+              <span class="text-[#0C2B1C]">Siap</span><span class="text-[#D49B2A] ml-1">Tani</span>
+            </span>
+          </NuxtLink>
+          <NuxtLink to="/" class="text-xs text-[#6b7280] hover:text-[#0C2B1C] transition">
+            Beranda
+          </NuxtLink>
+        </div>
+
         <div>
           <span class="text-xs font-bold text-[#d49b2a] uppercase tracking-[0.2em] block font-sans">
             REGISTRASI PENGGUNA
           </span>
-          <h2 class="mt-2 text-3xl sm:text-[34px] font-extrabold text-[#111827] tracking-tight leading-tight">
+          <h2 class="mt-2 text-2xl sm:text-[34px] font-extrabold text-[#111827] tracking-tight leading-tight">
             Daftar Akun Baru
           </h2>
           <p class="mt-2 text-sm text-[#6b7280] leading-relaxed font-sans">
@@ -119,27 +132,7 @@
           </button>
         </form>
 
-        <!-- Divider -->
-        <div class="relative my-5">
-          <div class="absolute inset-0 flex items-center">
-            <div class="w-full border-t border-[#e5e5df]"></div>
-          </div>
-          <div class="relative flex justify-center text-xs">
-            <span class="bg-[#FBFAF6] px-3 text-[#9ca3af] font-medium font-sans">atau</span>
-          </div>
-        </div>
-
-        <!-- Quick 1-Click Demo Login Button -->
-        <button
-          type="button"
-          @click="handleDemoLogin"
-          class="w-full flex items-center justify-center gap-2 rounded-xl border border-forest-900/15 bg-emerald-50/70 py-2.5 text-xs font-bold text-forest-950 hover:bg-emerald-100/70 transition-all cursor-pointer font-sans"
-        >
-          <Zap :size="14" class="text-[#d49b2a]" />
-          <span>Masuk Cepat Mode Demo Petani (Budi Santoso)</span>
-        </button>
-
-        <p class="text-center text-xs text-[#6b7280] pt-2 font-sans">
+        <p class="text-center text-xs text-[#6b7280] pt-4 font-sans">
           Sudah memiliki akun?
           <NuxtLink to="/login" class="font-extrabold text-[#d49b2a] hover:text-[#b8821e] ml-1 transition">
             Masuk di sini
@@ -152,9 +145,9 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Sprout, AlertCircle, Loader2, Zap } from '@lucide/vue'
+import { Sprout, AlertCircle, Loader2 } from '@lucide/vue'
 
-const { signUp, signInDemo, loading } = useAuth()
+const { signUp, loading } = useAuth()
 const route = useRoute()
 
 const fullName = ref('')
@@ -172,11 +165,4 @@ const handleRegister = async () => {
     errorMessage.value = res.error || 'Gagal mendaftar'
   }
 }
-
-const handleDemoLogin = () => {
-  signInDemo('Budi Santoso (Petani Demo)')
-  const redirect = (route.query.redirect as string) || '/simulate'
-  navigateTo(redirect)
-}
 </script>
-

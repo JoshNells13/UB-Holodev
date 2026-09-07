@@ -3,8 +3,11 @@
     <div class="relative mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
       <!-- Logo & Brand (Left) -->
       <div class="flex items-center">
-        <NuxtLink to="/" class="flex items-center transition hover:opacity-80 shrink-0" aria-label="Siap Tani Beranda">
-          <img src="/icon_logo.png" alt="Siap Tani" class="h-9 w-9 object-contain drop-shadow-2xs" />
+        <NuxtLink to="/" class="flex items-center gap-2.5 transition hover:opacity-85 shrink-0" aria-label="Siap Tani Beranda">
+          <img src="/icon_logo.png" alt="Siap Tani" class="h-8 w-8 object-contain drop-shadow-2xs" />
+          <span class="text-base sm:text-lg font-extrabold tracking-tight uppercase leading-none select-none">
+            <span class="text-[#0C2B1C]">Siap</span><span class="text-[#D49B2A] ml-1">Tani</span>
+          </span>
         </NuxtLink>
       </div>
 
@@ -84,7 +87,6 @@
                   {{ user.full_name?.charAt(0).toUpperCase() || 'P' }}
                 </div>
                 <span class="max-w-[100px] sm:max-w-[130px] truncate font-semibold text-xs">{{ user.full_name || 'Petani' }}</span>
-                <span v-if="isDemoUser" class="hidden sm:inline-block rounded bg-gold-100 text-gold-900 px-1.5 py-0.2 text-[8px] font-mono font-bold uppercase border border-gold-300">Demo</span>
                 <ChevronDown :size="12" class="text-zinc-500 transition-transform duration-200" :class="{ 'rotate-180 text-forest-900': isProfileMenuOpen }" />
               </button>
 
