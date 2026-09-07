@@ -45,6 +45,22 @@
       </div>
     </div>
 
+    <!-- Notification Toast if any -->
+    <div
+      v-if="calendarToast"
+      class="rounded-2xl border p-3.5 text-xs font-mono font-bold flex items-center justify-between shadow-lg transition-all animate-in fade-in"
+      :class="calendarToast.type === 'warning' ? 'border-amber-300 bg-amber-50 text-amber-900' : 'border-emerald-600 bg-forest-950 text-white'"
+    >
+      <div class="flex items-center gap-2.5">
+        <AlertCircle v-if="calendarToast.type === 'warning'" :size="16" class="text-amber-600 shrink-0" />
+        <BookmarkCheck v-else :size="16" class="text-gold-400 shrink-0" />
+        <span>{{ calendarToast.message }}</span>
+      </div>
+      <button @click="calendarToast = null" class="opacity-70 hover:opacity-100 transition cursor-pointer ml-3">
+        <X :size="14" />
+      </button>
+    </div>
+
     <!-- Active Crop Scenario Summary Banner & Switcher -->
     <div v-if="activeScenario" class="rounded-3xl border border-forest-950/10 bg-white p-6 shadow-premium flex flex-col lg:flex-row lg:items-center justify-between gap-4">
       <div class="flex items-start sm:items-center gap-3.5">
@@ -182,30 +198,44 @@
         <div
           v-for="cell in monthCells"
           :key="cell.dateStr"
-          @click="handleCellClick(cell.dateStr)"
-          class="min-h-[110px] sm:min-h-[125px] p-1.5 sm:p-2 transition flex flex-col justify-between cursor-pointer hover:bg-forest-50/30"
+          @click="handleCellClick(cell)"
+          class="min-h-[110px] sm:min-h-[125px] p-1.5 sm:p-2 transition flex flex-col justify-between cursor-pointer"
           :class="[
-            cell.isCurrentMonth ? 'bg-white' : 'bg-zinc-50/50 text-zinc-400',
-            selectedDate === cell.dateStr ? 'ring-2 ring-forest-900 bg-forest-50/40 z-10' : ''
+            cell.isCurrentMonth ? (cell.isPast ? 'bg-zinc-100/50' : 'bg-white') : 'bg-zinc-50/40 text-zinc-400',
+            cell.isPast ? 'opacity-85' : 'hover:bg-forest-50/40',
+            selectedDate === cell.dateStr ? 'ring-2 ring-forest-900 bg-forest-50/50 z-10' : ''
           ]"
         >
           <!-- Date number & quick add -->
           <div class="flex items-center justify-between">
             <span
               class="flex h-6 w-6 items-center justify-center rounded-full font-mono text-xs font-bold"
-              :class="cell.isToday ? 'bg-forest-950 text-gold-300 ring-2 ring-gold-400/40' : 'text-zinc-900'"
+              :class="[
+                cell.isToday
+                  ? 'bg-forest-950 text-gold-300 ring-2 ring-gold-400/40'
+                  : (cell.isPast ? 'text-zinc-400' : 'text-zinc-900')
+              ]"
             >
               {{ cell.dayNum }}
             </span>
+
+            <!-- Quick Add Button (only available for today & future) -->
             <button
-              v-if="cell.isCurrentMonth"
+              v-if="cell.isCurrentMonth && !cell.isPast"
               type="button"
               @click.stop="openAddModalWithDate(cell.dateStr)"
-              class="text-zinc-300 hover:text-forest-900 hover:bg-forest-50 p-1 rounded-md transition cursor-pointer"
+              class="text-zinc-400 hover:text-forest-900 hover:bg-forest-100 p-1 rounded-md transition cursor-pointer"
               title="Tandai kegiatan di tanggal ini"
             >
-              <Plus :size="12" />
+              <Plus :size="13" />
             </button>
+            <span
+              v-else-if="cell.isCurrentMonth && cell.isPast"
+              class="text-[9px] font-mono text-zinc-400 select-none"
+              title="Tanggal sudah lewat"
+            >
+              Lewat
+            </span>
           </div>
 
           <!-- Events in day -->
@@ -405,6 +435,11 @@
           </button>
         </div>
 
+        <div v-if="formError" class="rounded-xl border border-red-200 bg-red-50 p-2.5 text-xs text-red-700 font-medium flex items-center gap-2">
+          <AlertCircle :size="14" class="shrink-0 text-red-600" />
+          <span>{{ formError }}</span>
+        </div>
+
         <form @submit.prevent="saveCustomEvent" class="space-y-3 text-xs">
           <div>
             <label class="block font-bold text-zinc-700 uppercase mb-1">Judul Kegiatan / Penandaan:</label>
@@ -423,9 +458,11 @@
               <input
                 v-model="newCustomForm.date"
                 type="date"
+                :min="todayStr"
                 required
                 class="w-full rounded-xl border border-zinc-300 p-2.5 font-mono text-zinc-950 focus:border-forest-950 focus:outline-none"
               />
+              <p class="text-[10px] text-zinc-500 font-mono mt-1">Minimal: {{ todayStr }}</p>
             </div>
 
             <div>
@@ -490,7 +527,8 @@ import {
   CheckCircle2,
   Clock,
   RotateCw,
-  AlertCircle
+  AlertCircle,
+  BookmarkCheck
 } from '@lucide/vue'
 import type { ScenarioResult } from '~/types/simulation'
 
@@ -517,7 +555,7 @@ const toLocalDateStr = (d: Date): string => {
   const y = d.getFullYear()
   const m = String(d.getMonth() + 1).padStart(2, '0')
   const day = String(d.getDate()).padStart(2, '0')
-  return `${y}-${m}-${d}`
+  return `${y}-${m}-${day}`
 }
 
 // Timezone-safe YYYY-MM-DD date parsing to local Date object
@@ -530,14 +568,18 @@ const parseDateString = (dateStr: string): Date => {
   return new Date(dateStr)
 }
 
+const todayStr = computed(() => toLocalDateStr(new Date()))
+
 const activeScenario = ref<ScenarioResult | null>(null)
 const viewMode = ref<'month' | 'agenda'>('month')
 const selectedEvent = ref<AgriEvent | null>(null)
 const selectedDate = ref<string | null>(null)
 const showAddCustomModal = ref(false)
+const formError = ref('')
+const calendarToast = ref<{ type: 'success' | 'warning'; message: string } | null>(null)
 const selectedCategoryFilter = ref('Semua')
 
-const categoryFilters = ['Semua', 'Tanam', 'Pupuk', 'Irigasi', 'PHT/Hama', 'Panen', 'Catatan']
+const categoryFilters = ['Semua', 'Tanam', 'Pupuk', 'Irigasi', 'PHT/Hama', 'Olah Lahan', 'Panen', 'Catatan']
 
 const now = new Date()
 const currentMonth = ref(now.getMonth())
@@ -659,7 +701,15 @@ const filteredEvents = computed(() => {
   return list.sort((a, b) => parseDateString(a.date).getTime() - parseDateString(b.date).getTime())
 })
 
-const monthCells = computed(() => {
+interface MonthCell {
+  dateStr: string
+  dayNum: number
+  isCurrentMonth: boolean
+  isToday: boolean
+  isPast: boolean
+}
+
+const monthCells = computed<MonthCell[]>(() => {
   const year = currentYear.value
   const month = currentMonth.value
 
@@ -668,8 +718,8 @@ const monthCells = computed(() => {
   const startDayOfWeek = firstDay.getDay() // 0 = Sun
   const totalDays = lastDay.getDate()
 
-  const cells = []
-  const todayStr = toLocalDateStr(new Date())
+  const cells: MonthCell[] = []
+  const today = todayStr.value
 
   // Previous month padding
   const prevLastDay = new Date(year, month, 0).getDate()
@@ -680,7 +730,8 @@ const monthCells = computed(() => {
       dateStr: dStr,
       dayNum: d.getDate(),
       isCurrentMonth: false,
-      isToday: dStr === todayStr
+      isToday: dStr === today,
+      isPast: dStr < today
     })
   }
 
@@ -692,12 +743,13 @@ const monthCells = computed(() => {
       dateStr: dStr,
       dayNum: i,
       isCurrentMonth: true,
-      isToday: dStr === todayStr
+      isToday: dStr === today,
+      isPast: dStr < today
     })
   }
 
   // Next month padding to reach full 35 or 42 grid cells
-  const remaining = 35 - cells.length > 0 ? 35 - cells.length : 42 - cells.length
+  const remaining = 35 - cells.length > 0 ? 35 - cells.length : (cells.length < 42 ? 42 - cells.length : 0)
   for (let i = 1; i <= remaining; i++) {
     const d = new Date(year, month + 1, i)
     const dStr = toLocalDateStr(d)
@@ -705,7 +757,8 @@ const monthCells = computed(() => {
       dateStr: dStr,
       dayNum: i,
       isCurrentMonth: false,
-      isToday: dStr === todayStr
+      isToday: dStr === today,
+      isPast: dStr < today
     })
   }
 
@@ -721,6 +774,7 @@ const getEventStyle = (cat: AgriEvent['category']) => {
   if (cat === 'Pupuk') return 'bg-emerald-50 text-emerald-950 border-emerald-300 font-bold'
   if (cat === 'Irigasi') return 'bg-blue-50 text-blue-900 border-blue-300'
   if (cat === 'PHT/Hama') return 'bg-zinc-900 text-white border-zinc-900'
+  if (cat === 'Olah Lahan') return 'bg-amber-50 text-amber-950 border-amber-300'
   return 'bg-zinc-100 text-zinc-800 border-zinc-200'
 }
 
@@ -746,16 +800,21 @@ const goToToday = () => {
   const d = new Date()
   currentMonth.value = d.getMonth()
   currentYear.value = d.getFullYear()
+  selectedDate.value = todayStr.value
 }
 
-const handleCellClick = (dateStr: string) => {
-  selectedDate.value = dateStr
-  const dayEvents = getFilteredEventsForDate(dateStr)
-  if (dayEvents.length > 0) {
-    openEventDetail(dayEvents[0])
-  } else {
-    openAddModalWithDate(dateStr)
+const handleCellClick = (cell: MonthCell) => {
+  selectedDate.value = cell.dateStr
+
+  if (cell.isPast) {
+    calendarToast.value = {
+      type: 'warning',
+      message: `Tanggal ${formatFullDate(cell.dateStr)} sudah terlewat. Kegiatan baru hanya dapat ditambahkan mulai hari ini (${formatFullDate(todayStr.value)}).`
+    }
+    return
   }
+
+  openAddModalWithDate(cell.dateStr)
 }
 
 const openEventDetail = (ev: AgriEvent) => {
@@ -763,13 +822,32 @@ const openEventDetail = (ev: AgriEvent) => {
 }
 
 const openAddModalWithDate = (dateStr?: string) => {
-  newCustomForm.value.date = dateStr || toLocalDateStr(new Date())
+  formError.value = ''
+  let targetDate = dateStr || selectedDate.value || todayStr.value
+
+  // Past date validation
+  if (targetDate < todayStr.value) {
+    targetDate = todayStr.value
+  }
+
+  selectedDate.value = targetDate
+  newCustomForm.value.date = targetDate
   showAddCustomModal.value = true
 }
 
 const saveCustomEvent = () => {
-  if (!newCustomForm.value.title) return
-  
+  formError.value = ''
+  const titleTrimmed = newCustomForm.value.title.trim()
+  if (!titleTrimmed) {
+    formError.value = 'Judul kegiatan wajib diisi.'
+    return
+  }
+
+  if (newCustomForm.value.date < todayStr.value) {
+    formError.value = `Tidak dapat menambahkan kegiatan pada tanggal yang sudah terlewat (${formatFullDate(newCustomForm.value.date)}). Minimal tanggal hari ini.`
+    return
+  }
+
   let offset = 0
   if (activeScenario.value) {
     const pDate = parseDateString(activeScenario.value.planting_date).getTime()
@@ -778,23 +856,34 @@ const saveCustomEvent = () => {
   }
 
   const newEv: AgriEvent = {
-    id: 'custom_' + Date.now(),
+    id: 'custom_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
     date: newCustomForm.value.date,
     dayOffset: offset,
-    title: newCustomForm.value.title,
+    title: titleTrimmed,
     category: newCustomForm.value.category,
-    description: newCustomForm.value.description || 'Catatan lapangan pengguna.',
+    description: newCustomForm.value.description?.trim() || 'Catatan lapangan pengguna.',
     isCustom: true
   }
 
-  customEvents.value.push(newEv)
+  customEvents.value = [...customEvents.value, newEv]
   if (import.meta.client) {
     localStorage.setItem('taniaman_custom_calendar_events', JSON.stringify(customEvents.value))
   }
 
+  // Switch month if added event is in another month so user can see it
+  const savedDate = parseDateString(newCustomForm.value.date)
+  currentMonth.value = savedDate.getMonth()
+  currentYear.value = savedDate.getFullYear()
+  selectedDate.value = newCustomForm.value.date
+
   showAddCustomModal.value = false
   newCustomForm.value.title = ''
   newCustomForm.value.description = ''
+
+  calendarToast.value = {
+    type: 'success',
+    message: `Kegiatan "${newEv.title}" berhasil ditambahkan ke tanggal ${formatFullDate(newEv.date)}!`
+  }
 }
 
 const deleteCustomEvent = (id: string) => {
@@ -803,6 +892,10 @@ const deleteCustomEvent = (id: string) => {
     localStorage.setItem('taniaman_custom_calendar_events', JSON.stringify(customEvents.value))
   }
   selectedEvent.value = null
+  calendarToast.value = {
+    type: 'success',
+    message: 'Catatan kegiatan berhasil dihapus.'
+  }
 }
 
 const switchScenario = (event: any) => {
