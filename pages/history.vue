@@ -1,15 +1,15 @@
 <template>
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-8">
     <!-- Header -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-200 pb-5">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-forest-950/10 pb-5">
       <div>
         <div class="flex items-center gap-2">
-          <span class="rounded bg-zinc-950 px-2 py-0.5 font-mono text-[10px] font-bold text-white uppercase">
-            History Log
+          <span class="rounded bg-forest-950 px-2.5 py-0.5 font-mono text-[10px] font-extrabold text-gold-400 uppercase tracking-wider">
+            HISTORY LOG
           </span>
           <span class="text-xs font-mono text-zinc-500">Rekam Jejak Simulasi Tersimpan</span>
         </div>
-        <h1 class="mt-1 text-2xl sm:text-3xl font-extrabold tracking-tight text-zinc-950 uppercase">
+        <h1 class="mt-1 text-2xl sm:text-3xl font-extrabold tracking-tight text-forest-950 uppercase">
           Riwayat Simulasi
         </h1>
       </div>
@@ -19,15 +19,15 @@
           v-if="savedSimulations.length > 0"
           type="button"
           @click="confirmClearAll"
-          class="rounded-xl border border-zinc-300 px-3.5 py-2 text-xs font-bold text-zinc-700 transition hover:bg-zinc-100"
+          class="rounded-xl border border-zinc-300 bg-white px-3.5 py-2 text-xs font-bold text-zinc-700 transition hover:bg-forest-50 hover:border-forest-300 shadow-xs"
         >
           Hapus Semua
         </button>
         <NuxtLink
           to="/simulate"
-          class="flex items-center gap-1.5 rounded-xl bg-zinc-950 px-4 py-2 text-xs font-bold text-white transition hover:bg-zinc-800 shadow-sm"
+          class="flex items-center gap-1.5 rounded-xl bg-forest-950 px-4 py-2 text-xs font-extrabold text-white transition hover:bg-forest-900 shadow-xs ring-1 ring-forest-900"
         >
-          <Plus :size="15" />
+          <Plus :size="14" class="text-gold-400" />
           <span>Buat Simulasi Baru</span>
         </NuxtLink>
       </div>
@@ -35,27 +35,29 @@
 
     <!-- Loading indicator -->
     <div v-if="isLoadingHistory" class="flex flex-col items-center py-16 gap-3 text-zinc-400">
-      <Loader2 :size="32" class="animate-spin text-zinc-950" />
+      <Loader2 :size="32" class="animate-spin text-forest-950" />
       <span class="font-mono text-xs text-zinc-600">Memuat riwayat dari Supabase...</span>
     </div>
 
     <!-- Empty State -->
     <div
       v-else-if="savedSimulations.length === 0"
-      class="rounded-3xl border-2 border-dashed border-zinc-300 bg-zinc-50 p-12 text-center"
+      class="rounded-3xl border-2 border-dashed border-forest-900/20 bg-white p-12 sm:p-16 text-center shadow-premium"
     >
-      <History :size="40" class="mx-auto text-zinc-400" />
-      <h3 class="mt-4 text-base font-bold text-zinc-950">Belum Ada Riwayat Simulasi Tersimpan</h3>
-      <p class="mt-1 text-xs text-zinc-500 max-w-md mx-auto">
+      <div class="flex h-16 w-16 mx-auto items-center justify-center rounded-2xl bg-forest-50 text-forest-900 border border-forest-100">
+        <RotateCcw :size="32" class="text-forest-800" />
+      </div>
+      <h3 class="mt-4 text-lg font-extrabold text-forest-950">Belum Ada Riwayat Simulasi Tersimpan</h3>
+      <p class="mt-1.5 text-xs text-zinc-600 max-w-md mx-auto leading-relaxed">
         Jalankan simulasi keputusan di Simulation Studio lalu klik "Simpan Simulasi ke Supabase" untuk menyimpannya di sini.
       </p>
       <div class="mt-6">
         <NuxtLink
           to="/simulate"
-          class="inline-flex items-center gap-2 rounded-xl bg-zinc-950 px-5 py-2.5 text-xs font-bold text-white transition hover:bg-zinc-800 shadow-sm"
+          class="inline-flex items-center gap-2 rounded-xl bg-forest-950 px-6 py-3 text-xs font-extrabold text-white transition hover:bg-forest-900 shadow-md ring-1 ring-forest-900"
         >
           <span>Buka Simulation Studio</span>
-          <ArrowRight :size="15" />
+          <ArrowRight :size="14" class="text-gold-400" />
         </NuxtLink>
       </div>
     </div>
@@ -236,7 +238,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { History, Plus, ArrowRight, Sliders, Trash2, MapPin, Calendar, Maximize2, Loader2 } from '@lucide/vue'
+import { History, RotateCcw, Plus, ArrowRight, Sliders, Trash2, MapPin, Calendar, Maximize2, Loader2 } from '@lucide/vue'
 import type { ScenarioResult } from '~/types/simulation'
 
 definePageMeta({

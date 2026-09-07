@@ -1,37 +1,37 @@
 <template>
-  <div class="rounded-2xl border border-zinc-300 bg-white p-6 shadow-clean-md">
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-zinc-200 pb-3">
-      <div class="flex items-center gap-2">
-        <div class="flex h-7 w-7 items-center justify-center rounded-md bg-zinc-950 text-white">
-          <CalendarDays :size="16" />
+  <div class="rounded-2xl border border-emerald-950/10 bg-white p-6 shadow-premium">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-zinc-200 pb-4">
+      <div class="flex items-center gap-3">
+        <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-forest-900 text-gold-400 shadow-sm">
+          <CalendarDays :size="18" />
         </div>
         <div>
-          <h3 class="text-xs font-bold uppercase tracking-wider text-zinc-950">Rekomendasi Jendela Waktu Tanam</h3>
-          <p class="text-[11px] text-zinc-500">Evaluasi multi-tanggal (+/- 28 hari) untuk meminimalkan risiko agroklimat</p>
+          <h3 class="text-xs font-bold uppercase tracking-wider text-forest-950">Rekomendasi Jendela Waktu Tanam</h3>
+          <p class="text-[11px] text-zinc-500 font-sans">Evaluasi multi-tanggal (+/- 28 hari) untuk meminimalkan risiko agroklimat</p>
         </div>
       </div>
       <div class="flex items-center gap-2">
-        <span class="rounded bg-zinc-950 px-2.5 py-0.5 font-mono text-[10px] font-bold text-white uppercase">
+        <span class="rounded-full bg-forest-900 px-3 py-1 font-mono text-[11px] font-bold text-gold-400 uppercase tracking-wider shadow-xs">
           Tingkat Keyakinan: {{ windowData.confidence }}
         </span>
       </div>
     </div>
 
     <!-- Optimal Window Highlight Banner -->
-    <div class="mt-5 rounded-xl border-2 border-zinc-900 bg-zinc-50 p-4">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+    <div class="mt-5 rounded-2xl border border-forest-900 bg-forest-950 p-5 text-white shadow-premium">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <span class="text-[10px] font-mono uppercase text-zinc-500 block">Jendela Tanam Terbaik:</span>
-          <h4 class="text-sm sm:text-base font-extrabold text-zinc-950 font-mono">
+          <span class="text-[10px] font-mono uppercase text-gold-400 block font-bold tracking-wider">Jendela Tanam Terbaik:</span>
+          <h4 class="text-base sm:text-lg font-extrabold text-white font-mono mt-0.5">
             {{ formatDateRange(windowData.startDate, windowData.endDate) }}
           </h4>
         </div>
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-3 bg-white/10 px-4 py-2 rounded-xl border border-white/10">
           <div class="text-right">
-            <span class="text-[10px] font-mono uppercase text-zinc-500 block">Tanggal Puncak Rekomendasi:</span>
-            <span class="font-mono text-xs font-bold text-zinc-950">{{ formatDate(windowData.optimalDate) }}</span>
+            <span class="text-[10px] font-mono uppercase text-emerald-200 block">Tanggal Puncak Rekomendasi:</span>
+            <span class="font-mono text-xs font-bold text-gold-400">{{ formatDate(windowData.optimalDate) }}</span>
           </div>
-          <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-950 text-white font-bold">
+          <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-gold-500 text-forest-950 font-bold">
             <CheckCircle2 :size="20" />
           </div>
         </div>
@@ -40,23 +40,23 @@
 
     <!-- Scanned Days Matrix -->
     <div class="mt-5">
-      <span class="text-[10px] font-mono text-zinc-500 uppercase block mb-2">Simulasi Skor Jendela Waktu Tanam:</span>
-      <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2">
+      <span class="text-[10px] font-mono text-zinc-500 uppercase block mb-3 font-bold tracking-wider">Simulasi Skor Jendela Waktu Tanam:</span>
+      <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2.5">
         <div
           v-for="d in windowData.days"
           :key="d.date"
-          class="rounded-lg border p-2.5 text-center transition"
-          :class="d.is_optimal ? 'border-zinc-950 bg-zinc-950 text-white shadow-md ring-2 ring-zinc-950' : 'border-zinc-200 bg-zinc-50 hover:bg-zinc-100 text-zinc-900'"
+          class="rounded-xl border p-3 text-center transition-all duration-200"
+          :class="d.is_optimal ? 'border-forest-900 bg-forest-900 text-white shadow-premium ring-2 ring-gold-400' : 'border-zinc-200 bg-zinc-50/70 hover:bg-emerald-50/40 text-zinc-900'"
         >
-          <span class="block font-mono text-[10px]" :class="d.is_optimal ? 'text-zinc-300' : 'text-zinc-500'">
+          <span class="block font-mono text-[10px]" :class="d.is_optimal ? 'text-gold-300 font-bold' : 'text-zinc-500'">
             {{ formatShortDate(d.date) }}
           </span>
-          <span class="mt-1 block font-mono text-base font-extrabold" :class="d.is_optimal ? 'text-white' : 'text-zinc-950'">
+          <span class="mt-1 block font-mono text-lg font-extrabold" :class="d.is_optimal ? 'text-white' : 'text-forest-950'">
             {{ d.score }}
           </span>
           <span
-            class="mt-1 inline-block rounded px-1.5 py-0.2 text-[9px] font-mono uppercase font-bold"
-            :class="d.is_optimal ? 'bg-white text-zinc-950' : getBadgeStyle(d.score)"
+            class="mt-1.5 inline-block rounded-md px-2 py-0.5 text-[9px] font-mono uppercase font-bold"
+            :class="d.is_optimal ? 'bg-gold-500 text-forest-950 shadow-xs' : getBadgeStyle(d.score)"
           >
             {{ d.is_optimal ? 'PUNCAK' : d.risk_level }}
           </span>
@@ -89,12 +89,13 @@ const formatDate = (dateStr: string) => {
 
 const formatShortDate = (dateStr: string) => {
   const d = new Date(dateStr)
-  return `${d.getDate()} ${d.toLocaleDateString('id-ID', { month: 'short' })}`
+  return `${d.getDate()}/${d.getMonth() + 1}`
 }
 
 const getBadgeStyle = (score: number) => {
-  if (score >= 80) return 'bg-zinc-200 text-zinc-950 border border-zinc-300'
-  if (score >= 65) return 'bg-zinc-100 text-zinc-800'
-  return 'bg-zinc-200 text-zinc-600'
+  if (score >= 80) return 'bg-emerald-100 text-forest-900 border border-emerald-300'
+  if (score >= 65) return 'bg-amber-100 text-amber-900 border border-amber-300'
+  return 'bg-zinc-200 text-zinc-700'
 }
 </script>
+

@@ -1,74 +1,76 @@
 <template>
   <div v-if="isAuthModalOpen"
-    class="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/70 p-4 backdrop-blur-sm"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-forest-950/70 p-4 backdrop-blur-sm"
     @click.self="closeAuthModal">
-    <div class="w-full max-w-md rounded-xl border border-zinc-300 bg-white p-6 shadow-2xl transition-all">
+    <div class="w-full max-w-md rounded-3xl border border-forest-900 bg-white p-6 sm:p-8 shadow-2xl transition-all">
       <!-- Modal Header -->
-      <div class="flex items-center justify-between pb-4 border-b border-zinc-200">
-        <div class="flex items-center gap-2.5">
-          <img src="/icon_logo.png" alt="Siap Tani Logo" class="h-8 w-8 object-contain shrink-0" />
+      <div class="flex items-center justify-between pb-4 border-b border-zinc-100">
+        <div class="flex items-center gap-3">
+          <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-gold-500 text-forest-950 shadow-xs">
+            <Sprout :size="22" />
+          </div>
           <div>
-            <h3 class="text-base font-bold text-zinc-950">Akses Sistem Siap Tani</h3>
-            <p class="text-xs text-zinc-500">Wajib masuk atau daftar sebelum melakukan simulasi</p>
+            <h3 class="text-base font-extrabold text-forest-950">Akses Sistem Siap Tani</h3>
+            <p class="text-[11px] text-zinc-500">Wajib masuk atau daftar sebelum melakukan simulasi</p>
           </div>
         </div>
         <button @click="closeAuthModal"
-          class="rounded-lg p-1.5 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-700 transition">
+          class="rounded-xl p-1.5 text-zinc-400 hover:bg-forest-50 hover:text-forest-950 transition">
           <X :size="18" />
         </button>
       </div>
 
       <!-- Tab Switcher -->
-      <div class="mt-4 flex rounded-lg bg-zinc-100 p-1">
-        <button type="button" @click="mode = 'login'" class="flex-1 rounded-md py-1.5 text-xs font-semibold transition"
-          :class="mode === 'login' ? 'bg-white text-zinc-950 shadow-sm' : 'text-zinc-600 hover:text-zinc-950'">
+      <div class="mt-5 flex rounded-xl bg-forest-950/5 p-1 border border-forest-950/10">
+        <button type="button" @click="mode = 'login'" class="flex-1 rounded-lg py-2 text-xs font-bold transition"
+          :class="mode === 'login' ? 'bg-forest-950 text-white shadow-xs' : 'text-zinc-600 hover:text-forest-950'">
           Masuk Akun
         </button>
         <button type="button" @click="mode = 'register'"
-          class="flex-1 rounded-md py-1.5 text-xs font-semibold transition"
-          :class="mode === 'register' ? 'bg-white text-zinc-950 shadow-sm' : 'text-zinc-600 hover:text-zinc-950'">
+          class="flex-1 rounded-lg py-2 text-xs font-bold transition"
+          :class="mode === 'register' ? 'bg-forest-950 text-white shadow-xs' : 'text-zinc-600 hover:text-forest-950'">
           Daftar Baru
         </button>
       </div>
 
       <!-- Error alert -->
       <div v-if="errorMessage"
-        class="mt-3 rounded-lg border border-zinc-300 bg-zinc-50 p-2.5 text-xs text-zinc-900 flex items-start gap-2">
-        <AlertCircle :size="15" class="mt-0.5 shrink-0 text-zinc-900" />
+        class="mt-3.5 rounded-xl border border-red-200 bg-red-50 p-3 text-xs text-red-700 flex items-start gap-2">
+        <AlertCircle :size="15" class="mt-0.5 shrink-0" />
         <span>{{ errorMessage }}</span>
       </div>
 
       <!-- Form -->
-      <form @submit.prevent="handleSubmit" class="mt-4 space-y-3.5">
+      <form @submit.prevent="handleSubmit" class="mt-5 space-y-4">
         <div v-if="mode === 'register'">
-          <label class="block text-xs font-medium text-zinc-700 mb-1">Nama Lengkap</label>
+          <label class="block text-xs font-bold text-zinc-700 mb-1">Nama Lengkap</label>
           <div class="relative">
-            <User :size="15" class="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" />
+            <User :size="15" class="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400" />
             <input v-model="fullName" type="text" required placeholder="Contoh: Budi Santoso"
-              class="w-full rounded-lg border border-zinc-300 bg-white py-2 pl-9 pr-3 text-xs text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-950 focus:outline-none focus:ring-1 focus:ring-zinc-950" />
+              class="w-full rounded-xl border border-zinc-200 bg-zinc-50/70 py-2.5 pl-10 pr-3.5 text-xs font-semibold text-zinc-900 placeholder:text-zinc-400 focus:border-forest-950 focus:bg-white focus:outline-none shadow-xs" />
           </div>
         </div>
 
         <div>
-          <label class="block text-xs font-medium text-zinc-700 mb-1">Alamat Email</label>
+          <label class="block text-xs font-bold text-zinc-700 mb-1">Alamat Email</label>
           <div class="relative">
-            <Mail :size="15" class="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" />
+            <Mail :size="15" class="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400" />
             <input v-model="email" type="email" required placeholder="nama@email.com"
-              class="w-full rounded-lg border border-zinc-300 bg-white py-2 pl-9 pr-3 text-xs text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-950 focus:outline-none focus:ring-1 focus:ring-zinc-950" />
+              class="w-full rounded-xl border border-zinc-200 bg-zinc-50/70 py-2.5 pl-10 pr-3.5 text-xs font-semibold text-zinc-900 placeholder:text-zinc-400 focus:border-forest-950 focus:bg-white focus:outline-none shadow-xs" />
           </div>
         </div>
 
         <div>
-          <label class="block text-xs font-medium text-zinc-700 mb-1">Kata Sandi</label>
+          <label class="block text-xs font-bold text-zinc-700 mb-1">Kata Sandi</label>
           <div class="relative">
-            <KeyRound :size="15" class="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" />
+            <KeyRound :size="15" class="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400" />
             <input v-model="password" type="password" required placeholder="Minimal 6 karakter"
-              class="w-full rounded-lg border border-zinc-300 bg-white py-2 pl-9 pr-3 text-xs text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-950 focus:outline-none focus:ring-1 focus:ring-zinc-950" />
+              class="w-full rounded-xl border border-zinc-200 bg-zinc-50/70 py-2.5 pl-10 pr-3.5 text-xs font-semibold text-zinc-900 placeholder:text-zinc-400 focus:border-forest-950 focus:bg-white focus:outline-none shadow-xs" />
           </div>
         </div>
 
         <button type="submit" :disabled="loading"
-          class="flex w-full items-center justify-center gap-2 rounded-lg bg-zinc-950 py-2.5 text-xs font-semibold text-white transition hover:bg-zinc-800 disabled:opacity-50">
+          class="w-full flex items-center justify-center gap-2 rounded-xl bg-gold-500 py-3 text-xs font-extrabold text-forest-950 transition hover:bg-gold-400 shadow-md shadow-gold-500/20 disabled:opacity-50">
           <Loader2 v-if="loading" :size="15" class="animate-spin" />
           <span v-else>{{ mode === 'login' ? 'Masuk ke Sistem' : 'Buat Akun Siap Tani' }}</span>
         </button>
@@ -79,16 +81,16 @@
         <div class="absolute inset-0 flex items-center">
           <div class="w-full border-t border-zinc-200"></div>
         </div>
-        <div class="relative flex justify-center text-[10px] uppercase font-mono">
-          <span class="bg-white px-2 text-zinc-400">Atau Evaluasi Cepat</span>
+        <div class="relative flex justify-center text-[10px] uppercase font-mono font-bold">
+          <span class="bg-white px-2.5 text-zinc-400">Atau Evaluasi Cepat</span>
         </div>
       </div>
 
       <!-- Quick Demo Login Button -->
       <button type="button" @click="handleDemoLogin"
-        class="flex w-full items-center justify-center gap-2 rounded-lg border-2 border-zinc-900 bg-zinc-50 py-2 text-xs font-bold text-zinc-950 transition hover:bg-zinc-200">
-        <Zap :size="15" />
-        <span>Masuk Cepat Mode Demo (1-Click)</span>
+        class="w-full flex items-center justify-center gap-2 rounded-xl border border-forest-950/20 bg-forest-50 py-2.5 text-xs font-extrabold text-forest-950 hover:bg-forest-100 transition shadow-xs">
+        <Zap :size="14" class="text-gold-600" />
+        <span>Masuk Cepat Mode Demo Petani (1-Click)</span>
       </button>
     </div>
   </div>
@@ -96,7 +98,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Lock, X, AlertCircle, User, Mail, KeyRound, Loader2, Zap } from '@lucide/vue'
+import { Sprout, X, AlertCircle, User, Mail, KeyRound, Loader2, Zap } from '@lucide/vue'
 
 const { isAuthModalOpen, closeAuthModal, redirectAfterAuth, signIn, signUp, signInDemo, loading } = useAuth()
 

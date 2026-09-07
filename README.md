@@ -17,25 +17,42 @@
 
 </div>
 
----
+<div align="center">
 
-```
-                                    [ DEMO / PRATINJAU UTAMA ]
-   +-----------------------------------------------------------------------------------------+
-   |                                                                                         |
-   |              [ 3D DIGITAL TWIN LAHAN ]             [ KONTROL DSS WHAT-IF REAL-TIME ]    |
-   |                                                                                         |
-   |     ┌──────────────────────────────────────┐     ┌────────────────────────────────┐     |
-   |     │   Pertumbuhan Tanaman & Tanah 3D     │     │  Jendela Tanam Optimal:        │     |
-   |     │   Cuaca Dinamis (Cerah/Hujan/Kering) │     │  12 Nov - 26 Nov (Skor: 88)    │     |
-   |     │   Zonasi Polikultur Multi-Komoditas  │     │  Indeks Cekaman Air: RENDAH    │     |
-   |     └──────────────────────────────────────┘     └────────────────────────────────┘     |
-   |                                                                                         |
-   +-----------------------------------------------------------------------------------------+
-                    (Tempatkan Tangkapan Layar / GIF Demonstrasi Aplikasi di Sini)
-```
+### 📸 Antarmuka & Pratinjau Sistem SIAP TANI
 
----
+<table>
+  <tr>
+    <td width="50%" align="center">
+      <img src="./public/screenshots/dashboard-beranda.png" alt="Beranda & Quick Simulation Launcher" />
+      <br />
+      <b>1. Beranda & Quick Simulation Launcher</b>
+      <p><i>Akses cepat penentuan lokasi lahan GPS, pemilihan komoditas, dan DSS Matrix komparatif.</i></p>
+    </td>
+    <td width="50%" align="center">
+      <img src="./public/screenshots/simulasi-what-if.png" alt="Simulasi Keputusan & 3D Digital Twin" />
+      <br />
+      <b>2. Simulation Studio & 3D Digital Twin</b>
+      <p><i>Kalkulasi multi-faktor 4 pilar (BMKG/FAO-56), simulator visual 3D, dan Explainable AI.</i></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" align="center">
+      <img src="./public/screenshots/kalender-tanam.png" alt="Kalender Tanam & Jadwal Lahan" />
+      <br />
+      <b>3. Kalender Tanam & Jadwal Lahan</b>
+      <p><i>Timeline preskriptif aktivitas budidaya (-10 HST hingga panen) & sinkronisasi Google Calendar (.ics).</i></p>
+    </td>
+    <td width="50%" align="center">
+      <img src="./public/screenshots/portofolio-lahan.png" alt="Simulator Portofolio Lahan Polikultur" />
+      <br />
+      <b>4. Simulator Portofolio Lahan Polikultur</b>
+      <p><i>Mitigasi risiko monokultur dengan optimasi zonasi lahan multi-tanaman berbasis indeks HHI.</i></p>
+    </td>
+  </tr>
+</table>
+
+</div>
 
 ## 1. Latar Belakang dan Urgensi Masalah
 

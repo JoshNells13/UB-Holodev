@@ -1,13 +1,13 @@
 <template>
-  <div class="flex flex-wrap items-center gap-1.5 p-1.5 rounded-2xl bg-white/90 backdrop-blur-md border border-zinc-200 shadow-sm text-xs font-mono">
+  <div class="flex flex-wrap items-center gap-1.5 p-1.5 rounded-2xl bg-forest-950/90 backdrop-blur-md border border-forest-800 shadow-premium text-xs font-mono text-white">
     <!-- Camera Reset Button -->
     <button
       type="button"
       @click="$emit('resetCamera')"
-      class="flex items-center gap-1 px-2.5 py-1 rounded-xl text-zinc-700 hover:text-zinc-950 hover:bg-zinc-100 transition"
+      class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-emerald-200 hover:text-white hover:bg-white/10 transition cursor-pointer"
       title="Reset Sudut Pandang Kamera"
     >
-      <Compass :size="13" />
+      <Compass :size="14" class="text-gold-400" />
       <span class="text-[11px] font-bold">Reset View</span>
     </button>
 
@@ -15,28 +15,28 @@
     <button
       type="button"
       @click="$emit('toggleRotate')"
-      class="flex items-center gap-1 px-2.5 py-1 rounded-xl transition"
-      :class="isAutoRotate ? 'bg-zinc-950 text-white font-bold' : 'text-zinc-700 hover:text-zinc-950 hover:bg-zinc-100'"
+      class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl transition cursor-pointer"
+      :class="isAutoRotate ? 'bg-gold-500 text-forest-950 font-bold shadow-xs' : 'text-emerald-200 hover:text-white hover:bg-white/10'"
       title="Putar Otomatis Diorama"
     >
-      <RotateCw :size="13" :class="isAutoRotate ? 'animate-spin' : ''" />
-      <span class="text-[11px]">Orbit</span>
+      <RotateCw :size="14" :class="isAutoRotate ? 'animate-spin' : 'text-gold-400'" />
+      <span class="text-[11px] font-bold">Orbit</span>
     </button>
 
-    <div class="h-3 w-px bg-zinc-300 mx-0.5" />
+    <div class="h-3.5 w-px bg-forest-700 mx-0.5" />
 
     <!-- Weather Simulation Selector -->
-    <div class="flex items-center gap-0.5">
+    <div class="flex items-center gap-1">
       <button
         v-for="w in weatherOptions"
         :key="w.id"
         type="button"
         @click="$emit('changeWeather', w.id)"
-        class="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-bold transition"
-        :class="currentWeather === w.id ? 'bg-zinc-900 text-white shadow-xs' : 'text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100'"
+        class="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[11px] font-bold transition cursor-pointer"
+        :class="currentWeather === w.id ? 'bg-forest-800 text-gold-300 shadow-xs border border-forest-700' : 'text-emerald-200/80 hover:text-white hover:bg-white/10'"
         :title="w.title"
       >
-        <component :is="w.icon" :size="12" />
+        <component :is="w.icon" :size="13" class="text-gold-400" />
         <span>{{ w.label }}</span>
       </button>
     </div>
@@ -65,3 +65,4 @@ const weatherOptions: { id: WeatherVisualMode; label: string; title: string; ico
   { id: 'drought', label: 'Kering', title: 'Simulasi Stres Kekeringan', icon: Flame }
 ]
 </script>
+

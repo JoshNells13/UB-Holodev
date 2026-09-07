@@ -1,15 +1,15 @@
 <template>
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-8">
     <!-- Header -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-200 pb-5">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-forest-950/10 pb-5">
       <div>
         <div class="flex items-center gap-2">
-          <span class="rounded bg-zinc-950 px-2 py-0.5 font-mono text-[10px] font-bold text-white uppercase">
-            Multi-Scenario Matrix
+          <span class="rounded bg-forest-950 px-2.5 py-0.5 font-mono text-[10px] font-extrabold text-gold-400 uppercase tracking-wider">
+            MULTI-SCENARIO MATRIX
           </span>
           <span class="text-xs font-mono text-zinc-500">Komparasi Keputusan Pertanian</span>
         </div>
-        <h1 class="mt-1 text-2xl sm:text-3xl font-extrabold tracking-tight text-zinc-950 uppercase">
+        <h1 class="mt-1 text-2xl sm:text-3xl font-extrabold tracking-tight text-forest-950 uppercase">
           Komparasi Skenario
         </h1>
       </div>
@@ -19,16 +19,16 @@
           v-if="comparisonList.length > 0"
           type="button"
           @click="clearComparison"
-          class="rounded-xl border border-zinc-300 bg-white px-3.5 py-2 text-xs font-bold text-zinc-700 transition hover:bg-zinc-100"
+          class="rounded-xl border border-zinc-300 bg-white px-3.5 py-2 text-xs font-bold text-zinc-700 transition hover:bg-forest-50 hover:border-forest-300 shadow-xs"
         >
           Bersihkan Semua
         </button>
 
         <NuxtLink
           to="/simulate"
-          class="flex items-center gap-1.5 rounded-xl bg-zinc-950 px-4 py-2 text-xs font-bold text-white transition hover:bg-zinc-800 shadow-sm"
+          class="flex items-center gap-1.5 rounded-xl bg-forest-950 px-4 py-2 text-xs font-extrabold text-white transition hover:bg-forest-900 shadow-xs ring-1 ring-forest-900"
         >
-          <Plus :size="15" />
+          <Plus :size="14" class="text-gold-400" />
           <span>Buat Skenario Baru</span>
         </NuxtLink>
       </div>
@@ -37,21 +37,23 @@
     <!-- Empty State -->
     <div
       v-if="comparisonList.length === 0"
-      class="rounded-3xl border-2 border-dashed border-zinc-300 bg-zinc-50 p-12 text-center"
+      class="rounded-3xl border-2 border-dashed border-forest-900/20 bg-white p-12 sm:p-16 text-center shadow-premium"
     >
-      <Scale :size="40" class="mx-auto text-zinc-400" />
-      <h3 class="mt-4 text-base font-bold text-zinc-950">Belum Ada Skenario dalam Matriks Komparasi</h3>
-      <p class="mt-1 text-xs text-zinc-500 max-w-md mx-auto">
+      <div class="flex h-16 w-16 mx-auto items-center justify-center rounded-2xl bg-forest-50 text-forest-900 border border-forest-100">
+        <Scale :size="32" class="text-forest-800" />
+      </div>
+      <h3 class="mt-4 text-lg font-extrabold text-forest-950">Belum Ada Skenario dalam Matriks Komparasi</h3>
+      <p class="mt-1.5 text-xs text-zinc-600 max-w-md mx-auto leading-relaxed">
         Tambahkan minimal 2 skenario dari halaman Simulasi atau gunakan tombol pintas otomatis di bawah ini untuk menguji variasi keputusan.
       </p>
       <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
         <button
           @click="generateSampleScenarios"
           :disabled="isLoading"
-          class="flex items-center gap-2 rounded-xl bg-zinc-950 px-5 py-2.5 text-xs font-bold text-white transition hover:bg-zinc-800 shadow-sm disabled:opacity-50"
+          class="flex items-center gap-2 rounded-xl bg-forest-950 px-6 py-3 text-xs font-extrabold text-white transition hover:bg-forest-900 shadow-md ring-1 ring-forest-900 disabled:opacity-50"
         >
           <Loader2 v-if="isLoading" :size="15" class="animate-spin" />
-          <Zap v-else :size="15" />
+          <Zap v-else :size="15" class="text-gold-400" />
           <span>Muat 3 Contoh Skenario Standar PRD</span>
         </button>
       </div>

@@ -1,15 +1,15 @@
 <template>
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-8">
     <!-- Top Header Bar -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-200 pb-5">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-forest-950/10 pb-5">
       <div>
         <div class="flex items-center gap-2">
-          <span class="rounded bg-zinc-950 px-2 py-0.5 font-mono text-[10px] font-bold text-white uppercase">
-            Simulation Studio
+          <span class="rounded bg-forest-950 px-2.5 py-0.5 font-mono text-[10px] font-extrabold text-gold-400 uppercase tracking-wider">
+            SIMULATION STUDIO
           </span>
           <span class="text-xs font-mono text-zinc-500">Decision Support Workspace</span>
         </div>
-        <h1 class="mt-1 text-2xl sm:text-3xl font-extrabold tracking-tight text-zinc-950 uppercase">
+        <h1 class="mt-1 text-2xl sm:text-3xl font-extrabold tracking-tight text-forest-950 uppercase">
           Simulasi Keputusan Pertanian
         </h1>
         <p class="text-xs text-zinc-500 mt-0.5">Kalkulasi presisi berbasis agroklimat BMKG, pedoman budidaya Kementan RI, dan neraca air FAO-56</p>
@@ -22,11 +22,11 @@
           type="button"
           @click="handleSave"
           :disabled="isSaving"
-          class="flex items-center gap-1.5 rounded-xl border-2 border-zinc-900 bg-white px-3.5 py-2 text-xs font-bold text-zinc-900 transition hover:bg-zinc-100 shadow-sm"
+          class="flex items-center gap-1.5 rounded-xl border border-zinc-300 bg-white px-3.5 py-2 text-xs font-bold text-zinc-800 transition hover:bg-forest-50 hover:border-forest-300 shadow-xs"
         >
-          <BookmarkCheck v-if="saveSuccess" :size="15" class="text-zinc-950" />
-          <Loader2 v-else-if="isSaving" :size="15" class="animate-spin text-zinc-950" />
-          <Save v-else :size="15" />
+          <BookmarkCheck v-if="saveSuccess" :size="14" class="text-forest-700" />
+          <Loader2 v-else-if="isSaving" :size="14" class="animate-spin text-forest-700" />
+          <Save v-else :size="14" />
           <span>{{ saveSuccess ? 'Tersimpan ke Supabase!' : (isSaving ? 'Menyimpan...' : 'Simpan Simulasi') }}</span>
         </button>
 
@@ -34,9 +34,9 @@
           v-if="currentScenario"
           type="button"
           @click="handleScheduleCalendar"
-          class="flex items-center gap-1.5 rounded-xl border-2 border-zinc-900 bg-zinc-100 px-3.5 py-2 text-xs font-bold text-zinc-950 transition hover:bg-zinc-200 shadow-sm"
+          class="flex items-center gap-1.5 rounded-xl border border-zinc-300 bg-white px-3.5 py-2 text-xs font-bold text-zinc-800 transition hover:bg-forest-50 hover:border-forest-300 shadow-xs"
         >
-          <Calendar :size="15" />
+          <Calendar :size="14" class="text-forest-700" />
           <span>Tandai di Kalender Tanam</span>
         </button>
 
@@ -44,18 +44,18 @@
           v-if="currentScenario"
           type="button"
           @click="handleAddToComparison"
-          class="flex items-center gap-1.5 rounded-xl border-2 border-zinc-900 bg-zinc-100 px-3.5 py-2 text-xs font-bold text-zinc-950 transition hover:bg-zinc-200 shadow-sm"
+          class="flex items-center gap-1.5 rounded-xl border border-zinc-300 bg-white px-3.5 py-2 text-xs font-bold text-zinc-800 transition hover:bg-forest-50 hover:border-forest-300 shadow-xs"
         >
-          <Plus :size="15" />
+          <Plus :size="14" class="text-forest-700" />
           <span>+ Komparasi ({{ comparisonList.length }})</span>
         </button>
 
         <NuxtLink
           to="/compare"
           v-if="comparisonList.length > 0"
-          class="flex items-center gap-1.5 rounded-xl bg-zinc-950 px-4 py-2 text-xs font-bold text-white transition hover:bg-zinc-800 shadow-sm"
+          class="flex items-center gap-1.5 rounded-xl bg-forest-950 px-4 py-2 text-xs font-extrabold text-white transition hover:bg-forest-900 shadow-xs ring-1 ring-forest-900"
         >
-          <Scale :size="15" />
+          <Scale :size="14" class="text-gold-400" />
           <span>Buka Komparasi</span>
         </NuxtLink>
       </div>
@@ -314,16 +314,16 @@
           <!-- 3. STRUCTURED TABBED VIEWS (Clean & Easy to Read) -->
           <div class="space-y-4">
             <!-- Tab Navigation Bar -->
-            <div class="flex rounded-2xl bg-zinc-200/80 p-1.5 font-mono text-xs overflow-x-auto">
+            <div class="flex rounded-2xl bg-forest-950/5 p-1.5 font-mono text-xs overflow-x-auto border border-forest-950/10">
               <button
                 v-for="t in viewTabs"
                 :key="t.id"
                 type="button"
                 @click="activeViewTab = t.id"
                 class="flex items-center gap-1.5 rounded-xl px-4 py-2.5 font-bold transition whitespace-nowrap"
-                :class="activeViewTab === t.id ? 'bg-zinc-950 text-white shadow-md' : 'text-zinc-700 hover:text-zinc-950 hover:bg-zinc-100'"
+                :class="activeViewTab === t.id ? 'bg-forest-950 text-white shadow-xs' : 'text-zinc-700 hover:text-forest-950 hover:bg-white/80'"
               >
-                <component :is="t.icon" :size="15" />
+                <component :is="t.icon" :size="15" :class="activeViewTab === t.id ? 'text-gold-400' : 'text-zinc-500'" />
                 <span>{{ t.label }}</span>
               </button>
             </div>
@@ -540,10 +540,10 @@ const handleSave = async () => {
 }
 
 const getRecommendationBadgeClass = (rec: string) => {
-  if (rec === 'Highly Recommended') return 'bg-zinc-950 text-white'
-  if (rec === 'Recommended') return 'bg-zinc-800 text-white'
-  if (rec === 'Consider Carefully') return 'bg-zinc-300 text-zinc-950'
-  return 'bg-zinc-400 text-zinc-950'
+  if (rec === 'Highly Recommended') return 'bg-forest-950 text-gold-400 border border-forest-800 font-extrabold'
+  if (rec === 'Recommended') return 'bg-forest-900 text-emerald-100 font-bold'
+  if (rec === 'Consider Carefully') return 'bg-gold-100 text-gold-900 border border-gold-300 font-bold'
+  return 'bg-red-50 text-red-700 border border-red-300 font-bold'
 }
 
 const formatFullDate = (dateStr: string) => {

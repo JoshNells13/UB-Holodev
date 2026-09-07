@@ -4,7 +4,12 @@
 
 @layer base {
   body {
-    @apply bg-white text-zinc-900 antialiased selection:bg-zinc-900 selection:text-white font-sans;
+    @apply bg-[#fbfaf6] text-zinc-900 antialiased font-sans min-h-screen;
+  }
+  
+  ::selection {
+    background-color: #15332a;
+    color: #e8ce91;
   }
 }
 

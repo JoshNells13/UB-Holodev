@@ -1,15 +1,15 @@
 <template>
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-8">
     <!-- Header -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-200 pb-5">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-forest-950/10 pb-5">
       <div>
         <div class="flex items-center gap-2">
-          <span class="rounded bg-zinc-950 px-2 py-0.5 font-mono text-[10px] font-bold text-white uppercase">
-            Agronomy Schedule & Tracker
+          <span class="rounded bg-forest-950 px-2.5 py-0.5 font-mono text-[10px] font-extrabold text-gold-400 uppercase tracking-wider">
+            AGRONOMY SCHEDULE & TRACKER
           </span>
           <span class="text-xs font-mono text-zinc-500">Kalender Aktivitas & Penandaan Tanam</span>
         </div>
-        <h1 class="mt-1 text-2xl sm:text-3xl font-extrabold tracking-tight text-zinc-950 uppercase">
+        <h1 class="mt-1 text-2xl sm:text-3xl font-extrabold tracking-tight text-forest-950 uppercase">
           Kalender Tanam & Jadwal Lahan
         </h1>
         <p class="text-xs text-zinc-500 mt-0.5">Pantau tahapan budidaya tanaman hasil simulasi, tandai kegiatan lapangan, dan ekspor ke Google Calendar</p>
@@ -20,58 +20,58 @@
         <button
           type="button"
           @click="showAddCustomModal = true"
-          class="flex items-center gap-1.5 rounded-xl bg-zinc-950 px-3.5 py-2 text-xs font-bold text-white transition hover:bg-zinc-800 shadow-sm"
+          class="flex items-center gap-1.5 rounded-xl bg-forest-950 px-4 py-2 text-xs font-extrabold text-white transition hover:bg-forest-900 shadow-xs ring-1 ring-forest-900"
         >
-          <Plus :size="15" />
+          <Plus :size="14" class="text-gold-400" />
           <span>Tandai Aktivitas / Catatan Baru</span>
         </button>
 
         <button
           type="button"
           @click="exportICalendar"
-          class="flex items-center gap-1.5 rounded-xl border border-zinc-300 bg-white px-3.5 py-2 text-xs font-bold text-zinc-800 transition hover:bg-zinc-100 shadow-sm"
+          class="flex items-center gap-1.5 rounded-xl border border-zinc-300 bg-white px-3.5 py-2 text-xs font-bold text-zinc-800 transition hover:bg-forest-50 hover:border-forest-300 shadow-xs"
         >
-          <Download :size="15" />
+          <Download :size="14" class="text-forest-700" />
           <span>Ekspor ke Google Calendar (.ics)</span>
         </button>
 
         <NuxtLink
           to="/simulate"
-          class="flex items-center gap-1.5 rounded-xl border border-zinc-300 bg-zinc-50 px-3.5 py-2 text-xs font-bold text-zinc-900 transition hover:bg-zinc-200 shadow-sm"
+          class="flex items-center gap-1.5 rounded-xl border border-zinc-300 bg-forest-50/50 px-3.5 py-2 text-xs font-bold text-forest-950 transition hover:bg-forest-100 shadow-xs"
         >
-          <Sliders :size="15" />
+          <Sliders :size="14" class="text-forest-700" />
           <span>Ubah di Studio Simulasi</span>
         </NuxtLink>
       </div>
     </div>
 
     <!-- Active Crop Scenario Summary Banner & Switcher -->
-    <div v-if="activeScenario" class="rounded-3xl border-2 border-zinc-950 bg-white p-5 shadow-clean-md flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+    <div v-if="activeScenario" class="rounded-3xl border border-forest-950/10 bg-white p-6 shadow-premium flex flex-col lg:flex-row lg:items-center justify-between gap-4">
       <div class="flex items-start sm:items-center gap-3.5">
-        <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-zinc-950 text-white font-bold shrink-0">
+        <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-forest-950 text-gold-400 font-bold shrink-0 shadow-xs">
           <Sprout :size="24" />
         </div>
         <div>
           <div class="flex items-center gap-2">
-            <span class="rounded bg-zinc-100 px-2 py-0.5 text-[10px] font-mono font-bold uppercase text-zinc-800 border border-zinc-200">
-              Siklus Aktif Terpilih
+            <span class="rounded-full bg-forest-50 px-2.5 py-0.5 text-[9px] font-mono font-bold uppercase text-forest-800 border border-forest-100">
+              SIKLUS AKTIF TERPILIH
             </span>
             <span class="text-xs font-mono text-zinc-500">{{ activeScenario.location_name }}</span>
           </div>
-          <h3 class="text-base sm:text-lg font-extrabold text-zinc-950 mt-0.5">
+          <h3 class="text-base sm:text-lg font-extrabold text-forest-950 mt-0.5">
             {{ activeScenario.crop.name }} — Tanggal Tanam: {{ formatFullDate(activeScenario.planting_date) }}
           </h3>
           <p class="text-xs text-zinc-600 font-mono">
-            Luas Lahan: {{ activeScenario.land_area.toLocaleString('id-ID') }} m² • Skor DSS: <strong>{{ activeScenario.risk_breakdown.total_score }}/100 ({{ activeScenario.risk_breakdown.recommendation }})</strong>
+            Luas Lahan: {{ activeScenario.land_area.toLocaleString('id-ID') }} m² • Skor DSS: <strong class="text-forest-950">{{ activeScenario.risk_breakdown.total_score }}/100 ({{ activeScenario.risk_breakdown.recommendation }})</strong>
           </p>
         </div>
       </div>
 
       <!-- Quick stats & progress -->
       <div class="flex flex-wrap items-center gap-3 lg:border-l lg:border-zinc-200 lg:pl-6">
-        <div class="rounded-xl bg-zinc-50 border border-zinc-200 p-2.5 text-center min-w-[110px]">
-          <span class="block text-[9px] font-mono uppercase text-zinc-400 font-bold">Progress Selesai</span>
-          <span class="font-mono text-sm font-extrabold text-zinc-950">{{ completedCount }} / {{ eventsList.length }}</span>
+        <div class="rounded-2xl bg-forest-50/50 border border-forest-100 p-3 text-center min-w-[120px]">
+          <span class="block text-[9px] font-mono uppercase text-forest-700/80 font-bold">PROGRESS SELESAI</span>
+          <span class="font-mono text-base font-extrabold text-forest-950">{{ completedCount }} / {{ eventsList.length }}</span>
           <span class="block text-[9px] font-mono text-zinc-500">Kegiatan Selesai</span>
         </div>
 
@@ -80,7 +80,7 @@
           <label class="text-[10px] font-mono uppercase font-bold text-zinc-500 mb-1">Ganti Skenario:</label>
           <select
             @change="switchScenario($event)"
-            class="rounded-xl border border-zinc-300 bg-white px-2.5 py-1.5 text-xs font-bold text-zinc-900 focus:border-zinc-950 focus:outline-none"
+            class="rounded-xl border border-zinc-300 bg-white px-3 py-1.5 text-xs font-bold text-zinc-900 focus:border-forest-950 focus:outline-none shadow-xs"
           >
             <option :value="activeScenario.id" selected>{{ activeScenario.crop.name }} ({{ activeScenario.planting_date }})</option>
             <option
@@ -96,13 +96,13 @@
     </div>
 
     <!-- Calendar Controls Bar (Month Navigation, Filter & View Switcher) -->
-    <div class="rounded-2xl border border-zinc-300 bg-white p-4 shadow-clean-sm flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+    <div class="rounded-3xl border border-forest-950/10 bg-white p-4 shadow-premium flex flex-col lg:flex-row lg:items-center justify-between gap-4">
       <!-- Nav month -->
       <div class="flex items-center gap-2">
         <button
           type="button"
           @click="goToToday"
-          class="rounded-lg border border-zinc-300 bg-zinc-50 px-3 py-1.5 text-xs font-bold text-zinc-800 hover:bg-zinc-100 transition"
+          class="rounded-xl border border-zinc-200 bg-zinc-50 px-3.5 py-1.5 text-xs font-bold text-zinc-800 hover:bg-forest-50 hover:border-forest-300 transition"
         >
           Hari Ini
         </button>
@@ -110,19 +110,19 @@
           <button
             type="button"
             @click="prevMonth"
-            class="rounded-lg border border-zinc-200 p-1.5 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 transition"
+            class="rounded-xl border border-zinc-200 p-1.5 text-zinc-600 hover:bg-forest-50 hover:text-forest-950 transition"
           >
             <ChevronLeft :size="16" />
           </button>
           <button
             type="button"
             @click="nextMonth"
-            class="rounded-lg border border-zinc-200 p-1.5 text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 transition"
+            class="rounded-xl border border-zinc-200 p-1.5 text-zinc-600 hover:bg-forest-50 hover:text-forest-950 transition"
           >
             <ChevronRight :size="16" />
           </button>
         </div>
-        <h2 class="text-base font-extrabold text-zinc-950 font-mono ml-2">
+        <h2 class="text-base font-extrabold text-forest-950 font-mono ml-2">
           {{ monthNames[currentMonth] }} {{ currentYear }}
         </h2>
       </div>
@@ -134,28 +134,28 @@
           :key="cat"
           type="button"
           @click="selectedCategoryFilter = cat"
-          class="rounded-lg px-2.5 py-1 font-semibold transition whitespace-nowrap"
-          :class="selectedCategoryFilter === cat ? 'bg-zinc-950 text-white' : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200 hover:text-zinc-950'"
+          class="rounded-xl px-3 py-1 font-bold transition whitespace-nowrap"
+          :class="selectedCategoryFilter === cat ? 'bg-forest-950 text-white shadow-xs' : 'bg-forest-50/50 text-zinc-700 hover:bg-forest-100 hover:text-forest-950'"
         >
           {{ cat }}
         </button>
       </div>
 
       <!-- View Switcher -->
-      <div class="flex rounded-lg bg-zinc-100 p-1 font-mono text-xs shrink-0">
+      <div class="flex rounded-xl bg-forest-950/5 p-1 font-mono text-xs shrink-0 border border-forest-950/10">
         <button
           type="button"
           @click="viewMode = 'month'"
-          class="rounded-md px-3 py-1 font-bold transition"
-          :class="viewMode === 'month' ? 'bg-white text-zinc-950 shadow-sm' : 'text-zinc-600 hover:text-zinc-950'"
+          class="rounded-lg px-3.5 py-1 font-bold transition"
+          :class="viewMode === 'month' ? 'bg-forest-950 text-white shadow-xs' : 'text-zinc-700 hover:text-forest-950'"
         >
           Bulan (Month)
         </button>
         <button
           type="button"
           @click="viewMode = 'agenda'"
-          class="rounded-md px-3 py-1 font-bold transition"
-          :class="viewMode === 'agenda' ? 'bg-white text-zinc-950 shadow-sm' : 'text-zinc-600 hover:text-zinc-950'"
+          class="rounded-lg px-3.5 py-1 font-bold transition"
+          :class="viewMode === 'agenda' ? 'bg-forest-950 text-white shadow-xs' : 'text-zinc-700 hover:text-forest-950'"
         >
           Daftar Agenda (Timeline)
         </button>

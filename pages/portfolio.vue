@@ -1,23 +1,23 @@
 <template>
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-8">
     <!-- Header -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-200 pb-5">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-forest-950/10 pb-5">
       <div>
         <div class="flex items-center gap-2">
-          <span class="rounded bg-zinc-950 px-2 py-0.5 font-mono text-[10px] font-bold text-white uppercase">
-            Diversification Engine
+          <span class="rounded bg-forest-950 px-2.5 py-0.5 font-mono text-[10px] font-extrabold text-gold-400 uppercase tracking-wider">
+            DIVERSIFICATION ENGINE
           </span>
           <span class="text-xs font-mono text-zinc-500">Mitigasi Risiko Monokultur & Optimasi Hasil</span>
         </div>
-        <h1 class="mt-1 text-2xl sm:text-3xl font-extrabold tracking-tight text-zinc-950 uppercase">
+        <h1 class="mt-1 text-2xl sm:text-3xl font-extrabold tracking-tight text-forest-950 uppercase">
           Simulator Portofolio Lahan
         </h1>
       </div>
 
       <!-- Quick Area Info -->
-      <div class="flex items-center gap-3 font-mono text-xs text-zinc-700 bg-zinc-100 px-4 py-2 rounded-xl border border-zinc-200">
-        <Maximize2 :size="15" class="text-zinc-900" />
-        <span>Total Luas: <strong>{{ totalArea.toLocaleString('id-ID') }} m²</strong> ({{ (totalArea / 10000).toFixed(2) }} Ha)</span>
+      <div class="flex items-center gap-3 font-mono text-xs text-zinc-700 bg-white px-4 py-2 rounded-xl border border-forest-950/10 shadow-xs">
+        <Maximize2 :size="15" class="text-forest-700" />
+        <span>Total Luas: <strong class="text-forest-950">{{ totalArea.toLocaleString('id-ID') }} m²</strong> ({{ (totalArea / 10000).toFixed(2) }} Ha)</span>
       </div>
     </div>
 
@@ -25,12 +25,12 @@
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
       <!-- Left Column: Crop Allocation Sliders & Presets -->
       <div class="lg:col-span-5 space-y-6">
-        <div class="rounded-2xl border-2 border-zinc-950 bg-zinc-50 p-6 shadow-clean-md space-y-5">
+        <div class="rounded-3xl border border-forest-950/10 bg-white p-6 shadow-premium space-y-5">
           <!-- Area Setting -->
           <div class="space-y-2">
             <div class="flex items-center justify-between">
-              <label class="text-xs font-extrabold uppercase tracking-wider text-zinc-950 flex items-center gap-1.5">
-                <Maximize2 :size="14" />
+              <label class="text-xs font-extrabold uppercase tracking-wider text-forest-950 flex items-center gap-1.5">
+                <Maximize2 :size="14" class="text-forest-700" />
                 <span>1. Luas Keseluruhan Lahan (m²)</span>
               </label>
               <span class="font-mono text-[11px] font-bold text-zinc-600">{{ (totalArea / 10000).toFixed(2) }} Hektar</span>
@@ -42,7 +42,7 @@
               step="500"
               v-model.number="totalArea"
               @change="calculatePortfolio"
-              class="w-full rounded-xl border border-zinc-300 bg-white px-3 py-2 text-xs font-mono font-bold text-zinc-900 focus:border-zinc-950 focus:outline-none shadow-sm"
+              class="w-full rounded-xl border border-zinc-300 bg-white px-3 py-2 text-xs font-mono font-bold text-zinc-900 focus:border-forest-950 focus:outline-none shadow-xs"
             />
             <!-- Quick Area Presets -->
             <div class="flex flex-wrap items-center gap-1.5 pt-1">
@@ -51,8 +51,8 @@
                 :key="preset.value"
                 type="button"
                 @click="setArea(preset.value)"
-                class="rounded-lg border px-2 py-1 text-[10px] font-mono font-bold transition"
-                :class="totalArea === preset.value ? 'bg-zinc-950 text-white border-zinc-950' : 'bg-white text-zinc-700 border-zinc-300 hover:border-zinc-950'"
+                class="rounded-lg border px-2.5 py-1 text-[10px] font-mono font-bold transition"
+                :class="totalArea === preset.value ? 'bg-forest-950 text-white border-forest-950' : 'bg-white text-zinc-700 border-zinc-300 hover:border-forest-950'"
               >
                 {{ preset.label }}
               </button>
@@ -66,28 +66,28 @@
               <button
                 type="button"
                 @click="applyPreset('monoculture')"
-                class="rounded-xl border border-zinc-300 bg-white py-2 px-2.5 text-[11px] font-bold text-zinc-800 transition hover:border-zinc-950 hover:bg-zinc-950 hover:text-white text-left shadow-xs"
+                class="rounded-xl border border-zinc-200 bg-zinc-50/50 py-2.5 px-3 text-[11px] font-bold text-zinc-800 transition hover:border-forest-950 hover:bg-forest-950 hover:text-white text-left shadow-xs"
               >
                 🌾 100% Monokultur Padi
               </button>
               <button
                 type="button"
                 @click="applyPreset('duoculture')"
-                class="rounded-xl border border-zinc-300 bg-white py-2 px-2.5 text-[11px] font-bold text-zinc-800 transition hover:border-zinc-950 hover:bg-zinc-950 hover:text-white text-left shadow-xs"
+                class="rounded-xl border border-zinc-200 bg-zinc-50/50 py-2.5 px-3 text-[11px] font-bold text-zinc-800 transition hover:border-forest-950 hover:bg-forest-950 hover:text-white text-left shadow-xs"
               >
                 🌽 70% Padi + 30% Jagung
               </button>
               <button
                 type="button"
                 @click="applyPreset('triculture')"
-                class="rounded-xl border border-zinc-300 bg-white py-2 px-2.5 text-[11px] font-bold text-zinc-800 transition hover:border-zinc-950 hover:bg-zinc-950 hover:text-white text-left shadow-xs"
+                class="rounded-xl border border-zinc-200 bg-zinc-50/50 py-2.5 px-3 text-[11px] font-bold text-zinc-800 transition hover:border-forest-950 hover:bg-forest-950 hover:text-white text-left shadow-xs"
               >
                 🌱 50% Padi + 30% Jagung + 20% Kedelai
               </button>
               <button
                 type="button"
                 @click="applyPreset('horticulture')"
-                class="rounded-xl border border-zinc-300 bg-white py-2 px-2.5 text-[11px] font-bold text-zinc-800 transition hover:border-zinc-950 hover:bg-zinc-950 hover:text-white text-left shadow-xs"
+                class="rounded-xl border border-zinc-200 bg-zinc-50/50 py-2.5 px-3 text-[11px] font-bold text-zinc-800 transition hover:border-forest-950 hover:bg-forest-950 hover:text-white text-left shadow-xs"
               >
                 🌶️ 40% Padi + 30% Cabai + 30% Bawang
               </button>

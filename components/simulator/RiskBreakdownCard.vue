@@ -108,14 +108,14 @@
     </div>
 
     <!-- Explainable Insights List (PRD Section 20 "Why?") -->
-    <div class="mt-5 rounded-xl border border-zinc-300 bg-zinc-950 p-4 text-white">
-      <div class="flex items-center gap-2 font-bold text-xs uppercase tracking-wider mb-2">
-        <CheckSquare :size="14" class="text-zinc-300" />
-        <span>Faktor Penjelas Rekomendasi (Explainable AI / DSS):</span>
+    <div class="mt-5 rounded-2xl border border-forest-900 bg-forest-950 p-5 text-white shadow-premium">
+      <div class="flex items-center gap-2 font-bold text-xs uppercase tracking-wider mb-2.5 text-gold-400">
+        <CheckSquare :size="15" class="text-gold-400" />
+        <span>FAKTOR PENJELAS REKOMENDASI (EXPLAINABLE AI / DSS):</span>
       </div>
-      <div class="space-y-1.5 text-xs text-zinc-300">
-        <div v-for="(reason, idx) in breakdown.bullet_reasons" :key="idx" class="flex items-start gap-2">
-          <span class="font-bold text-white shrink-0">✓</span>
+      <div class="space-y-2 text-xs text-emerald-100/90 font-sans">
+        <div v-for="(reason, idx) in breakdown.bullet_reasons" :key="idx" class="flex items-start gap-2.5">
+          <span class="font-extrabold text-gold-400 shrink-0 mt-0.5">✓</span>
           <span>{{ reason }}</span>
         </div>
       </div>
@@ -132,8 +132,8 @@ defineProps<{
 }>()
 
 const getRiskBadge = (level: RiskLevel) => {
-  if (level === 'LOW') return 'bg-zinc-100 text-zinc-900 border-zinc-300'
-  if (level === 'MEDIUM') return 'bg-zinc-200 text-zinc-950 border-zinc-400'
-  return 'bg-zinc-900 text-white border-zinc-950'
+  if (level === 'LOW') return 'bg-forest-50 text-forest-900 border-forest-300 font-bold'
+  if (level === 'MEDIUM') return 'bg-gold-50 text-gold-900 border-gold-300 font-bold'
+  return 'bg-red-50 text-red-700 border-red-300 font-bold'
 }
 </script>

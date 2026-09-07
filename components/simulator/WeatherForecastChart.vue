@@ -1,22 +1,22 @@
 <template>
-  <div class="rounded-2xl border border-zinc-300 bg-white p-6 shadow-clean-md">
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-zinc-200 pb-3">
-      <div class="flex items-center gap-2">
-        <div class="flex h-7 w-7 items-center justify-center rounded-md bg-zinc-950 text-white">
-          <CloudRain :size="16" />
+  <div class="rounded-2xl border border-emerald-950/10 bg-white p-6 shadow-premium">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-zinc-200 pb-4">
+      <div class="flex items-center gap-3">
+        <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-forest-900 text-gold-400 shadow-sm">
+          <CloudRain :size="18" />
         </div>
         <div>
-          <h3 class="text-xs font-bold uppercase tracking-wider text-zinc-950">Prakiraan Cuaca & Curah Hujan 16 Hari</h3>
-          <p class="text-[11px] text-zinc-500">Data terintegrasi Open-Meteo & Agroklimat</p>
+          <h3 class="text-xs font-bold uppercase tracking-wider text-forest-950">Prakiraan Cuaca & Curah Hujan 16 Hari</h3>
+          <p class="text-[11px] text-zinc-500 font-sans">Data terintegrasi Open-Meteo & Agroklimat</p>
         </div>
       </div>
-      <div class="flex items-center gap-4 text-[11px] font-mono text-zinc-600">
+      <div class="flex items-center gap-4 text-xs font-mono text-forest-900">
         <span class="flex items-center gap-1.5">
-          <span class="h-2.5 w-2.5 rounded-sm bg-zinc-950"></span>
+          <span class="h-3 w-3 rounded-sm bg-forest-900"></span>
           <span>Curah Hujan (mm)</span>
         </span>
         <span class="flex items-center gap-1.5">
-          <span class="h-0.5 w-3 bg-zinc-600"></span>
+          <span class="h-1 w-3.5 bg-gold-500 rounded-full"></span>
           <span>Suhu Max (°C)</span>
         </span>
       </div>
@@ -26,13 +26,13 @@
     <div class="mt-6 overflow-x-auto">
       <div class="min-w-[650px]">
         <!-- Bar + Line Chart Grid -->
-        <div class="relative h-48 w-full border-b border-l border-zinc-300 flex items-end justify-between px-2 pt-6">
+        <div class="relative h-48 w-full border-b border-l border-emerald-950/20 flex items-end justify-between px-2 pt-6">
           <!-- Horizontal Gridlines -->
           <div class="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-20">
-            <div class="border-b border-dashed border-zinc-900 w-full"></div>
-            <div class="border-b border-dashed border-zinc-900 w-full"></div>
-            <div class="border-b border-dashed border-zinc-900 w-full"></div>
-            <div class="border-b border-dashed border-zinc-900 w-full"></div>
+            <div class="border-b border-dashed border-forest-900 w-full"></div>
+            <div class="border-b border-dashed border-forest-900 w-full"></div>
+            <div class="border-b border-dashed border-forest-900 w-full"></div>
+            <div class="border-b border-dashed border-forest-900 w-full"></div>
           </div>
 
           <!-- Day Columns -->
@@ -42,26 +42,26 @@
             class="group relative flex flex-col items-center flex-1 z-10"
           >
             <!-- Hover Tooltip -->
-            <div class="absolute -top-12 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20 rounded bg-zinc-950 px-2 py-1 text-[10px] font-mono text-white whitespace-nowrap shadow-md">
+            <div class="absolute -top-12 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-20 rounded-lg bg-forest-950 px-2.5 py-1 text-[10px] font-mono text-gold-300 whitespace-nowrap shadow-premium border border-forest-800">
               {{ formatDate(day.date) }}: {{ day.precipitation_sum.toFixed(1) }} mm • {{ day.temp_max }}°C
             </div>
 
             <!-- Temperature Dot / Line Node -->
             <div
-              class="absolute h-2 w-2 rounded-full border border-white bg-zinc-900 transition-all group-hover:scale-125"
+              class="absolute h-2.5 w-2.5 rounded-full border-2 border-white bg-gold-500 shadow-sm transition-all group-hover:scale-125"
               :style="{ bottom: `${calcTempHeight(day.temp_max)}%` }"
             ></div>
 
             <!-- Rainfall Bar -->
             <div
-              class="w-3 sm:w-4 rounded-t-sm bg-zinc-950 transition-all duration-300 group-hover:bg-zinc-700"
+              class="w-3.5 sm:w-4.5 rounded-t-sm bg-forest-900 transition-all duration-300 group-hover:bg-gold-500"
               :style="{ height: `${calcRainHeight(day.precipitation_sum)}%` }"
             ></div>
           </div>
         </div>
 
         <!-- X-Axis Labels (Dates) -->
-        <div class="flex justify-between px-2 pt-2 text-[10px] font-mono text-zinc-500">
+        <div class="flex justify-between px-2 pt-2.5 text-[10px] font-mono text-forest-800/80 font-bold">
           <div
             v-for="(day, idx) in forecast"
             :key="day.date"
@@ -74,22 +74,22 @@
     </div>
 
     <!-- Climatological Normals Summary -->
-    <div class="mt-6 pt-4 border-t border-zinc-200 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-mono">
-      <div class="rounded-lg bg-zinc-50 p-2.5 border border-zinc-200">
-        <span class="block text-[10px] text-zinc-500 uppercase">Suhu Terkini</span>
-        <span class="font-bold text-zinc-950 text-sm">{{ climate?.current_temp?.toFixed(1) || '28.5' }} °C</span>
+    <div class="mt-6 pt-5 border-t border-zinc-200 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-mono">
+      <div class="rounded-xl bg-emerald-50/40 p-3 border border-emerald-950/10">
+        <span class="block text-[10px] text-forest-800 uppercase font-bold">Suhu Terkini</span>
+        <span class="font-extrabold text-forest-950 text-base">{{ climate?.current_temp?.toFixed(1) || '28.5' }} °C</span>
       </div>
-      <div class="rounded-lg bg-zinc-50 p-2.5 border border-zinc-200">
-        <span class="block text-[10px] text-zinc-500 uppercase">Kelembapan Udara</span>
-        <span class="font-bold text-zinc-950 text-sm">{{ climate?.current_humidity || '78' }} %</span>
+      <div class="rounded-xl bg-emerald-50/40 p-3 border border-emerald-950/10">
+        <span class="block text-[10px] text-forest-800 uppercase font-bold">Kelembapan Udara</span>
+        <span class="font-extrabold text-forest-950 text-base">{{ climate?.current_humidity || '78' }} %</span>
       </div>
-      <div class="rounded-lg bg-zinc-50 p-2.5 border border-zinc-200">
-        <span class="block text-[10px] text-zinc-500 uppercase">Kecepatan Angin</span>
-        <span class="font-bold text-zinc-950 text-sm">{{ climate?.current_wind_speed?.toFixed(1) || '8.5' }} km/h</span>
+      <div class="rounded-xl bg-emerald-50/40 p-3 border border-emerald-950/10">
+        <span class="block text-[10px] text-forest-800 uppercase font-bold">Kecepatan Angin</span>
+        <span class="font-extrabold text-forest-950 text-base">{{ climate?.current_wind_speed?.toFixed(1) || '8.5' }} km/h</span>
       </div>
-      <div class="rounded-lg bg-zinc-50 p-2.5 border border-zinc-200">
-        <span class="block text-[10px] text-zinc-500 uppercase">Deskripsi Cuaca</span>
-        <span class="font-bold text-zinc-950 text-xs truncate block">{{ climate?.current_weather_desc || 'Cerah Berawan' }}</span>
+      <div class="rounded-xl bg-emerald-50/40 p-3 border border-emerald-950/10">
+        <span class="block text-[10px] text-forest-800 uppercase font-bold">Deskripsi Cuaca</span>
+        <span class="font-bold text-forest-950 text-xs truncate block mt-0.5">{{ climate?.current_weather_desc || 'Cerah Berawan' }}</span>
       </div>
     </div>
   </div>
@@ -134,3 +134,4 @@ const formatDayShort = (dateStr: string) => {
   return `${d.getDate()}/${d.getMonth() + 1}`
 }
 </script>
+

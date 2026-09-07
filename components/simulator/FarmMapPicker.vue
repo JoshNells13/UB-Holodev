@@ -1,14 +1,14 @@
 <template>
-  <div class="rounded-2xl border border-zinc-300 bg-white p-5 shadow-clean-sm space-y-4">
+  <div class="rounded-2xl border border-emerald-950/10 bg-white p-5 shadow-premium space-y-4">
     <!-- Header with GPS button -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-zinc-200 pb-3">
-      <div class="flex items-center gap-2">
-        <div class="flex h-7 w-7 items-center justify-center rounded-md bg-zinc-950 text-white">
-          <MapPin :size="16" />
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-zinc-200 pb-3">
+      <div class="flex items-center gap-3">
+        <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-forest-900 text-gold-400 shadow-sm">
+          <MapPin :size="18" />
         </div>
         <div>
-          <h3 class="text-xs font-bold uppercase tracking-wider text-zinc-950">Titik Koordinat & Peta Lahan</h3>
-          <p class="text-[11px] text-zinc-500">Klik peta atau gunakan GPS untuk menetapkan lokasi presisi lahan</p>
+          <h3 class="text-xs font-bold uppercase tracking-wider text-forest-950">Titik Koordinat & Peta Lahan</h3>
+          <p class="text-[11px] text-zinc-500 font-sans">Klik peta atau gunakan GPS untuk menetapkan lokasi presisi lahan</p>
         </div>
       </div>
 
@@ -17,35 +17,35 @@
         type="button"
         @click="detectUserGPS"
         :disabled="isLocating"
-        class="flex items-center gap-1.5 rounded-xl border border-zinc-900 bg-zinc-950 px-3 py-1.5 text-xs font-bold text-white transition hover:bg-zinc-800 disabled:opacity-50 shadow-sm"
+        class="flex items-center gap-1.5 rounded-xl border border-forest-800 bg-forest-900 px-3.5 py-1.5 text-xs font-bold text-gold-300 transition hover:bg-forest-950 disabled:opacity-50 shadow-sm cursor-pointer"
       >
-        <Loader2 v-if="isLocating" :size="13" class="animate-spin" />
-        <Navigation v-else :size="13" />
+        <Loader2 v-if="isLocating" :size="14" class="animate-spin text-gold-400" />
+        <Navigation v-else :size="14" class="text-gold-400" />
         <span>{{ isLocating ? 'Mendeteksi GPS...' : 'Gunakan Titik GPS Saya' }}</span>
       </button>
     </div>
 
     <!-- Interactive Leaflet Map Container -->
-    <div class="relative w-full h-64 rounded-xl overflow-hidden border border-zinc-300 bg-zinc-100 z-0">
-      <div id="farm-leaflet-map" class="w-full h-full grayscale contrast-105"></div>
+    <div class="relative w-full h-64 rounded-xl overflow-hidden border border-emerald-950/15 bg-zinc-100 z-0">
+      <div id="farm-leaflet-map" class="w-full h-full grayscale-[25%] contrast-105"></div>
       
       <!-- Coordinate Overlay Badge -->
-      <div class="absolute bottom-2.5 left-2.5 z-[1000] rounded-lg border border-zinc-300 bg-white/95 px-3 py-1.5 backdrop-blur shadow-md font-mono text-[11px] text-zinc-900">
+      <div class="absolute bottom-2.5 left-2.5 z-[1000] rounded-xl border border-emerald-950/10 bg-white/95 px-3 py-1.5 backdrop-blur shadow-premium font-mono text-[11px] text-forest-950">
         <span class="text-zinc-500 font-normal">Koordinat: </span>
-        <span class="font-bold">{{ lat.toFixed(5) }}°, {{ lon.toFixed(5) }}°</span>
+        <span class="font-bold text-forest-900">{{ lat.toFixed(5) }}°, {{ lon.toFixed(5) }}°</span>
       </div>
     </div>
 
     <!-- Resolved Subdistrict Location Banner -->
-    <div class="rounded-xl border border-zinc-200 bg-zinc-50 p-3 flex items-center justify-between text-xs">
-      <div class="flex items-center gap-2">
-        <Compass :size="16" class="text-zinc-900 shrink-0" />
+    <div class="rounded-xl border border-emerald-950/10 bg-emerald-50/40 p-3.5 flex items-center justify-between text-xs">
+      <div class="flex items-center gap-2.5">
+        <Compass :size="18" class="text-forest-800 shrink-0" />
         <div>
-          <span class="block text-[10px] uppercase font-mono text-zinc-500">Lokasi / Wilayah Terdeteksi:</span>
-          <span class="font-bold text-zinc-950">{{ locationName || 'Menyesuaikan titik peta...' }}</span>
+          <span class="block text-[10px] uppercase font-mono text-forest-800/80 font-bold">Lokasi / Wilayah Terdeteksi:</span>
+          <span class="font-bold text-forest-950 text-xs sm:text-sm">{{ locationName || 'Menyesuaikan titik peta...' }}</span>
         </div>
       </div>
-      <span class="font-mono text-[10px] text-zinc-500 bg-zinc-200 px-2 py-0.5 rounded border border-zinc-300">
+      <span class="font-mono text-[10px] text-forest-900 bg-forest-100 px-2.5 py-1 rounded-md border border-forest-200 font-bold">
         Ketuk Peta untuk Ubah Titik
       </span>
     </div>
@@ -108,16 +108,16 @@ const initMap = async () => {
       maxZoom: 19
     }).addTo(mapInstance)
 
-    // Custom Black & White Pin Icon
+    // Custom Emerald & Gold Pin Icon
     const customIcon = L.divIcon({
       className: 'custom-map-pin',
       html: `
-        <div style="background-color: #09090b; width: 26px; height: 26px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); border: 2px solid #ffffff; box-shadow: 0 4px 6px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center;">
-          <div style="width: 8px; height: 8px; background-color: #ffffff; border-radius: 50%; transform: rotate(45deg);"></div>
+        <div style="background-color: #0c2b1c; width: 28px; height: 28px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); border: 2.5px solid #d49b2a; box-shadow: 0 4px 8px rgba(0,0,0,0.35); display: flex; align-items: center; justify-content: center;">
+          <div style="width: 8px; height: 8px; background-color: #d49b2a; border-radius: 50%; transform: rotate(45deg);"></div>
         </div>
       `,
-      iconSize: [26, 26],
-      iconAnchor: [13, 26]
+      iconSize: [28, 28],
+      iconAnchor: [14, 28]
     })
 
     markerInstance = L.marker([lat.value, lon.value], {
