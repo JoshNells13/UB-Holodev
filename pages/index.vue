@@ -9,10 +9,10 @@
         <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           <!-- Left: Hero Headline -->
           <div class="lg:col-span-7 space-y-6 text-left">
-            <div class="inline-flex items-center gap-2 rounded-full border border-forest-900/20 bg-forest-50/80 px-3.5 py-1 text-xs font-bold text-forest-950 shadow-xs">
+            <!-- <div class="inline-flex items-center gap-2 rounded-full border border-forest-900/20 bg-forest-50/80 px-3.5 py-1 text-xs font-bold text-forest-950 shadow-xs">
               <Sprout :size="14" class="text-forest-700" />
               <span>Climate-Agricultural Decision Support System (DSS)</span>
-            </div>
+            </div> -->
 
             <div class="space-y-3">
               <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-forest-950 uppercase leading-none">
