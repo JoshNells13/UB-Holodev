@@ -1,62 +1,62 @@
 <template>
   <header class="sticky top-0 z-40 w-full border-b border-zinc-200/80 bg-white/95 backdrop-blur-md">
-    <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-      <!-- Logo & Brand -->
-      <div class="flex items-center gap-6 xl:gap-8">
+    <div class="relative mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <!-- Logo & Brand (Left) -->
+      <div class="flex items-center">
         <NuxtLink to="/" class="flex items-center transition hover:opacity-80 shrink-0" aria-label="Siap Tani Beranda">
           <img src="/icon_logo.png" alt="Siap Tani" class="h-9 w-9 object-contain drop-shadow-2xs" />
         </NuxtLink>
-
-        <!-- Desktop Navigation Links -->
-        <nav class="hidden lg:flex items-center gap-1">
-          <NuxtLink
-            to="/"
-            class="rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all"
-            :class="$route.path === '/' ? 'bg-[#0C2B1C] text-white shadow-xs' : 'text-zinc-600 hover:text-forest-950 hover:bg-forest-950/5'"
-          >
-            Beranda
-          </NuxtLink>
-          <button
-            @click="handleNavTo('/simulate')"
-            class="rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all cursor-pointer"
-            :class="$route.path === '/simulate' ? 'bg-[#0C2B1C] text-white shadow-xs' : 'text-zinc-600 hover:text-forest-950 hover:bg-forest-950/5'"
-          >
-            Simulasi What-If
-          </button>
-          <button
-            @click="handleNavTo('/compare')"
-            class="rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all flex items-center gap-1.5 cursor-pointer"
-            :class="$route.path === '/compare' ? 'bg-[#0C2B1C] text-white shadow-xs' : 'text-zinc-600 hover:text-forest-950 hover:bg-forest-950/5'"
-          >
-            <span>Komparasi Skenario</span>
-            <span v-if="comparisonList.length > 0" class="flex h-4 min-w-4 items-center justify-center rounded-full bg-[#d49b2a] px-1 text-[9px] font-extrabold text-[#0C2B1C]">
-              {{ comparisonList.length }}
-            </span>
-          </button>
-          <button
-            @click="handleNavTo('/portfolio')"
-            class="rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all cursor-pointer"
-            :class="$route.path === '/portfolio' ? 'bg-[#0C2B1C] text-white shadow-xs' : 'text-zinc-600 hover:text-forest-950 hover:bg-forest-950/5'"
-          >
-            Portofolio Lahan
-          </button>
-          <button
-            @click="handleNavTo('/calendar')"
-            class="rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all flex items-center gap-1.5 cursor-pointer"
-            :class="$route.path === '/calendar' ? 'bg-[#0C2B1C] text-white shadow-xs' : 'text-zinc-600 hover:text-forest-950 hover:bg-forest-950/5'"
-          >
-            <Calendar :size="13" />
-            <span>Kalender Tanam</span>
-          </button>
-          <NuxtLink
-            to="/crops"
-            class="rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all"
-            :class="$route.path === '/crops' ? 'bg-[#0C2B1C] text-white shadow-xs' : 'text-zinc-600 hover:text-forest-950 hover:bg-forest-950/5'"
-          >
-            Database Tanaman
-          </NuxtLink>
-        </nav>
       </div>
+
+      <!-- Desktop Navigation Links (Centered) -->
+      <nav class="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center gap-1">
+        <NuxtLink
+          to="/"
+          class="rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all"
+          :class="$route.path === '/' ? 'bg-[#0C2B1C] text-white shadow-xs' : 'text-zinc-600 hover:text-forest-950 hover:bg-forest-950/5'"
+        >
+          Beranda
+        </NuxtLink>
+        <button
+          @click="handleNavTo('/simulate')"
+          class="rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all cursor-pointer"
+          :class="$route.path === '/simulate' ? 'bg-[#0C2B1C] text-white shadow-xs' : 'text-zinc-600 hover:text-forest-950 hover:bg-forest-950/5'"
+        >
+          Simulasi What-If
+        </button>
+        <button
+          @click="handleNavTo('/compare')"
+          class="rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all flex items-center gap-1.5 cursor-pointer"
+          :class="$route.path === '/compare' ? 'bg-[#0C2B1C] text-white shadow-xs' : 'text-zinc-600 hover:text-forest-950 hover:bg-forest-950/5'"
+        >
+          <span>Komparasi Skenario</span>
+          <span v-if="comparisonList.length > 0" class="flex h-4 min-w-4 items-center justify-center rounded-full bg-[#d49b2a] px-1 text-[9px] font-extrabold text-[#0C2B1C]">
+            {{ comparisonList.length }}
+          </span>
+        </button>
+        <button
+          @click="handleNavTo('/portfolio')"
+          class="rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all cursor-pointer"
+          :class="$route.path === '/portfolio' ? 'bg-[#0C2B1C] text-white shadow-xs' : 'text-zinc-600 hover:text-forest-950 hover:bg-forest-950/5'"
+        >
+          Portofolio Lahan
+        </button>
+        <button
+          @click="handleNavTo('/calendar')"
+          class="rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all flex items-center gap-1.5 cursor-pointer"
+          :class="$route.path === '/calendar' ? 'bg-[#0C2B1C] text-white shadow-xs' : 'text-zinc-600 hover:text-forest-950 hover:bg-forest-950/5'"
+        >
+          <Calendar :size="13" />
+          <span>Kalender Tanam</span>
+        </button>
+        <NuxtLink
+          to="/crops"
+          class="rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all"
+          :class="$route.path === '/crops' ? 'bg-[#0C2B1C] text-white shadow-xs' : 'text-zinc-600 hover:text-forest-950 hover:bg-forest-950/5'"
+        >
+          Database Tanaman
+        </NuxtLink>
+      </nav>
 
       <!-- Auth Controls & Mobile Hamburger -->
       <div class="flex items-center gap-2 sm:gap-2.5">
