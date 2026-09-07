@@ -66,30 +66,34 @@
               <button
                 type="button"
                 @click="applyPreset('monoculture')"
-                class="rounded-xl border border-zinc-200 bg-zinc-50/50 py-2.5 px-3 text-[11px] font-bold text-zinc-800 transition hover:border-forest-950 hover:bg-forest-950 hover:text-white text-left shadow-xs"
+                class="rounded-xl border border-zinc-200 bg-zinc-50/50 py-2.5 px-3 text-[11px] font-bold text-zinc-800 transition hover:border-forest-950 hover:bg-forest-950 hover:text-white text-left shadow-xs flex items-center gap-1.5 cursor-pointer"
               >
-                🌾 100% Monokultur Padi
+                <Sprout :size="14" class="text-gold-600 shrink-0" />
+                <span>100% Monokultur Padi</span>
               </button>
               <button
                 type="button"
                 @click="applyPreset('duoculture')"
-                class="rounded-xl border border-zinc-200 bg-zinc-50/50 py-2.5 px-3 text-[11px] font-bold text-zinc-800 transition hover:border-forest-950 hover:bg-forest-950 hover:text-white text-left shadow-xs"
+                class="rounded-xl border border-zinc-200 bg-zinc-50/50 py-2.5 px-3 text-[11px] font-bold text-zinc-800 transition hover:border-forest-950 hover:bg-forest-950 hover:text-white text-left shadow-xs flex items-center gap-1.5 cursor-pointer"
               >
-                🌽 70% Padi + 30% Jagung
+                <Layers :size="14" class="text-gold-600 shrink-0" />
+                <span>70% Padi + 30% Jagung</span>
               </button>
               <button
                 type="button"
                 @click="applyPreset('triculture')"
-                class="rounded-xl border border-zinc-200 bg-zinc-50/50 py-2.5 px-3 text-[11px] font-bold text-zinc-800 transition hover:border-forest-950 hover:bg-forest-950 hover:text-white text-left shadow-xs"
+                class="rounded-xl border border-zinc-200 bg-zinc-50/50 py-2.5 px-3 text-[11px] font-bold text-zinc-800 transition hover:border-forest-950 hover:bg-forest-950 hover:text-white text-left shadow-xs flex items-center gap-1.5 cursor-pointer"
               >
-                🌱 50% Padi + 30% Jagung + 20% Kedelai
+                <Shield :size="14" class="text-gold-600 shrink-0" />
+                <span>50% Padi + 30% Jagung + 20% Kedelai</span>
               </button>
               <button
                 type="button"
                 @click="applyPreset('horticulture')"
-                class="rounded-xl border border-zinc-200 bg-zinc-50/50 py-2.5 px-3 text-[11px] font-bold text-zinc-800 transition hover:border-forest-950 hover:bg-forest-950 hover:text-white text-left shadow-xs"
+                class="rounded-xl border border-zinc-200 bg-zinc-50/50 py-2.5 px-3 text-[11px] font-bold text-zinc-800 transition hover:border-forest-950 hover:bg-forest-950 hover:text-white text-left shadow-xs flex items-center gap-1.5 cursor-pointer"
               >
-                🌶️ 40% Padi + 30% Cabai + 30% Bawang
+                <TrendingUp :size="14" class="text-gold-600 shrink-0" />
+                <span>40% Padi + 30% Cabai + 30% Bawang</span>
               </button>
             </div>
           </div>
@@ -105,10 +109,11 @@
                 <button
                   type="button"
                   @click="balanceAllocations"
-                  class="text-[10px] font-mono font-bold text-zinc-600 hover:text-zinc-950 underline"
+                  class="text-[10px] font-mono font-bold text-zinc-600 hover:text-zinc-950 underline flex items-center gap-1 cursor-pointer"
                   title="Otomatis ratakan proporsi menjadi 100%"
                 >
-                  ⚖️ Seimbangkan 100%
+                  <Scale :size="12" />
+                  <span>Seimbangkan 100%</span>
                 </button>
                 <span
                   class="font-mono text-xs font-bold px-2 py-0.5 rounded"
@@ -306,7 +311,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import { Maximize2, PieChart, Layers, Sparkles, Loader2, Plus, Trash2 } from '@lucide/vue'
+import { Maximize2, PieChart, Layers, Sparkles, Loader2, Plus, Trash2, Sprout, Scale, Shield, TrendingUp } from '@lucide/vue'
 import DigitalTwinPortfolioField from '~/components/digital-twin/DigitalTwinPortfolioField.vue'
 import type { PortfolioSimulationResult } from '~/types/simulation'
 import type { PortfolioDigitalTwinData } from '~/components/digital-twin/types'

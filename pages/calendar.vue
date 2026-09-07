@@ -308,10 +308,10 @@
             <button
               type="button"
               @click="toggleCompletion(selectedEvent.id)"
-              class="rounded-lg px-2 py-1 text-xs font-bold border transition"
-              :class="isCompleted(selectedEvent.id) ? 'bg-zinc-950 text-white border-zinc-950' : 'bg-zinc-100 text-zinc-800 border-zinc-300'"
+              class="rounded-lg px-2.5 py-1 text-xs font-bold border transition-all cursor-pointer"
+              :class="isCompleted(selectedEvent.id) ? 'bg-[#0C2B1C] text-gold-300 border-[#0C2B1C]' : 'bg-zinc-100 text-zinc-800 border-zinc-300'"
             >
-              {{ isCompleted(selectedEvent.id) ? '✓ Selesai' : 'Belum Selesai' }}
+              {{ isCompleted(selectedEvent.id) ? 'Selesai Dilakukan' : 'Belum Dikerjakan' }}
             </button>
           </div>
 

@@ -136,8 +136,8 @@
                   class="cursor-pointer flex items-center justify-between rounded-xl border border-forest-800 bg-white p-3 text-zinc-900 transition hover:border-gold-400 shadow-sm"
                 >
                   <div class="flex items-center gap-2.5">
-                    <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-forest-50 text-forest-900 font-bold border border-forest-200">
-                      🌾
+                    <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-forest-100 text-forest-900 font-bold border border-forest-200">
+                      <Sprout :size="16" />
                     </div>
                     <div>
                       <div class="flex items-center gap-1.5">

@@ -115,7 +115,7 @@
       </div>
       <div class="space-y-2 text-xs text-emerald-100/90 font-sans">
         <div v-for="(reason, idx) in breakdown.bullet_reasons" :key="idx" class="flex items-start gap-2.5">
-          <span class="font-extrabold text-gold-400 shrink-0 mt-0.5">✓</span>
+          <CheckCircle2 :size="14" class="text-gold-400 shrink-0 mt-0.5" />
           <span>{{ reason }}</span>
         </div>
       </div>
@@ -124,7 +124,7 @@
 </template>
 
 <script setup lang="ts">
-import { Layers, CloudSun, Droplets, Sprout, TrendingUp, CheckSquare } from '@lucide/vue'
+import { Layers, CloudSun, Droplets, Sprout, TrendingUp, CheckSquare, CheckCircle2 } from '@lucide/vue'
 import type { RiskBreakdown, RiskLevel } from '~/types/risk'
 
 defineProps<{

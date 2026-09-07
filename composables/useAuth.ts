@@ -80,6 +80,30 @@ export const useAuth = () => {
     }
   }
 
+  const translateAuthError = (msg?: string) => {
+    if (!msg) return 'Terjadi kendala saat memproses autentikasi'
+    const lower = msg.toLowerCase()
+    if (lower.includes('invalid login credentials') || lower.includes('invalid credentials')) {
+      return 'Email atau kata sandi yang Anda masukkan tidak sesuai.'
+    }
+    if (lower.includes('user already registered') || lower.includes('already exists')) {
+      return 'Alamat email ini telah terdaftar. Silakan masuk ke akun Anda.'
+    }
+    if (lower.includes('password should be at least')) {
+      return 'Kata sandi minimal harus terdiri dari 6 karakter.'
+    }
+    if (lower.includes('email not confirmed')) {
+      return 'Email belum dikonfirmasi. Silakan periksa kotak masuk atau spam email Anda.'
+    }
+    if (lower.includes('rate limit') || lower.includes('too many requests')) {
+      return 'Terlalu banyak percobaan. Harap tunggu beberapa saat sebelum mencoba kembali.'
+    }
+    if (lower.includes('network') || lower.includes('failed to fetch')) {
+      return 'Koneksi jaringan terputus. Pastikan perangkat Anda terhubung ke internet.'
+    }
+    return msg
+  }
+
   // Sign in with email/password
   const signIn = async (email: string, password: string) => {
     loading.value = true
@@ -107,9 +131,9 @@ export const useAuth = () => {
 
         return { success: true }
       }
-      return { success: false, error: 'User tidak ditemukan' }
+      return { success: false, error: 'Akun pengguna tidak ditemukan' }
     } catch (err: any) {
-      return { success: false, error: err?.message || 'Gagal masuk akun' }
+      return { success: false, error: translateAuthError(err?.message) }
     } finally {
       loading.value = false
     }
@@ -148,9 +172,9 @@ export const useAuth = () => {
 
         return { success: true }
       }
-      return { success: false, error: 'Pendaftaran gagal diproses' }
+      return { success: false, error: 'Pendaftaran akun gagal diproses' }
     } catch (err: any) {
-      return { success: false, error: err?.message || 'Gagal mendaftar' }
+      return { success: false, error: translateAuthError(err?.message) }
     } finally {
       loading.value = false
     }

@@ -163,7 +163,7 @@ const updateCoords = async (newLat: number, newLon: number) => {
 
 const detectUserGPS = () => {
   if (!navigator.geolocation) {
-    alert('Browser tidak mendukung pendeteksi GPS')
+    alert('Browser perangkat Anda tidak mendukung pendeteksi lokasi GPS.')
     return
   }
 
@@ -183,7 +183,7 @@ const detectUserGPS = () => {
     },
     (err) => {
       console.warn('Geolocation error:', err)
-      alert('Gagal mengambil titik GPS: ' + err.message)
+      alert('Gagal mendeteksi lokasi GPS perangkat. Pastikan izin akses lokasi telah diaktifkan.')
       isLocating.value = false
     },
     { enableHighAccuracy: true, timeout: 8000 }
