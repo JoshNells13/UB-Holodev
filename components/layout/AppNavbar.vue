@@ -229,7 +229,7 @@
 import { ref, onMounted, onUnmounted, watch } from 'vue'
 import { RotateCcw, ChevronDown, LogOut, UserPlus, Calendar, Menu, X } from '@lucide/vue'
 
-const { user, isAuthenticated, isDemoUser, signOut, openAuthModal } = useAuth()
+const { user, isAuthenticated, isDemoUser, signOut } = useAuth()
 const { comparisonList } = useSimulation()
 const route = useRoute()
 
@@ -264,7 +264,10 @@ onUnmounted(() => {
 
 const handleNavTo = (path: string) => {
   if (!isAuthenticated.value) {
-    openAuthModal(path)
+    navigateTo({
+      path: '/login',
+      query: { redirect: path }
+    })
   } else {
     navigateTo(path)
   }

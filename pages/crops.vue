@@ -108,7 +108,7 @@ import { Search, Sprout, ArrowRight } from '@lucide/vue'
 import type { Crop } from '~/types/crop'
 
 const { fetchCrops, runSimulation } = useSimulation()
-const { isAuthenticated, openAuthModal } = useAuth()
+const { isAuthenticated } = useAuth()
 
 const crops = ref<Crop[]>([])
 const searchQuery = ref('')
@@ -126,7 +126,10 @@ const filteredCrops = computed(() => {
 
 const simulateWithCrop = async (slug: string) => {
   if (!isAuthenticated.value) {
-    openAuthModal('/simulate')
+    navigateTo({
+      path: '/login',
+      query: { redirect: '/simulate' }
+    })
     return
   }
 

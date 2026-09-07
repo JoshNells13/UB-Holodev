@@ -134,7 +134,7 @@
 
         <p class="text-center text-xs text-[#6b7280] pt-4 font-sans">
           Sudah memiliki akun?
-          <NuxtLink to="/login" class="font-extrabold text-[#d49b2a] hover:text-[#b8821e] ml-1 transition">
+          <NuxtLink :to="{ path: '/login', query: $route.query }" class="font-extrabold text-[#d49b2a] hover:text-[#b8821e] ml-1 transition">
             Masuk di sini
           </NuxtLink>
         </p>

@@ -359,7 +359,7 @@ import {
   ChevronRight
 } from '@lucide/vue'
 
-const { isAuthenticated, openAuthModal } = useAuth()
+const { isAuthenticated } = useAuth()
 const { runSimulation, isLoading } = useSimulation()
 
 const quickLocation = ref({
@@ -410,7 +410,10 @@ const quickDate = ref(getDefaultDate())
 
 const startSimulation = () => {
   if (!isAuthenticated.value) {
-    openAuthModal('/simulate')
+    navigateTo({
+      path: '/login',
+      query: { redirect: '/simulate' }
+    })
   } else {
     navigateTo('/simulate')
   }
@@ -418,7 +421,10 @@ const startSimulation = () => {
 
 const executeQuickSim = async () => {
   if (!isAuthenticated.value) {
-    openAuthModal('/simulate')
+    navigateTo({
+      path: '/login',
+      query: { redirect: '/simulate' }
+    })
     return
   }
 
