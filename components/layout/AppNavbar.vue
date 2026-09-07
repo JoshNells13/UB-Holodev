@@ -3,12 +3,8 @@
     <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
       <!-- Logo & Brand -->
       <div class="flex items-center gap-6 xl:gap-8">
-        <NuxtLink to="/" class="flex items-center gap-2.5 font-bold tracking-tight text-forest-950 transition hover:opacity-85">
-          <img src="/icon_logo.png" alt="Siap Tani" class="h-8 w-8 object-contain shrink-0" />
-          <div class="flex flex-col">
-            <span class="text-sm sm:text-base font-extrabold tracking-tight text-forest-950 leading-tight">Siap Tani</span>
-            <span class="text-[8px] font-bold tracking-widest text-zinc-400 uppercase">DECISION SUPPORT SYSTEM</span>
-          </div>
+        <NuxtLink to="/" class="flex items-center transition hover:opacity-80 shrink-0" aria-label="Siap Tani Beranda">
+          <img src="/icon_logo.png" alt="Siap Tani" class="h-9 w-9 object-contain drop-shadow-2xs" />
         </NuxtLink>
 
         <!-- Desktop Navigation Links -->
